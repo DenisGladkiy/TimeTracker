@@ -28,6 +28,10 @@ public class Activity {
         return id;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -90,10 +94,8 @@ public class Activity {
 
     @Override
     public String toString() {
-        return "Activity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return id + ", " + name + ", " + description + ", " + creationDate +
+                ", " + deadLine + ", " + workingTime + ", " + userId +
+                ", " + addRequest + ", " + removeRequest;
     }
 }
