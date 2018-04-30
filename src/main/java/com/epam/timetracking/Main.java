@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-
-import static javax.swing.text.html.HTML.Tag.BR;
 
 /**
  * Created by Denis on 29.04.2018.
@@ -29,7 +26,7 @@ public class Main extends HttpServlet {
         manager = new DaoManager();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response){
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AbstractDao dao = manager.getDao("Activity");
         List<Activity> activities = dao.getAll();
         dao.closeConnection();
@@ -37,28 +34,41 @@ public class Main extends HttpServlet {
         request.setAttribute("Activities", activities);
         request.setAttribute("Test", "Test JSTL");
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/test.jsp");
-        try {
-            rd.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        rd.forward(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response){
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String command = request.getParameter("command");
+        switch (command){
+            case "insert": insertActivity(request, response);
+                break;
+            case "delete":
+                break;
+        }
+
+    }
+
+    private void insertActivity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
+        if(name.equals("") || description.equals("")){
+            throw new RuntimeException();
+        }
         String deadline = request.getParameter("deadline");
         String user = request.getParameter("user");
         logger.debug("Do post params = " + name + ", " + description + ", " + deadline + ", " + user);
         Activity activity = new Activity();
         activity.setName(name);
         activity.setDescription(description);
+        activity.setUserId(Integer.valueOf(user));
         AbstractDao dao = manager.getDao("Activity");
         dao.insert(activity);
         dao.closeConnection();
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+        rd.forward(request, response);
     }
 
+    private void deleteActivity(HttpServletRequest request, HttpServletResponse response){
 
+    }
 }

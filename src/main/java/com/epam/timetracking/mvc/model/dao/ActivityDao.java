@@ -43,7 +43,6 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             return true;
         } catch (SQLException e) {
             logger.debug(e);
-            e.printStackTrace();
             return false;
         }
     }
@@ -65,7 +64,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.debug(e);
         }
     }
 
@@ -99,13 +98,14 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     private String createInsertionQuery(Activity activity) {
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO Activities (name, description, creation_date, deadline, " +
-                                               "working_time, user_id, add_request, remove_request) VALUES(");
-        builder.append(activity.getName() + ", ");
-        builder.append(activity.getDescription() + ", ");
-        builder.append(activity.getCreationDate() + ", ");
+                                               "working_time, user_id, add_request, remove_request) VALUES (\"");
+        builder.append(activity.getName() + "\", \"");
+        builder.append(activity.getDescription() + "\", ");
+        builder.append("curdate(), ");
         builder.append(activity.getDeadLine() + ", ");
         builder.append(activity.getTime() + ", ");
-        builder.append(activity.getUserId() + ", ");
+        int userId = activity.getUserId();
+        builder.append(((userId == 0) ? "null" : userId) + ", ");
         builder.append(activity.isAddRequest() + ", ");
         builder.append(activity.isRemoveRequest() + ")");
         return builder.toString();

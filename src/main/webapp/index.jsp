@@ -16,6 +16,7 @@
 		<input type="text" name="deadline" />
 		<b>User</b>
 		<input type="text" name="user" />
+		<input type="hidden" name="command" value="insert">
 		<input type="submit" />
       </form>
     </table>
