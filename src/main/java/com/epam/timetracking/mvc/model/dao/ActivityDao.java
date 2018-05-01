@@ -1,5 +1,6 @@
 package com.epam.timetracking.mvc.model.dao;
 
+import com.epam.timetracking.exception.IncorrectInputException;
 import com.epam.timetracking.mvc.model.entity.Activity;
 import org.apache.log4j.Logger;
 
@@ -7,6 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +38,13 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     }
 
     public boolean insert(Activity activity) {
-        String query = createInsertionQuery(activity);
-        logger.debug("Insert = " + query);
         try {
+            String query = createInsertionQuery(activity);
+            logger.debug("Insert = " + query);
             Statement statement = connection.createStatement();
             statement.execute(query);
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException | IncorrectInputException e) {
             logger.debug(e);
             return false;
         }
@@ -52,7 +55,16 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     }
 
     public boolean delete(Activity activity) {
-        return false;
+        String name = activity.getName();
+        logger.debug("Activity to delete = " + name);
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("delete from activities where name = " + "\"" + name + "\"");
+            return true;
+        } catch (SQLException e) {
+            logger.debug(e);
+            return false;
+        }
     }
 
     public boolean isExist(Activity activity) {
@@ -86,23 +98,28 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         activity.setDescription(rs.getString(3));
         logger.debug("Date = " + rs.getDate(4));
         activity.setCreationDate(rs.getDate(4));
+        logger.debug("Deadline Date = " + rs.getDate(5));
         activity.setDeadLine(rs.getDate(5));
+        logger.debug("Activity with deadline date = " + activity);
         activity.setTime(rs.getTimestamp(6));
+        logger.debug("UserID = " + rs.getInt(7));
         activity.setUserId(rs.getInt(7));
-        logger.debug("UserID = " + rs.getDate(7));
         activity.setAddRequest(rs.getBoolean(8));
         activity.setRemoveRequest(rs.getBoolean(9));
         return activity;
     }
 
-    private String createInsertionQuery(Activity activity) {
+    private String createInsertionQuery(Activity activity) throws IncorrectInputException {
+        if(activity == null || activity.getDescription() == null) throw new IncorrectInputException();
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO Activities (name, description, creation_date, deadline, " +
                                                "working_time, user_id, add_request, remove_request) VALUES (\"");
         builder.append(activity.getName() + "\", \"");
         builder.append(activity.getDescription() + "\", ");
         builder.append("curdate(), ");
-        builder.append(activity.getDeadLine() + ", ");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String deadline = format.format(activity.getDeadLine());
+        builder.append("STR_TO_DATE(\"" + deadline +"\" ,\"%Y-%m-%d\")" + ", ");
         builder.append(activity.getTime() + ", ");
         int userId = activity.getUserId();
         builder.append(((userId == 0) ? "null" : userId) + ", ");
