@@ -4,9 +4,20 @@
     <body>
         <h2>Time Tracking</h2>
         <form method="POST" action="timetracking">
-            <input type="hidden" name="command" value="select"/>
-            <input type="hidden" name="select" value="selectall"/>
-            <input type="submit" value="Select all"/>
+            <input type="hidden" name="command" value="selectActual"/>
+            <input type="submit" value="View actual activities"/>
+        </form>
+        <form method="POST" action="timetracking">
+            <input type="hidden" name="command" value="selectAdded"/>
+            <input type="submit" value="View add requests"/>
+        </form>
+        <form method="POST" action="timetracking">
+                    <input type="hidden" name="command" value="selectToRemove"/>
+                    <input type="submit" value="View remove requests"/>
+        </form>
+        <form method="POST" action="timetracking">
+                                    <input type="hidden" name="command" value="selectCompleted"/>
+                                    <input type="submit" value="View completed"/>
         </form>
 		<table border="1">
         <form method="POST" action="timetracking">

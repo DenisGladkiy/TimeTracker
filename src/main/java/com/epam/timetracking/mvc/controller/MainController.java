@@ -1,5 +1,7 @@
 package com.epam.timetracking.mvc.controller;
 
+import com.epam.timetracking.mvc.controller.command.ActivityInsert;
+import com.epam.timetracking.mvc.controller.command.CommandContainer;
 import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.dao.DaoManager;
@@ -13,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class MainController extends HttpServlet {
 
 
     public MainController(){
-        manager = new DaoManager();
+        manager = DaoManager.getInstance();
         helper = new ControllerHelper();
     }
 
@@ -37,24 +38,25 @@ public class MainController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String command = request.getParameter("command");
-        HttpSession session = request.getSession();
-        Activity activity = (Activity)session.getAttribute("activity");
-        logger.debug("Activity from bean = " + activity);
-            switch (command){
-                case "insert": insertActivity(request, response);
-                    break;
-                case "delete": deleteActivity(request, response);
-                    break;
-                case "select": selectActivity(request, response);
-                    break;
-                case "update": updateActivity(request, response);
-            }
+        CommandContainer container = new CommandContainer();
+        String url = container.getCommand(command).execute(request, response);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
+//            switch (command){
+//                case "insert": new ActivityInsert().execute(request, response);
+//                    break;
+//                case "delete": deleteActivity(request, response);
+//                    break;
+//                case "select": selectActivity(request, response);
+//                    break;
+//                case "update": updateActivity(request, response);
+//            }
     }
 
     private void insertActivity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Activity activity = helper.createActivityBean(request);
         logger.debug("Activity to insert = " + activity);
-        AbstractDao dao = manager.getDao("Activity");
+        AbstractDao dao = manager.getDao("ACTIVITY");
         dao.insert(activity);
         dao.closeConnection();
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
@@ -63,7 +65,7 @@ public class MainController extends HttpServlet {
 
     private void deleteActivity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Activity activity = helper.createActivityBean(request);
-        AbstractDao dao = manager.getDao("Activity");
+        AbstractDao dao = manager.getDao("ACTIVITY");
         dao.delete(activity);
         request.setAttribute("Activities", dao.getAll());
         dao.closeConnection();
@@ -72,7 +74,7 @@ public class MainController extends HttpServlet {
     }
 
     private void selectActivity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ActivityDao dao = (ActivityDao) manager.getDao("Activity");
+        ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         List<Activity> activities = null;
         logger.debug("Select = " + request.getParameter("select"));
         if(request.getParameter("select").equals("selectall")) {
@@ -91,8 +93,12 @@ public class MainController extends HttpServlet {
         logger.debug("id = " + request.getParameter("id"));
         logger.debug("name = " + request.getParameter("name"));
         logger.debug("description = " + request.getParameter("description"));
-        ActivityDao dao = (ActivityDao) manager.getDao("Activity");
+        ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
+        ControllerHelper helper = new ControllerHelper();
+        Activity activity = helper.createActivityBean(request);
+        dao.update(activity);
         List<Activity> activities = dao.getAll();
+        dao.closeConnection();
         request.setAttribute("Activities", activities);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/activities.jsp");
         rd.forward(request, response);

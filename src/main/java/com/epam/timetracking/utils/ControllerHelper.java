@@ -1,6 +1,7 @@
 package com.epam.timetracking.utils;
 
 import com.epam.timetracking.mvc.model.entity.Activity;
+import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,21 +17,38 @@ public class ControllerHelper {
     private static Logger logger = Logger.getLogger(ControllerHelper.class);
 
     public Activity createActivityBean(HttpServletRequest request){
+        Activity activity;
+        String id = request.getParameter("id");
         String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        if(name.equals("")){
-            return null;
+        if(id != null){
+            activity = new Activity(Integer.valueOf(id), name);
+        }else {
+            activity = new Activity();
+            activity.setName(name);
         }
+        String description = request.getParameter("description");
+        String creationDate = request.getParameter("creationDate");
         String deadline = request.getParameter("deadLine");
+        String time = request.getParameter("time");
         String user = request.getParameter("userId");
-        Activity activity = new Activity();
-        activity.setName(name);
+        String accept = request.getParameter("accept");
+        String remove = request.getParameter("remove");
+        String complete = request.getParameter("complete");
+        logger.debug("Params from request = " + id + ", " + name + ", " + description + "," + creationDate + "," + deadline + ", " +
+                    time + ", " + user + ", " + accept + ", " + remove);
         activity.setDescription(description);
         activity.setDeadLine(parseDate(deadline));
-        if(user != null) {
+        activity.setCreationDate(parseDate(creationDate));
+        if(time != null) {
+            activity.setTime(new Duration(Double.valueOf(time) * 1000));
+        }
+        activity.setAddRequest(Boolean.getBoolean(accept));
+        activity.setRemoveRequest(Boolean.getBoolean(remove));
+        activity.setCompleted(Boolean.getBoolean(complete));
+        if(user != null && !user.equals("")) {
             activity.setUserId(Integer.valueOf(user));
         }
-        logger.debug("Date from activity = " + activity.getDeadLine());
+        logger.debug("Activity from helper = " + activity);
         return activity;
     }
 

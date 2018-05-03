@@ -1,5 +1,7 @@
 package com.epam.timetracking.mvc.model.entity;
 
+import javafx.util.Duration;
+
 import java.util.Date;
 
 /**
@@ -12,10 +14,11 @@ public class Activity {
     private String description;
     private Date creationDate;
     private Date deadLine;
-    private Date workingTime;
+    private Duration workingTime;
     private int userId;
     private boolean addRequest;
     private boolean removeRequest;
+    private boolean completed;
 
     public Activity(){}
 
@@ -44,11 +47,11 @@ public class Activity {
         this.description = description;
     }
 
-    public Date getTime() {
+    public Duration getTime() {
         return workingTime;
     }
 
-    public void setTime(Date workingTime) {
+    public void setTime(Duration workingTime) {
         this.workingTime = workingTime;
     }
 
@@ -92,10 +95,18 @@ public class Activity {
         this.deadLine = deadLine;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
     @Override
     public String toString() {
         return id + ", " + name + ", " + description + ", " + creationDate +
                 ", " + deadLine + ", " + workingTime + ", " + userId +
-                ", " + addRequest + ", " + removeRequest;
+                ", " + addRequest + ", " + removeRequest + ", " + completed;
     }
 }

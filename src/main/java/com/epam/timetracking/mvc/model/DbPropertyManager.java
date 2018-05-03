@@ -1,4 +1,4 @@
-package com.epam.timetracking.utils;
+package com.epam.timetracking.mvc.model;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,7 +10,6 @@ import java.util.Properties;
  * Created by Denis on 28.04.2018.
  */
 public class DbPropertyManager {
-    private FileInputStream fis;
     private Properties property;
 
     public Properties getProperty(){

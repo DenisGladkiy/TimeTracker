@@ -1,4 +1,4 @@
-package com.epam.timetracking.utils;
+package com.epam.timetracking.mvc.model;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.Logger;
@@ -15,7 +15,7 @@ public class DbConnectionHandler {
     private static volatile DataSource dataSource;
     private DbPropertyManager dpm;
     private static Properties properties;
-    static Logger logger = Logger.getLogger(DbConnectionHandler.class);
+    private static Logger logger = Logger.getLogger(DbConnectionHandler.class);
 
     public DbConnectionHandler(){
         dpm = new DbPropertyManager();
