@@ -1,6 +1,7 @@
 package com.epam.timetracking.utils;
 
 import com.epam.timetracking.mvc.model.entity.Activity;
+import com.epam.timetracking.mvc.model.entity.User;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
@@ -35,7 +36,7 @@ public class ControllerHelper {
         String remove = request.getParameter("remove");
         String complete = request.getParameter("complete");
         logger.debug("Params from request = " + id + ", " + name + ", " + description + "," + creationDate + "," + deadline + ", " +
-                    time + ", " + user + ", " + accept + ", " + remove);
+                    time + ", " + user + ", " + accept + ", " + remove + ", " + complete);
         activity.setDescription(description);
         activity.setDeadLine(parseDate(deadline));
         activity.setCreationDate(parseDate(creationDate));
@@ -50,6 +51,16 @@ public class ControllerHelper {
         }
         logger.debug("Activity from helper = " + activity);
         return activity;
+    }
+
+    public User createUserBean(HttpServletRequest request){
+        int id = Integer.valueOf(request.getParameter("id"));
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        User user = new User(id, firstName, lastName);
+        user.setEmail(request.getParameter("email"));
+        user.setPassword(request.getParameter("pass"));
+        return user;
     }
 
     private Date parseDate(String stringDate){

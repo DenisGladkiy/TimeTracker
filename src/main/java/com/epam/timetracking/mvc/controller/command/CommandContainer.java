@@ -15,13 +15,15 @@ public class CommandContainer {
 
     private void initContainer(){
         commands = new HashMap<>();
-        commands.put("insert", new ActivityInsert());
-        commands.put("delete", new ActivityDelete());
-        commands.put("update", new ActivityUpdate());
-        commands.put("selectActual", new ActualActivitySelect());
-        commands.put("selectAdded", new AddActivitySelect());
-        commands.put("selectToRemove", new RemoveActivitySelect());
-        commands.put("selectCompleted", new CompletedActivitySelect());
+        commands.put("insertActivity", new ActivityInsert());
+        commands.put("deleteActivity", new ActivityDelete());
+        commands.put("updateActivity", new ActivityUpdate());
+        commands.put("selectActivity", new ActivitySelect());
+        commands.put("insertUser", new UserInsert());
+        commands.put("selectUser", new UserSelect());
+        commands.put("deleteUser", new UserDelete());
+        commands.put("updateUser", new UserUpdate());
+        commands.put("usersActivities", new UsersActivities());
     }
 
     public GeneralCommand getCommand(String strCommand){

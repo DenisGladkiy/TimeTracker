@@ -22,9 +22,16 @@ public class ActivityUpdate implements GeneralCommand {
         ControllerHelper helper = new ControllerHelper();
         Activity activity = helper.createActivityBean(request);
         dao.update(activity);
-        List<Activity> activities = dao.getAll();
         dao.closeConnection();
-        request.setAttribute("Activities", activities);
-        return "/activities.jsp";
+        String selection = request.getParameter("select");
+        logger.debug("Update selection = " + selection);
+        switch (selection){
+            case "selectCompleted":
+                request.setAttribute("select", "selectCompleted");
+                return "/pages/completedActivities.jsp";
+            case "selectActual":
+                return "/pages/activities.jsp";
+        }
+        return "/pages/activities.jsp";
     }
 }

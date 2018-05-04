@@ -20,14 +20,14 @@ public class DaoManager {
         if(instance == null){
             synchronized (DaoManager.class){
                 if(instance == null){
-                    return new DaoManager();
+                    instance = new DaoManager();
                 }
             }
         }
         return instance;
     }
 
-    public synchronized AbstractDao getDao(String daoName){
+    public AbstractDao getDao(String daoName){
         Connection connection = connectionHandler.getConnection();
         DaoEnum dao = DaoEnum.valueOf(daoName);
         switch (dao){

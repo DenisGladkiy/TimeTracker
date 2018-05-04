@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ActivityDao implements AbstractDao<Activity, Integer> {
     private Connection connection;
-    static Logger logger = Logger.getLogger(ActivityDao.class);
+    private static Logger logger = Logger.getLogger(ActivityDao.class);
 
     public ActivityDao(Connection connection){
         this.connection = connection;
@@ -31,15 +31,17 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return getByQuery(queryAll);
     }
 
-//    public List<Activity> getActual(){
-//        String queryActual = "SELECT * FROM Activities WHERE add_request <> true " +
-//                "                                        AND remove_request <> true " +
-//                "                                        AND completed <> true";
-//        return getByQuery(queryActual);
-//    }
+    public List<Activity> getActual(){
+        String queryActual = "SELECT * FROM Activities WHERE add_request <> true " +
+                "                                        AND remove_request <> true " +
+                "                                        AND completed <> true";
+        return getByQuery(queryActual);
+    }
 
     public List<Activity> getByUserId(int userId) {
-        return null;
+        String query = "SELECT * FROM Activities WHERE user_id = " + userId;
+
+        return getByQuery(query);
     }
 
     public Activity getById(Integer id) {
@@ -149,6 +151,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         int userId = activity.getUserId();
         builder.append("user_id = " + ((userId == 0) ? "null" : userId) + ", ");
         builder.append("add_request = " + activity.isAddRequest() + ", ");
+        builder.append("remove_request = " + activity.isRemoveRequest() + ", ");
         builder.append("completed = " + activity.isCompleted());
         builder.append(" WHERE activity_id = " + activity.getId());
         logger.debug("Update = " + builder);

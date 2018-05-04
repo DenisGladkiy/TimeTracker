@@ -1,14 +1,8 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <body>
-        <h2>Time Tracking</h2>
-		<table style="border: 1px solid;">
-		<style type="text/css">
-		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
-		}
-		</style>
+        <h2>Actual Activities</h2>
+		<table>
 		<th>Id</th>
 		<th>Name</th>
 		<th>Description</th>
@@ -18,48 +12,30 @@
 		<th>User</th>
         <c:forEach var="activity" items="${Activities}">
         <tr>
-        <form action="timetracking" method="post">
+         <form action="timetracking" method="post">
             <td>${activity.id}</td>
 			<td>${activity.name}</td>
 			<td><input type="text" name="description"  value="${activity.description}"></td>
 			<td>${activity.creationDate}</td>
 			<td><input type="text" name="deadline"  value=${activity.deadLine}></td>
 			<td><input type="text" name="time"  value=${activity.time}></td>
-			<td><input type="text" name="user"  value=${activity.userId}></td>
-			<td>
-				<c:choose>
-					<c:when test="${activity.addRequest==false}">
-						<input type="checkbox" name="accept" checked/>
-					</c:when>
-					<c:otherwise>
-						<input type="checkbox" name="accept"/>
-					</c:otherwise>
-				</c:choose>
-			</td>
-			<td>
-				<c:choose>
-					<c:when test="${activity.removeRequest==true}">
-						<input type="checkbox" name="remove" checked/>
-					</c:when>
-					<c:otherwise>
-						<input type="checkbox" name="remove"/>
-					</c:otherwise>
-				</c:choose>
-			</td>
+			<td><input type="text" name="userId"  value=${activity.userId}></td>
 			<td>
 			    <input type="hidden" name="id" value=${activity.id}>
 			    <input type="hidden" name="name" value=${activity.name}>
 			    <input type="hidden" name="creationDate" value=${activity.creationDate}>
-				<input type="submit" name="command" value="update" />
+			    <input type="hidden" name="select" value="selectActual">
+				<input type="submit" name="command" value="updateActivity" />
 			</td>
 			</form>
+			<form action="timetracking" method="post">
 			<td>
-				<form action="timetracking" method="post">
 				    <input type="hidden" name="id" value=${activity.id} >
 				    <input type="hidden" name="name" value=${activity.name} >
-					<input type="submit" name="command" value="delete" />
-				</form>
+				    <input type="hidden" name="select" value="selectActual">
+					<input type="submit" name="command" value="deleteActivity" />
 			</td>
+			</form>
 		</tr>
         </c:forEach>
 		</table>
