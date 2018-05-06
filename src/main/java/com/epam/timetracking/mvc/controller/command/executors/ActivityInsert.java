@@ -1,5 +1,6 @@
-package com.epam.timetracking.mvc.controller.command;
+package com.epam.timetracking.mvc.controller.command.executors;
 
+import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
 import com.epam.timetracking.utils.ControllerHelper;

@@ -15,10 +15,12 @@
 			<td>${user.email}</td>
 			<form action="timetracking" method="post">
 			<td>
-			    <input type="hidden" name="id" value=${user.id}>
+			    <input type="hidden" name="userId" value=${user.id}>
 			    <input type="hidden" name="firstName" value=${user.firstName}>
 			    <input type="hidden" name="lastName" value=${user.lastName}>
+				<input type="hidden" name="select" value="selectByUser">
 			    <input type="hidden" name="command" value="usersActivities">
+				<input type="hidden" name="source" value="users">
 				<input type="submit" value="View user's activities" />
 			</td>
 			</form>
@@ -32,5 +34,6 @@
 		</tr>
         </c:forEach>
 		</table>
+		<A HREF="/pages/adminIndex.jsp" style="text-decoration:none" class="A">Go Home</A>
     </body>
 </html>

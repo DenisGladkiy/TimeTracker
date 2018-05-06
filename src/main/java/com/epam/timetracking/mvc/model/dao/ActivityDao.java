@@ -38,9 +38,23 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return getByQuery(queryActual);
     }
 
+    public List<Activity> getAdded() {
+        String query = "SELECT * FROM Activities WHERE add_request = true";
+        return getByQuery(query);
+    }
+
+    public List<Activity> getRemoved(){
+        String query = "SELECT * FROM Activities WHERE remove_request = true";
+        return getByQuery(query);
+    }
+
+    public List<Activity> getCompleted(){
+        String query = "SELECT * FROM Activities WHERE completed = true";
+        return getByQuery(query);
+    }
+
     public List<Activity> getByUserId(int userId) {
         String query = "SELECT * FROM Activities WHERE user_id = " + userId;
-
         return getByQuery(query);
     }
 
@@ -113,7 +127,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         activity.setDescription(rs.getString(3));
         activity.setCreationDate(rs.getDate(4));
         activity.setDeadLine(rs.getDate(5));
-        activity.setTime(new Duration(rs.getDouble(6) * 1000));
+        activity.setTime(new Duration(rs.getDouble(6)));
         activity.setUserId(rs.getInt(7));
         activity.setAddRequest(rs.getBoolean(8));
         activity.setRemoveRequest(rs.getBoolean(9));

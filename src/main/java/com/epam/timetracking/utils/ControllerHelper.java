@@ -32,8 +32,8 @@ public class ControllerHelper {
         String deadline = request.getParameter("deadLine");
         String time = request.getParameter("time");
         String user = request.getParameter("userId");
-        String accept = request.getParameter("accept");
-        String remove = request.getParameter("remove");
+        String accept = request.getParameter("added");
+        String remove = request.getParameter("removed");
         String complete = request.getParameter("complete");
         logger.debug("Params from request = " + id + ", " + name + ", " + description + "," + creationDate + "," + deadline + ", " +
                     time + ", " + user + ", " + accept + ", " + remove + ", " + complete);
@@ -43,9 +43,21 @@ public class ControllerHelper {
         if(time != null) {
             activity.setTime(new Duration(Double.valueOf(time) * 1000));
         }
-        activity.setAddRequest(Boolean.getBoolean(accept));
-        activity.setRemoveRequest(Boolean.getBoolean(remove));
-        activity.setCompleted(Boolean.getBoolean(complete));
+        if(accept != null && accept.equals("true")) {
+            activity.setAddRequest(true);
+        }else{
+            activity.setAddRequest(false);
+        }
+        if(remove != null && remove.equals("on")) {
+            activity.setRemoveRequest(true);
+        }else{
+            activity.setRemoveRequest(false);
+        }
+        if(complete != null && complete.equals("on")){
+        activity.setCompleted(true);
+        }else{
+            activity.setCompleted(false);
+        }
         if(user != null && !user.equals("")) {
             activity.setUserId(Integer.valueOf(user));
         }
@@ -54,9 +66,11 @@ public class ControllerHelper {
     }
 
     public User createUserBean(HttpServletRequest request){
-        int id = Integer.valueOf(request.getParameter("id"));
+        String strId = request.getParameter("id");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
+        int id = 0;
+        if (strId != null) id = Integer.valueOf(strId);
         User user = new User(id, firstName, lastName);
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("pass"));

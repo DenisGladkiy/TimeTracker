@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by Denis on 29.04.2018.
  */
-@WebServlet(name="Time-Tracking", urlPatterns={"/timetracking"})
+@WebServlet(name="Time-Tracking", urlPatterns={"/pages/timetracking"})
 public class MainController extends HttpServlet {
     private static Logger logger = Logger.getLogger(MainController.class);
 

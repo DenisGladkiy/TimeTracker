@@ -1,16 +1,14 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <body>
-        <h2>Actual Activities</h2>
+        <h2>Requests to add activities</h2>
 		<table width="100%">
 		<th>Id</th>
 		<th>Name</th>
 		<th>Description</th>
 		<th>Creation Date</th>
 		<th>DeadLine</th>
-		<th>Working Time</th>
 		<th>User</th>
-		<th>Complete</th>
         <c:forEach var="activity" items="${Activities}">
         <tr>
          <form action="timetracking" method="post">
@@ -19,25 +17,25 @@
 			<td><input type="text" name="description"  value="${activity.description}"></td>
 			<td>${activity.creationDate}</td>
 			<td><input type="text" name="deadLine"  value=${activity.deadLine}></td>
-			<td>${activity.time}</td>
 			<td><input type="text" name="userId"  value=${activity.userId}></td>
-			<td>
-                <input type="checkbox" name="complete"/>
-            </td>
+			<!--<td>
+            	<input type="checkbox" name="added"/>
+            </td>-->
 			<td>
 			    <input type="hidden" name="id" value=${activity.id}>
 			    <input type="hidden" name="name" value="${activity.name}">
-			    <input type="hidden" name="creationDate" value=${activity.creationDate}>
 				<input type="hidden" name="removed" value="false">
-			    <input type="hidden" name="select" value="selectActual">
-				<input type="submit" name="command" value="updateActivity" />
+				<input type="hidden" name="complete" value="false">
+			    <input type="hidden" name="select" value="selectAdded">
+				<input type="hidden" name="command" value="updateActivity">
+				<input type="submit" value="acceptActivity" />
 			</td>
 			</form>
 			<form action="timetracking" method="post">
 			<td>
 				    <input type="hidden" name="id" value=${activity.id} >
-				    <input type="hidden" name="name" value="${activity.name}">
-				    <input type="hidden" name="select" value="selectActual">
+				    <input type="hidden" name="name" value="${activity.name}" >
+				    <input type="hidden" name="select" value="selectAdded">
 					<input type="submit" name="command" value="deleteActivity" />
 			</td>
 			</form>
