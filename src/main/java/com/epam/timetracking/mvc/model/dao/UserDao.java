@@ -21,22 +21,15 @@ public class UserDao implements AbstractDao<User, Integer> {
     public UserDao(Connection connection){
         this.connection = connection;
     }
+
     public List<User> getAll() {
         String query = "SELECT * FROM Users";
-        List<User> users = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)){
-            while (resultSet.next()){
-                users.add(createUserFromRs(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.debug(e);
-        }
-        return users;
+        return getByQuery(query);
     }
 
     public User getById(Integer id) {
-        return null;
+        String query = "SELECT * FROM Users WHERE user_id = " + id;
+        return getByQuery(query).get(0);
     }
 
     public boolean insert(User user) {
@@ -77,6 +70,19 @@ public class UserDao implements AbstractDao<User, Integer> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<User> getByQuery(String query){
+        List<User> users = new ArrayList<>();
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)){
+            while (resultSet.next()){
+                users.add(createUserFromRs(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.debug(e);
+        }
+        return users;
     }
 
     private String createInsertionQuery(User user) throws IncorrectInputException {

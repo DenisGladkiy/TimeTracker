@@ -2,12 +2,26 @@
 <html>
 <title>Time Tracker</title>
     <body>
-    <a HREF="/pages/adminIndex.jsp" style="text-decoration:none" class="A">Admin Page</a>
-    <form name="form" method="POST" action="/pages/timetracking">
-        <input type="hidden" name="command" value="usersActivities">
-        <input type="hidden" name="source" value="userIndex">
-        <input type="hidden" name="userId" value=1>
-        <A HREF="javascript:document.form.submit()">User Page</A>
-    </form>
+    <table width="100%">
+        <tr>
+            <td>
+                <a HREF="/pages/adminIndex.jsp"><h3>Admin Page</h3></a>
+            </td>
+            <td>
+                <form name="form" method="POST" action="/pages/timetracking">
+                <input type="hidden" name="command" value="usersActivities">
+                <input type="hidden" name="source" value="userIndex">
+                <input type="hidden" name="userId" value=1>
+                <A HREF="javascript:document.form.submit()"><h3>User Page</h3></A>
+                </form>
+            </td>
+            <td>
+                <a HREF="/pages/login.jsp"><h3>LogIn</h3></a>
+            </td>
+            <td>
+                <a HREF="/pages/logout.jsp"><h3>LogOut</h3></a>
+            </td>
+        </tr>
+    </table>
     </body>
 </html>
