@@ -1,5 +1,13 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script language="javascript">
+    function deleteLine(formId){
+        var okay=confirm('Do you want to delete the record?');
+        if(okay){
+            document.getElementById(formId).submit();
+        }
+    }
+</script>
     <body>
         <h2>Requests to remove activities</h2>
 		<table width="100%">
@@ -9,9 +17,10 @@
 		<th>Creation Date</th>
 		<th>DeadLine</th>
 		<th>User</th>
-        <c:forEach var="activity" items="${Activities}">
+		<c:set var="formId" value="0" scope="page"/>
+		<c:forEach var="activity" items="${Activities}">
+		<c:set var="formId" value="${formId+1}" scope="page"/>
         <tr>
-         <form action="timetracking" method="post">
             <td>${activity.id}</td>
 			<td>${activity.name}</td>
 			<td>${activity.description}</td>
@@ -19,12 +28,14 @@
 			<td>${activity.deadLine}</td>
 			<td>${activity.userId}</td>
 			<td>
-			    <input type="hidden" name="id" value=${activity.id}>
-			    <input type="hidden" name="name" value="${activity.name}">
-			    <input type="hidden" name="select" value="removedActivities.jsp">
-				<input type="submit" name="command" value="deleteActivity" />
+				<form id="${formId}" action="timetracking" method="post">
+			    	<input type="hidden" name="id" value=${activity.id}>
+			    	<input type="hidden" name="name" value="${activity.name}">
+			    	<input type="hidden" name="select" value="removedActivities.jsp">
+					<input type="hidden" name="command" value="deleteActivity">
+				</form>
+				<input type="submit" value="deleteActivity" onclick="deleteLine(${formId})"/>
 			</td>
-			</form>
 			<form action="timetracking" method="post">
 			<td>
 				<input type="hidden" name="id" value=${activity.id} >
@@ -37,9 +48,6 @@
 				<input type="hidden" name="removed" value="false">
 				<input type="hidden" name="completed" value="false">
 				<input type="hidden" name="select" value="removedActivities.jsp">
-
-
-
 				<input type="hidden" name="command" value="updateActivity">
 				<input type="submit" value="rejectRemoval" />
 			</td>

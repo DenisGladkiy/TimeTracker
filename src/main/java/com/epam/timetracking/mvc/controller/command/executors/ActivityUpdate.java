@@ -16,7 +16,6 @@ import java.util.List;
  * Created by Denis on 03.05.2018.
  */
 public class ActivityUpdate implements GeneralCommand {
-    //private String url;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -31,32 +30,4 @@ public class ActivityUpdate implements GeneralCommand {
         dao.closeConnection();
         return "/pages/" + selection;
     }
-
-//    private List<Activity> getActivities(ActivityDao dao, HttpServletRequest request) {
-//        String selection = request.getParameter("select");
-//        int userId;
-//        switch (selection) {
-//            case "selectCompleted":
-//                url = "/pages/completedActivities.jsp";
-//                return dao.getCompleted();
-//            case "selectActual":
-//                url = "/pages/activities.jsp";
-//                return dao.getActual();
-//            case "selectAdded":
-//                url = "/pages/addedActivities.jsp";
-//                return dao.getAdded();
-//            case "selectRemoved":
-//                url = "/pages/removedActivities.jsp";
-//                return dao.getRemoved();
-//            case "userIndex":
-//                url = "/pages/userIndex.jsp";
-//                userId = Integer.valueOf(request.getParameter("userId"));
-//                return dao.getByUserId(userId);
-//            case "activitiesByUser":
-//                url = "/pages/activitiesByUser.jsp";
-//                userId = Integer.valueOf(request.getParameter("userId"));
-//                return dao.getByUserId(userId);
-//        }
-//        return null;
-//    }
 }

@@ -29,15 +29,4 @@ public class UsersActivities implements GeneralCommand {
         request.setAttribute("User", user);
         return "/pages/" + selection;
     }
-
-//    private String getUrl(String source){
-//        switch (source){
-//            case "users":
-//                return "/pages/activitiesByUser.jsp";
-//            case "userIndex":
-//                return "/pages/userIndex.jsp";
-//            default:
-//                return null;
-//        }
-//    }
 }

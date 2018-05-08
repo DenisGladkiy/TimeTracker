@@ -2,6 +2,7 @@ package com.epam.timetracking.mvc.model.dao;
 
 import com.epam.timetracking.exception.IncorrectInputException;
 import com.epam.timetracking.mvc.model.entity.User;
+import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -88,11 +89,12 @@ public class UserDao implements AbstractDao<User, Integer> {
     private String createInsertionQuery(User user) throws IncorrectInputException {
         if(user == null) throw new IncorrectInputException();
         StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO Users (first_name, last_name, email, password) VALUES (\"");
+        builder.append("INSERT INTO Users (first_name, last_name, email, password, role) VALUES (\"");
         builder.append(user.getFirstName() + "\", \"");
         builder.append(user.getLastName() + "\", \"");
         builder.append(user.getEmail() + "\", \"");
-        builder.append(user.getPassword() + "\")");
+        builder.append(user.getPassword() + "\", \"");
+        builder.append(user.getRole() + "\")");
         logger.debug("Insert = " + builder);
         return builder.toString();
     }
@@ -101,6 +103,10 @@ public class UserDao implements AbstractDao<User, Integer> {
         User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
         user.setEmail(rs.getString(4));
         user.setPassword(rs.getString(5));
+        String role = rs.getString(6);
+        if(role != null) {
+            user.setRole(UserRoleEnum.valueOf(rs.getString(6)));
+        }
         return user;
     }
 }

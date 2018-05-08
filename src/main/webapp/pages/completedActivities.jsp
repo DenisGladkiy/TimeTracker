@@ -1,5 +1,13 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script language="javascript">
+    function deleteLine(formId){
+        var okay=confirm('Do you want to delete the record?');
+        if(okay){
+            document.getElementById(formId).submit();
+        }
+    }
+</script>
     <body>
     <table width="100%">
         <h2>Completed activities</h2>
@@ -10,7 +18,9 @@
 		<th>DeadLine</th>
 		<th>Working Time</th>
 		<th>User</th>
-        <c:forEach var="activity" items="${Activities}">
+		<c:set var="formId" value="0" scope="page"/>
+		<c:forEach var="activity" items="${Activities}">
+		<c:set var="formId" value="${formId+1}" scope="page"/>
         <tr>
         <form action="timetracking" method="post">
             <td>${activity.id}</td>
@@ -20,16 +30,6 @@
 			<td>${activity.deadLine}</td>
 			<td>${activity.time}</td>
 			<td>${activity.userId}</td>
-			<!--<td>
-			<%--	<c:choose>
-					<c:when test="${activity.completed==true}">
-						<input type="checkbox" name="complete" checked/>
-					</c:when>
-					<c:otherwise>
-						<input type="checkbox" name="complete"/>
-					</c:otherwise>
-				</c:choose>--%>
-			</td>-->
 			<td>
 			    <input type="hidden" name="id" value=${activity.id}>
             	<input type="hidden" name="name" value="${activity.name}">
@@ -44,14 +44,15 @@
 				<input type="submit" value="Continue work" />
 			</td>
 			</form>
-			<form action="timetracking" method="post">
 			<td>
-				<input type="hidden" name="id" value=${activity.id} >
-				<input type="hidden" name="name" value=${activity.name} >
-				<input type="hidden" name="select" value="completedActivities.jsp">
-				<input type="submit" name="command" value="deleteActivity" />
+				<form id="${formId}" action="timetracking" method="post">
+					<input type="hidden" name="id" value=${activity.id} >
+					<input type="hidden" name="name" value=${activity.name} >
+					<input type="hidden" name="select" value="completedActivities.jsp">
+					<input type="hidden" name="command" value="deleteActivity">
+				</form>
+				<input type="submit" value="deleteActivity" onclick="deleteLine(${formId})"/>
 			</td>
-			</form>
 		</tr>
         </c:forEach>
 		</table>

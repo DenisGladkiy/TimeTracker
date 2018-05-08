@@ -74,6 +74,7 @@
         <td>Last Name</td>
         <td>E-mail</td>
         <td>Password</td>
+        <td>Role</td>
     </tr>
     <tr>
         <form method="POST" action="timetracking">
@@ -81,6 +82,7 @@
             <td><input type="text" name="lastName" /></td>
             <td><input type="text" name="email" /></td>
             <td><input type="text" name="pass" /></td>
+            <td><input type="text" name="role" /></td>
             <input type="hidden" name="command" value="insertUser"/>
             <td><input type="submit" /></td>
         </form>

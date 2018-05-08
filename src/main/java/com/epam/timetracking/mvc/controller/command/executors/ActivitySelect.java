@@ -15,7 +15,6 @@ import java.util.List;
  * Created by Denis on 03.05.2018.
  */
 public class ActivitySelect implements GeneralCommand {
-    //private String url;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

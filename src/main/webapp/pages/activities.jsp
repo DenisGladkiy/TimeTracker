@@ -1,5 +1,13 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script language="javascript">
+    function deleteLine(formId){
+        var okay=confirm('Do you want to delete the record?');
+        if(okay){
+            document.getElementById(formId).submit();
+        }
+    }
+</script>
     <body>
         <h2>Actual Activities</h2>
 		<table width="100%">
@@ -11,7 +19,9 @@
 		<th>Working Time</th>
 		<th>User</th>
 		<th>Complete</th>
+		<c:set var="formId" value="0" scope="page"/>
         <c:forEach var="activity" items="${Activities}">
+		<c:set var="formId" value="${formId+1}" scope="page"/>
         <tr>
          <form action="timetracking" method="post">
             <td>${activity.id}</td>
@@ -33,14 +43,15 @@
 				<input type="submit" name="command" value="updateActivity" />
 			</td>
 			</form>
-			<form action="timetracking" method="post">
 			<td>
+				<form id="${formId}" action="timetracking" method="post">
 				    <input type="hidden" name="id" value=${activity.id} >
 				    <input type="hidden" name="name" value="${activity.name}">
 				    <input type="hidden" name="select" value="activities.jsp">
-					<input type="submit" name="command" value="deleteActivity" />
+					<input type="hidden" name="command" value="deleteActivity">
+				</form>
+					<input type="submit" value="Delete activity" onclick="deleteLine(${formId})" />
 			</td>
-			</form>
 		</tr>
         </c:forEach>
 		</table>

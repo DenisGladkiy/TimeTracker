@@ -15,7 +15,6 @@ import java.util.List;
  * Created by Denis on 03.05.2018.
  */
 public class ActivityDelete implements GeneralCommand {
-    //String url;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -29,22 +28,4 @@ public class ActivityDelete implements GeneralCommand {
         request.setAttribute("Activities", activities);
         return "/pages/" + selection;
     }
-
-//    private List<Activity> getActivities(ActivityDao dao, String selection){
-//        switch (selection){
-//            case "selectActual":
-//                url = "/pages/activities.jsp";
-//                return dao.getActual();
-//            case "selectAdded":
-//                url = "/pages/addedActivities.jsp";
-//                return dao.getAdded();
-//            case "selectRemoved":
-//                url = "/pages/removedActivities.jsp";
-//                return dao.getRemoved();
-//            case "selectCompleted":
-//                url = "/pages/completedActivities.jsp";
-//                return dao.getCompleted();
-//        }
-//        return null;
-//    }
 }

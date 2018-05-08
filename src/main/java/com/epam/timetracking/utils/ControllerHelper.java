@@ -2,6 +2,7 @@ package com.epam.timetracking.utils;
 
 import com.epam.timetracking.mvc.model.entity.Activity;
 import com.epam.timetracking.mvc.model.entity.User;
+import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
@@ -74,6 +75,7 @@ public class ControllerHelper {
         User user = new User(id, firstName, lastName);
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("pass"));
+        user.setRole(UserRoleEnum.valueOf(request.getParameter("role")));
         return user;
     }
 
