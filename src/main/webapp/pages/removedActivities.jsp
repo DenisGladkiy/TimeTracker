@@ -21,7 +21,7 @@
 			<td>
 			    <input type="hidden" name="id" value=${activity.id}>
 			    <input type="hidden" name="name" value="${activity.name}">
-			    <input type="hidden" name="select" value="selectRemoved">
+			    <input type="hidden" name="select" value="removedActivities.jsp">
 				<input type="submit" name="command" value="deleteActivity" />
 			</td>
 			</form>
@@ -36,7 +36,7 @@
 				<input type="hidden" name="userId" value=${activity.userId}>
 				<input type="hidden" name="removed" value="false">
 				<input type="hidden" name="completed" value="false">
-				<input type="hidden" name="select" value="selectRemoved">
+				<input type="hidden" name="select" value="removedActivities.jsp">
 
 
 

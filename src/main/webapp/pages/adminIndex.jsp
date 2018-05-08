@@ -8,28 +8,28 @@
         <form method="POST" action="timetracking">
             <td>
                 <input type="hidden" name="command" value="selectActivity"/>
-                <input type="hidden" name="select" value="selectActual"/>
+                <input type="hidden" name="select" value="activities.jsp"/>
                 <input type="submit" value="View actual activities"/>
             </td>
         </form>
         <form method="POST" action="timetracking">
             <td>
                 <input type="hidden" name="command" value="selectActivity"/>
-                <input type="hidden" name="select" value="selectAdded"/>
+                <input type="hidden" name="select" value="addedActivities.jsp"/>
                 <input type="submit" value="View add requests"/>
             </td>
         </form>
         <form method="POST" action="timetracking">
             <td>
                 <input type="hidden" name="command" value="selectActivity"/>
-                <input type="hidden" name="select" value="selectRemoved"/>
+                <input type="hidden" name="select" value="removedActivities.jsp"/>
                 <input type="submit" value="View remove requests"/>
             </td>
         </form>
         <form method="POST" action="timetracking">
             <td>
                 <input type="hidden" name="command" value="selectActivity"/>
-                <input type="hidden" name="select" value="selectCompleted"/>
+                <input type="hidden" name="select" value="completedActivities.jsp"/>
                 <input type="submit" value="View completed"/>
             </td>
         </form>
@@ -37,6 +37,7 @@
     <tr>
         <form method="POST" action="timetracking">
             <td>
+                <input type="hidden" name="select" value="userIndex.jsp"/>
                 <input type="hidden" name="command" value="selectUser"/>
                 <input type="submit" value="View users"/>
             </td>
@@ -60,6 +61,7 @@
             <td><input type="text" name="description" /></td>
             <td><input type="text" name="deadLine" /></td>
             <td><input type="text" name="userId" /></td>
+            <input type="hidden" name="select" value="adminIndex.jsp"/>
             <input type="hidden" name="command" value="insertActivity"/>
             <td><input type="submit" /></td>
         </form>

@@ -1,8 +1,11 @@
 package com.epam.timetracking.mvc.controller.command.executors;
 
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
+import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
+import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
+import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,41 +16,47 @@ import java.util.List;
  * Created by Denis on 03.05.2018.
  */
 public class ActivityUpdate implements GeneralCommand {
+    //private String url;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String url = "/pages/activities.jsp";
-        logger.debug("id = " + request.getParameter("id"));
-        logger.debug("name = " + request.getParameter("name"));
-        logger.debug("description = " + request.getParameter("description"));
+        String selection = request.getParameter("select");
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         ControllerHelper helper = new ControllerHelper();
         Activity activity = helper.createActivityBean(request);
         dao.update(activity);
-
-        String selection = request.getParameter("select");
+        List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         logger.debug("Update selection = " + selection);
-        switch (selection){
-            case "selectCompleted":
-                request.setAttribute("Activities", dao.getCompleted());
-                url = "/pages/completedActivities.jsp";
-                break;
-            case "selectActual":
-                request.setAttribute("Activities", dao.getActual());
-                url = "/pages/activities.jsp";
-                break;
-            case "selectAdded":
-                request.setAttribute("Activities", dao.getAdded());
-                url = "/pages/addedActivities.jsp";
-                break;
-            case "selectRemoved":
-                request.setAttribute("Activities", dao.getRemoved());
-                url = "/pages/removedActivities.jsp";
-                break;
-            case "selectByUser":
-                return new UsersActivities().execute(request, response);
-        }
+        request.setAttribute("Activities", activities);
         dao.closeConnection();
-        return url;
+        return "/pages/" + selection;
     }
+
+//    private List<Activity> getActivities(ActivityDao dao, HttpServletRequest request) {
+//        String selection = request.getParameter("select");
+//        int userId;
+//        switch (selection) {
+//            case "selectCompleted":
+//                url = "/pages/completedActivities.jsp";
+//                return dao.getCompleted();
+//            case "selectActual":
+//                url = "/pages/activities.jsp";
+//                return dao.getActual();
+//            case "selectAdded":
+//                url = "/pages/addedActivities.jsp";
+//                return dao.getAdded();
+//            case "selectRemoved":
+//                url = "/pages/removedActivities.jsp";
+//                return dao.getRemoved();
+//            case "userIndex":
+//                url = "/pages/userIndex.jsp";
+//                userId = Integer.valueOf(request.getParameter("userId"));
+//                return dao.getByUserId(userId);
+//            case "activitiesByUser":
+//                url = "/pages/activitiesByUser.jsp";
+//                userId = Integer.valueOf(request.getParameter("userId"));
+//                return dao.getByUserId(userId);
+//        }
+//        return null;
+//    }
 }

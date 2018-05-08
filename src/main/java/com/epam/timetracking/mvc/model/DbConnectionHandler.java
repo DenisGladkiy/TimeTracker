@@ -24,9 +24,12 @@ public class DbConnectionHandler {
     }
 
     private static DataSource getDataSource(){
+        logger.debug("Connection pool getDataSource");
         if(dataSource == null){
+            logger.debug("Connection pool getDataSource null");
             synchronized (DbConnectionHandler.class){
                 if(dataSource == null){
+                    logger.debug("Connection pool getDataSource null 2");
                     BasicDataSource ds = new BasicDataSource();
                     ds.setDriverClassName(properties.getProperty("db.driver"));
                     ds.setUrl(properties.getProperty("db.url"));
@@ -40,6 +43,7 @@ public class DbConnectionHandler {
                 }
             }
         }
+        logger.debug("Connection pool getDataSource return = " + dataSource);
         return dataSource;
     }
 

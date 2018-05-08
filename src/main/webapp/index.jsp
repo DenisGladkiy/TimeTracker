@@ -10,7 +10,7 @@
             <td>
                 <form name="form" method="POST" action="/pages/timetracking">
                 <input type="hidden" name="command" value="usersActivities">
-                <input type="hidden" name="source" value="userIndex">
+                <input type="hidden" name="select" value="userIndex.jsp">
                 <input type="hidden" name="userId" value=1>
                 <A HREF="javascript:document.form.submit()"><h3>User Page</h3></A>
                 </form>

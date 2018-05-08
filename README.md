@@ -1,2 +1,2 @@
 # TimeTracker
-Epam courses final project
+Final project

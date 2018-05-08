@@ -20,6 +20,6 @@ public class UserInsert implements GeneralCommand {
         AbstractDao dao = manager.getDao("USER");
         dao.insert(user);
         dao.closeConnection();
-        return "/index.jsp";
+        return "/pages/adminIndex.jsp";
     }
 }

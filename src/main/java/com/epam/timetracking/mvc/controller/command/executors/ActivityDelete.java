@@ -1,6 +1,7 @@
 package com.epam.timetracking.mvc.controller.command.executors;
 
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
+import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by Denis on 03.05.2018.
  */
 public class ActivityDelete implements GeneralCommand {
-    String url;
+    //String url;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -23,27 +24,27 @@ public class ActivityDelete implements GeneralCommand {
         Activity activity = helper.createActivityBean(request);
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         dao.delete(activity);
-        List<Activity> activities = getActivities(dao, selection);
+        List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeConnection();
         request.setAttribute("Activities", activities);
-        return url;
+        return "/pages/" + selection;
     }
 
-    private List<Activity> getActivities(ActivityDao dao, String selection){
-        switch (selection){
-            case "selectActual":
-                url = "/pages/activities.jsp";
-                return dao.getActual();
-            case "selectAdded":
-                url = "/pages/addedActivities.jsp";
-                return dao.getAdded();
-            case "selectRemoved":
-                url = "/pages/removedActivities.jsp";
-                return dao.getRemoved();
-            case "selectCompleted":
-                url = "/pages/completedActivities.jsp";
-                return dao.getCompleted();
-        }
-        return null;
-    }
+//    private List<Activity> getActivities(ActivityDao dao, String selection){
+//        switch (selection){
+//            case "selectActual":
+//                url = "/pages/activities.jsp";
+//                return dao.getActual();
+//            case "selectAdded":
+//                url = "/pages/addedActivities.jsp";
+//                return dao.getAdded();
+//            case "selectRemoved":
+//                url = "/pages/removedActivities.jsp";
+//                return dao.getRemoved();
+//            case "selectCompleted":
+//                url = "/pages/completedActivities.jsp";
+//                return dao.getCompleted();
+//        }
+//        return null;
+//    }
 }

@@ -30,8 +30,8 @@
                     <input type="hidden" name="name" value="${activity.name}">
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
                     <input type="hidden" name="removed" value="false">
-                    <input type="hidden" name="select" value="selectByUser">
-                    <input type="hidden" name="source" value="users">
+                    <input type="hidden" name="select" value="activitiesByUser.jsp">
+                    <!--<input type="hidden" name="source" value="users">-->
                     <input type="submit" name="command" value="updateActivity" />
                 </td>
             </form>
@@ -39,7 +39,8 @@
                 <td>
                     <input type="hidden" name="id" value=${activity.id} >
                     <input type="hidden" name="name" value="${activity.name}">
-                    <input type="hidden" name="select" value="selectActual">
+                    <input type="hidden" name="select" value="activitiesByUser.jsp">
+                    <input type="hidden" name="source" value="users">
                     <input type="submit" name="command" value="deleteActivity" />
                 </td>
             </form>

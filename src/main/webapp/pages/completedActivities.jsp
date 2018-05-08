@@ -39,7 +39,7 @@
             	<input type="hidden" name="time" value=${activity.time}>
             	<input type="hidden" name="userId" value=${activity.userId}>
 			    <input type="hidden" name="removed" value="false">
-			    <input type="hidden" name="select" value="selectCompleted">
+			    <input type="hidden" name="select" value="completedActivities.jsp">
 				<input type="hidden" name="command" value="updateActivity">
 				<input type="submit" value="Continue work" />
 			</td>
@@ -48,7 +48,7 @@
 			<td>
 				<input type="hidden" name="id" value=${activity.id} >
 				<input type="hidden" name="name" value=${activity.name} >
-				<input type="hidden" name="select" value="selectCompleted">
+				<input type="hidden" name="select" value="completedActivities.jsp">
 				<input type="submit" name="command" value="deleteActivity" />
 			</td>
 			</form>

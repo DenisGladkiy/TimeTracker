@@ -23,7 +23,16 @@
                 <td>${activity.description}</td>
                 <td>${activity.creationDate}</td>
                 <td>${activity.deadLine}</td>
-                <td><input type="text" name="time"  value=${activity.time}></td>
+                <td>
+                    <c:choose>
+                    <c:when test="${activity.addRequest != true}">
+                        <input type="text" name="time"  value=${activity.time}>
+                    </c:when>
+                    <c:otherwise>
+                        ${activity.time}
+                    </c:otherwise>
+                    </c:choose>
+                </td>
                 <td>
                     <input type="checkbox" name="complete"/>
                 </td>
@@ -44,9 +53,8 @@
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
                     <input type="hidden" name="deadLine" value=${activity.deadLine}>
                     <input type="hidden" name="userId" value="${activity.userId}">
-                    <input type="hidden" name="select" value="selectByUser">
+                    <input type="hidden" name="select" value="userIndex.jsp">
                     <input type="hidden" name="command" value="updateActivity">
-                    <input type="hidden" name="source" value="userIndex">
                     <input type="submit" value="Save" />
                 </td>
             </form>
@@ -66,6 +74,7 @@
             <td><input type="text" name="deadLine" /></td>
             <input type="hidden" name="userId" value=1 /> <!--How to pass ID of the user???????-->
             <input type="hidden" name="added" value="true" />
+            <input type="hidden" name="select" value="userIndex.jsp">
             <input type="hidden" name="command" value="insertActivity"/>
             <td><input type="submit" /></td>
         </form>
