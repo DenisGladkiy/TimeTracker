@@ -42,7 +42,7 @@ public class ControllerHelper {
         activity.setDeadLine(parseDate(deadline));
         activity.setCreationDate(parseDate(creationDate));
         if(time != null) {
-            activity.setTime(new Duration(Double.valueOf(time) * 1000));
+            activity.setTime(new Duration(Double.valueOf(time) * 3600000));
         }
         if(accept != null && accept.equals("true")) {
             activity.setAddRequest(true);

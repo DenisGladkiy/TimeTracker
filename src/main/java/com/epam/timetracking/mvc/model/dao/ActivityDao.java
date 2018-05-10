@@ -145,7 +145,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append("curdate(), ");
         builder.append(convertDateToString(activity.getDeadLine()) + ", ");
         Duration duration = activity.getTime();
-        builder.append(duration == null ? "null, " : (int)activity.getTime().toSeconds() + ", ");
+        builder.append(duration == null ? "0, " : (int)activity.getTime().toSeconds() + ", ");
         int userId = activity.getUserId();
         builder.append(((userId == 0) ? "null" : userId) + ", ");
         builder.append(activity.isAddRequest() + ", ");
@@ -161,7 +161,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append(activity.getDescription() + "\", ");
         builder.append("deadline = " + convertDateToString(activity.getDeadLine()) + ", ");
         Duration duration = activity.getTime();
-        builder.append("working_time = " + (duration == null ? "null," : (int)activity.getTime().toSeconds() + ", "));
+        builder.append("working_time = working_time + " + (duration == null ? "0," : (int)activity.getTime().toMillis() + ", "));
         int userId = activity.getUserId();
         builder.append("user_id = " + ((userId == 0) ? "null" : userId) + ", ");
         builder.append("add_request = " + activity.isAddRequest() + ", ");

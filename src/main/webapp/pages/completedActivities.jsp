@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script language="javascript">
     function deleteLine(formId){
-        var okay=confirm('Do you want to delete the record?');
+        var okay=confirm('Do you want to delete the activity?');
         if(okay){
             document.getElementById(formId).submit();
         }
@@ -50,7 +50,7 @@
 				<input type="hidden" name="name" value=${activity.name} >
 				<input type="hidden" name="select" value="completedActivities.jsp">
 				<input type="hidden" name="command" value="deleteActivity">
-				<input type="submit" value="deleteActivity" onclick="deleteLine(${formId})"/>
+				<input type="submit" value="Delete" onclick="deleteLine(${formId})"/>
 			</td>
 			</form>
 		</tr>

@@ -18,4 +18,10 @@
         <url-pattern>/pages/removedActivities.jsp</url-pattern>
         <url-pattern>/pages/users.jsp</url-pattern>
     </filter-mapping>
+    <jsp-config>
+        <taglib>
+            <taglib-uri>timetablib</taglib-uri>
+            <taglib-location>/WEB-INF/mytaglib.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 </web-app>

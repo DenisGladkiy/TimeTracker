@@ -1,5 +1,6 @@
 <html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="time" uri="timetablib"%>
 <head>
     <title>Time Tracker</title>
 </head>
@@ -24,12 +25,13 @@
                 <td>${activity.creationDate}</td>
                 <td>${activity.deadLine}</td>
                 <td>
+                    <time:getHours activity="${activity}"/>
                     <c:choose>
                     <c:when test="${activity.addRequest != true}">
-                        <input type="text" name="time"  value=${activity.time}>
+                        <input type="text" name="time">
                     </c:when>
                     <c:otherwise>
-                        ${activity.time}
+                        <time:getHours activity="${activity}"/>
                     </c:otherwise>
                     </c:choose>
                 </td>

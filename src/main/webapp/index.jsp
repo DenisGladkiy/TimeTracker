@@ -10,7 +10,8 @@
                 <tr><td><input type="text" name="login"></td></tr>
                 <tr><td>Password</td></tr>
                 <tr><td><input type="text" name="password"></td></tr>
-                <tr><td><input type="submit" name="command" value="loginData"></td></tr>
+                <tr><td><input type="hidden" name="command" value="loginData"></td></tr>
+                <tr><td><input type="submit" value="Log In"></td></tr>
             </form>
     </table>
     </body>

@@ -3,7 +3,7 @@
 <title>Time Tracker</title>
 <body>
 <h2>Time Tracking</h2>
-<table>
+<table align="center">
     <tr>
         <form method="POST" action="timetracking">
             <td>
@@ -63,7 +63,7 @@
             <td><input type="text" name="userId" /></td>
             <input type="hidden" name="select" value="adminIndex.jsp"/>
             <input type="hidden" name="command" value="insertActivity"/>
-            <td><input type="submit" /></td>
+            <td><input type="submit" value="Create"/></td>
         </form>
     </tr>
     <tr>
@@ -84,7 +84,7 @@
             <td><input type="text" name="pass" /></td>
             <td><input type="text" name="role" /></td>
             <input type="hidden" name="command" value="insertUser"/>
-            <td><input type="submit" /></td>
+            <td><input type="submit" value="Create" /></td>
         </form>
     </tr>
 </table>

@@ -103,6 +103,15 @@ public class Activity {
         this.completed = completed;
     }
 
+    public double getHours(){
+        return round(workingTime.toHours(), 1);
+    }
+
+    private double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
+
     @Override
     public String toString() {
         return id + ", " + name + ", " + description + ", " + creationDate +

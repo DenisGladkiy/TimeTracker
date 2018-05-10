@@ -19,6 +19,9 @@ public class MainController extends HttpServlet {
     private static Logger logger = Logger.getLogger(MainController.class);
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //test useBean
+        logger.debug("Use bean = " + request.getSession(false).getAttribute("list"));
+        //finish test
         String command = request.getParameter("command");
         logger.debug("Controller command = " + command);
         CommandContainer container = new CommandContainer();
