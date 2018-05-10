@@ -30,19 +30,19 @@
 			    <input type="hidden" name="userId" value=${user.id}>
 			    <input type="hidden" name="firstName" value=${user.firstName}>
 			    <input type="hidden" name="lastName" value=${user.lastName}>
-				<input type="hidden" name="select" value="activitiesByUser.jsp">
+				<input type="hidden" name="select" value="/pages/activitiesByUser.jsp">
 			    <input type="hidden" name="command" value="usersActivities">
 				<input type="submit" value="View user's activities" />
 			</td>
 			</form>
+			<form id="${formId}" action="timetracking" method="post">
 			<td>
-				<form id="${formId}" action="timetracking" method="post">
-					<input type="hidden" name="id" value=${user.id}>
-                	<input type="hidden" name="firstName" value=${user.firstName}>
-					<input type="hidden" name="command" value="deleteUser" />
-				</form>
+				<input type="hidden" name="id" value=${user.id}>
+				<input type="hidden" name="firstName" value=${user.firstName}>
+				<input type="hidden" name="command" value="deleteUser" />
                 <input type="submit" value="deleteUser" onclick="deleteLine(${formId})"/>
 			</td>
+			</form>
 		</tr>
         </c:forEach>
 		</table>

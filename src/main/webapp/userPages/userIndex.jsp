@@ -17,7 +17,7 @@
     <c:forEach var="activity" items="${Activities}">
         <c:if test="${activity.completed != true}">
         <tr>
-            <form action="timetracking" method="post">
+            <form action="/pages/timetracking" method="post">
                 <td>${activity.id}</td>
                 <td>${activity.name}</td>
                 <td>${activity.description}</td>
@@ -53,7 +53,7 @@
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
                     <input type="hidden" name="deadLine" value=${activity.deadLine}>
                     <input type="hidden" name="userId" value="${activity.userId}">
-                    <input type="hidden" name="select" value="userIndex.jsp">
+                    <input type="hidden" name="select" value="/userPages/userIndex.jsp">
                     <input type="hidden" name="command" value="updateActivity">
                     <input type="submit" value="Save" />
                 </td>
@@ -68,13 +68,13 @@
     <th>Description</th>
     <th>DeadLine</th>
     <tr>
-        <form method="POST" action="timetracking">
+        <form method="POST" action="/pages/timetracking">
             <td><input type="text" name="name" /></td>
             <td><input type="text" name="description" /></td>
             <td><input type="text" name="deadLine" /></td>
-            <input type="hidden" name="userId" value=1 /> <!--How to pass ID of the user???????-->
+            <input type="hidden" name="userId" value=${User.id} /> <!--How to pass ID of the user???????-->
             <input type="hidden" name="added" value="true" />
-            <input type="hidden" name="select" value="userIndex.jsp">
+            <input type="hidden" name="select" value="/userPages/userIndex.jsp">
             <input type="hidden" name="command" value="insertActivity"/>
             <td><input type="submit" /></td>
         </form>

@@ -2,26 +2,16 @@
 <html>
 <title>Time Tracker</title>
     <body>
-    <table width="100%">
-        <tr>
-            <td>
-                <a HREF="/pages/adminIndex.jsp"><h3>Admin Page</h3></a>
-            </td>
-            <td>
-                <form name="form" method="POST" action="/pages/timetracking">
-                <input type="hidden" name="command" value="usersActivities">
-                <input type="hidden" name="select" value="userIndex.jsp">
-                <input type="hidden" name="userId" value=1>
-                <A HREF="javascript:document.form.submit()"><h3>User Page</h3></A>
-                </form>
-            </td>
-            <td>
-                <a HREF="/pages/login.jsp"><h3>LogIn</h3></a>
-            </td>
-            <td>
-                <a HREF="/pages/logout.jsp"><h3>LogOut</h3></a>
-            </td>
+    <h1 align="center">Welcome to Time Tracking system</h1>
+    <table align="center">
         </tr>
+            <form name="loginForm" method="POST" action="/login">
+                <tr><td>Login</td></tr>
+                <tr><td><input type="text" name="login"></td></tr>
+                <tr><td>Password</td></tr>
+                <tr><td><input type="text" name="password"></td></tr>
+                <tr><td><input type="submit" name="command" value="loginData"></td></tr>
+            </form>
     </table>
     </body>
 </html>

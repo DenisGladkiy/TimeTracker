@@ -2,13 +2,11 @@ package com.epam.timetracking.mvc.controller.command.executors;
 
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
-import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +22,11 @@ public class ActivitySelect implements GeneralCommand {
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         logger.debug("List of selected activities = " + activities);
         dao.closeConnection();
-        request.setAttribute("Activities", activities);
-        return "/pages/" + selection;
+        request.getSession().setAttribute("Activities", activities);
+        if(selection.startsWith("/")){
+            return selection;
+        }else {
+            return "/pages/" + selection;
+        }
     }
 }

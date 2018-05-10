@@ -21,7 +21,7 @@ public class UserDelete implements GeneralCommand {
         UserDao dao = (UserDao)manager.getDao("USER");
         dao.delete(user);
         List<User> users = dao.getAll();
-        request.setAttribute("Users", users);
+        request.getSession().setAttribute("Users", users);
         dao.closeConnection();
         return "/pages/users.jsp";
     }

@@ -17,7 +17,7 @@ public class UserSelect implements GeneralCommand {
         UserDao dao = (UserDao) manager.getDao("USER");
         List<User> users = dao.getAll();
         dao.closeConnection();
-        request.setAttribute("Users", users);
+        request.getSession().setAttribute("Users", users);
         logger.debug("Users = " + users);
         return "/pages/users.jsp";
     }

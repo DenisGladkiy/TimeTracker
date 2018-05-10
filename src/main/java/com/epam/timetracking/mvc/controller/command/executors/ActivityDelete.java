@@ -25,7 +25,7 @@ public class ActivityDelete implements GeneralCommand {
         dao.delete(activity);
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeConnection();
-        request.setAttribute("Activities", activities);
+        request.getSession().setAttribute("Activities", activities);
         return "/pages/" + selection;
     }
 }

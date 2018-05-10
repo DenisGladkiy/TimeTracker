@@ -9,7 +9,7 @@
     }
 </script>
 <body>
-<h2>Actual Activities of ${User.firstName}</h2>
+<h2>Actual Activities of ${SelectedUser.firstName}</h2>
 <table width="100%">
     <th>Id</th>
     <th>Name</th>
@@ -40,20 +40,19 @@
                     <input type="hidden" name="name" value="${activity.name}">
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
                     <input type="hidden" name="removed" value="false">
-                    <input type="hidden" name="select" value="activitiesByUser.jsp">
+                    <input type="hidden" name="select" value="/pages/activitiesByUser.jsp">
                     <input type="submit" name="command" value="updateActivity" />
                 </td>
             </form>
+            <form id="${formId}" action="timetracking" method="post">
                 <td>
-                    <form id="${formId}" action="timetracking" method="post">
-                        <input type="hidden" name="id" value=${activity.id} >
-                        <input type="hidden" name="name" value="${activity.name}">
-                        <input type="hidden" name="select" value="activitiesByUser.jsp">
-                        <!--<input type="hidden" name="source" value="users">-->
-                        <input type="hidden" name="command" value="deleteActivity">
-                    </form>
+                    <input type="hidden" name="id" value=${activity.id} >
+                    <input type="hidden" name="name" value="${activity.name}">
+                    <input type="hidden" name="select" value="/pages/activitiesByUser.jsp">
+                    <input type="hidden" name="command" value="deleteActivity">
                     <input type="submit" value="deleteActivity" onclick="deleteLine(${formId})" />
                 </td>
+            </form>
         </tr>
     </c:if>
     </c:forEach>

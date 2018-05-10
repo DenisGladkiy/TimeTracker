@@ -26,10 +26,10 @@ public class ExecutorHelper {
                 return dao.getAdded();
             case "removedActivities.jsp":
                 return dao.getRemoved();
-            case "userIndex.jsp":
+            case "/userPages/userIndex.jsp":
                 userId = Integer.valueOf(request.getParameter("userId"));
                 return dao.getByUserId(userId);
-            case "activitiesByUser.jsp":
+            case "/pages/activitiesByUser.jsp":
                 userId = Integer.valueOf(request.getParameter("userId"));
                 return dao.getByUserId(userId);
             case "adminIndex.jsp":

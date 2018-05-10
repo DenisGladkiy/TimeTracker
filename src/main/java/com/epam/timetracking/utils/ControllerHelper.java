@@ -70,12 +70,16 @@ public class ControllerHelper {
         String strId = request.getParameter("id");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
+        logger.debug("Helper user bean = " + firstName + " " + lastName);
         int id = 0;
         if (strId != null) id = Integer.valueOf(strId);
         User user = new User(id, firstName, lastName);
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("pass"));
-        user.setRole(UserRoleEnum.valueOf(request.getParameter("role")));
+        String role = request.getParameter("role");
+        if(role != null) {
+            user.setRole(UserRoleEnum.valueOf(role));
+        }
         return user;
     }
 

@@ -8,4 +8,14 @@
         <param-name>log4j-config-location</param-name>
         <param-value>WEB-INF/classes/log4j.properties</param-value>
     </context-param>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/pages/activities.jsp</url-pattern>
+        <url-pattern>/pages/activitiesByUser.jsp</url-pattern>
+        <url-pattern>/pages/addedActivities.jsp</url-pattern>
+        <url-pattern>/pages/adminIndex.jsp</url-pattern>
+        <url-pattern>/pages/completedActivities.jsp</url-pattern>
+        <url-pattern>/pages/removedActivities.jsp</url-pattern>
+        <url-pattern>/pages/users.jsp</url-pattern>
+    </filter-mapping>
 </web-app>

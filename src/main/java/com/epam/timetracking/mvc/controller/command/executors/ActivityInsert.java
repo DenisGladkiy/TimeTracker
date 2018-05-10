@@ -26,7 +26,11 @@ public class ActivityInsert implements GeneralCommand {
         dao.insert(activity);
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeConnection();
-        request.setAttribute("Activities", activities);
-        return "/pages/" + selection;
+        request.getSession().setAttribute("Activities", activities);
+        if(selection.startsWith("/")){
+            return selection;
+        }else {
+            return "/pages/" + selection;
+        }
     }
 }

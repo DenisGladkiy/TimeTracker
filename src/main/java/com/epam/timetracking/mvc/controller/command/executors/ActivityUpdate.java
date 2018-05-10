@@ -26,8 +26,12 @@ public class ActivityUpdate implements GeneralCommand {
         dao.update(activity);
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         logger.debug("Update selection = " + selection);
-        request.setAttribute("Activities", activities);
+        request.getSession().setAttribute("Activities", activities);
         dao.closeConnection();
-        return "/pages/" + selection;
+        if(selection.startsWith("/")){
+            return selection;
+        }else {
+            return "/pages/" + selection;
+        }
     }
 }

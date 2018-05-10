@@ -25,8 +25,8 @@ public class UsersActivities implements GeneralCommand {
         UserDao userDao = (UserDao)manager.getDao("USER");
         User user = userDao.getById(userId);
         userDao.closeConnection();
-        request.setAttribute("Activities", activities);
-        request.setAttribute("User", user);
-        return "/pages/" + selection;
+        request.getSession().setAttribute("Activities", activities);
+        request.getSession().setAttribute("SelectedUser", user);
+        return selection;
     }
 }

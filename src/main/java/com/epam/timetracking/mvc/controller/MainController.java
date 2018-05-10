@@ -23,7 +23,6 @@ public class MainController extends HttpServlet {
         logger.debug("Controller command = " + command);
         CommandContainer container = new CommandContainer();
         String url = container.getCommand(command).execute(request, response);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
-        rd.forward(request, response);
+        response.sendRedirect(url);
     }
 }

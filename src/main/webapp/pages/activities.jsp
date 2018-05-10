@@ -38,20 +38,21 @@
 			    <input type="hidden" name="id" value=${activity.id}>
 			    <input type="hidden" name="name" value="${activity.name}">
 			    <input type="hidden" name="creationDate" value=${activity.creationDate}>
+				<input type="hidden" name="time" value=${activity.time}>
 				<input type="hidden" name="removed" value="false">
 			    <input type="hidden" name="select" value="activities.jsp">
 				<input type="submit" name="command" value="updateActivity" />
 			</td>
 			</form>
-			<td>
-				<form id="${formId}" action="timetracking" method="post">
+			<form id="${formId}" action="timetracking" method="post">
+				<td>
 				    <input type="hidden" name="id" value=${activity.id} >
 				    <input type="hidden" name="name" value="${activity.name}">
 				    <input type="hidden" name="select" value="activities.jsp">
 					<input type="hidden" name="command" value="deleteActivity">
-				</form>
 					<input type="submit" value="Delete activity" onclick="deleteLine(${formId})" />
-			</td>
+				</td>
+			</form>
 		</tr>
         </c:forEach>
 		</table>

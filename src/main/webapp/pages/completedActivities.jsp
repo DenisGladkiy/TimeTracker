@@ -44,15 +44,15 @@
 				<input type="submit" value="Continue work" />
 			</td>
 			</form>
+			<form id="${formId}" action="timetracking" method="post">
 			<td>
-				<form id="${formId}" action="timetracking" method="post">
-					<input type="hidden" name="id" value=${activity.id} >
-					<input type="hidden" name="name" value=${activity.name} >
-					<input type="hidden" name="select" value="completedActivities.jsp">
-					<input type="hidden" name="command" value="deleteActivity">
-				</form>
+				<input type="hidden" name="id" value=${activity.id} >
+				<input type="hidden" name="name" value=${activity.name} >
+				<input type="hidden" name="select" value="completedActivities.jsp">
+				<input type="hidden" name="command" value="deleteActivity">
 				<input type="submit" value="deleteActivity" onclick="deleteLine(${formId})"/>
 			</td>
+			</form>
 		</tr>
         </c:forEach>
 		</table>
