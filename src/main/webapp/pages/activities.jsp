@@ -1,6 +1,8 @@
 <html>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="time" uri="timetablib"%>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>
 <script language="javascript">
     function deleteLine(formId){
         var okay=confirm('Do you want to delete the activity?');
@@ -9,6 +11,10 @@
         }
     }
 </script>
+<style type="text/css">
+	td{text-align: center;
+		vertical-align: middle;}
+</style>
     <body>
         <h2>Actual Activities</h2>
 		<table width="100%">
@@ -17,7 +23,7 @@
 		<th>Description</th>
 		<th>Creation Date</th>
 		<th>DeadLine</th>
-		<th>Working Time</th>
+		<th>Working Time(h)</th>
 		<th>User</th>
 		<th>Complete</th>
 		<c:set var="formId" value="0" scope="page"/>
@@ -39,7 +45,7 @@
 			    <input type="hidden" name="id" value=${activity.id}>
 			    <input type="hidden" name="name" value="${activity.name}">
 			    <input type="hidden" name="creationDate" value=${activity.creationDate}>
-				<input type="hidden" name="time" value=${activity.time}>
+				<%--<input type="hidden" name="time" value=${activity.time}>--%>
 				<input type="hidden" name="removed" value="false">
 			    <input type="hidden" name="select" value="activities.jsp">
 				<input type="hidden" name="command" value="updateActivity" />
@@ -47,14 +53,14 @@
 			</td>
 			</form>
 			<form id="${formId}" action="timetracking" method="post">
-				<td>
-				    <input type="hidden" name="id" value=${activity.id} >
-				    <input type="hidden" name="name" value="${activity.name}">
-				    <input type="hidden" name="select" value="activities.jsp">
-					<input type="hidden" name="command" value="deleteActivity">
-					<input type="submit" value="Delete" onclick="deleteLine(${formId})" />
-				</td>
+				<input type="hidden" name="id" value=${activity.id} >
+				<input type="hidden" name="name" value="${activity.name}">
+				<input type="hidden" name="select" value="activities.jsp">
+				<input type="hidden" name="command" value="deleteActivity">
 			</form>
+			<td>
+				<input type="submit" value="Delete" onclick="deleteLine(${formId})" />
+			</td>
 		</tr>
         </c:forEach>
 		</table>

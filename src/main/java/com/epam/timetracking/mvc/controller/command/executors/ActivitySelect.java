@@ -7,6 +7,7 @@ import com.epam.timetracking.mvc.model.entity.Activity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**

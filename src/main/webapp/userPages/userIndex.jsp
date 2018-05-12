@@ -1,7 +1,11 @@
 <html>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="time" uri="timetablib"%>
 <head>
+    <style type="text/css">
+        td{text-align: center}
+    </style>
     <title>Time Tracker</title>
 </head>
 <body>
@@ -12,7 +16,8 @@
     <th>Description</th>
     <th>Creation Date</th>
     <th>DeadLine</th>
-    <th>Working Time</th>
+    <th>Working Time</br>Total(h)</th>
+    <th>Time Today(h)</th>
     <th>Complete</th>
     <th>Ask to Delete</th>
     <c:forEach var="activity" items="${Activities}">
@@ -24,14 +29,13 @@
                 <td>${activity.description}</td>
                 <td>${activity.creationDate}</td>
                 <td>${activity.deadLine}</td>
-                <td>
-                    <time:getHours activity="${activity}"/>
-                    <c:choose>
+                <td><time:getHours activity="${activity}"/></td>
+                <td><c:choose>
                     <c:when test="${activity.addRequest != true}">
-                        <input type="text" name="time">
+                        <input type="text" name="time" value="0.0">
                     </c:when>
                     <c:otherwise>
-                        <time:getHours activity="${activity}"/>
+                        0.0
                     </c:otherwise>
                     </c:choose>
                 </td>
@@ -82,5 +86,6 @@
         </form>
     </tr>
 </table>
+
 </body>
 </html>

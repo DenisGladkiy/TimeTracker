@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Denis on 01.05.2018.
@@ -81,6 +83,20 @@ public class ControllerHelper {
             user.setRole(UserRoleEnum.valueOf(role));
         }
         return user;
+    }
+
+    public List<Activity> getListActivities(String acceptedActivities){
+        String[] activitiesArr = acceptedActivities.split(",");
+        List<Activity> activities = new ArrayList<>();
+        String[] activityArr;
+        Activity activity;
+        for(String act : activitiesArr){
+            activityArr = act.split(";");
+            activity = new Activity(Integer.valueOf(activityArr[0]), activityArr[1]);
+            activity.setAddRequest(false);
+            activities.add(activity);
+        }
+        return activities;
     }
 
     private Date parseDate(String stringDate){

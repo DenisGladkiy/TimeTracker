@@ -5,10 +5,7 @@ import com.epam.timetracking.mvc.model.entity.Activity;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,6 +93,41 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         }
     }
 
+    public boolean acceptActivities(List<Activity> activities){
+        PreparedStatement acceptStatement = null;
+        String update = "UPDATE Activities SET add_request=? WHERE activity_id=?";
+        try{
+            connection.setAutoCommit(false);
+            acceptStatement = connection.prepareStatement(update);
+            for(Activity act : activities){
+                acceptStatement.setBoolean(1, act.isAddRequest());
+                acceptStatement.setInt(2, act.getId());
+                acceptStatement.executeUpdate();
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if(connection != null){
+                try {
+                    connection.rollback();
+                    return false;
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }finally {
+            if(acceptStatement != null){
+                try {
+                    acceptStatement.close();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean isExist(Activity activity) {
         return false;
     }
@@ -127,7 +159,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         activity.setDescription(rs.getString(3));
         activity.setCreationDate(rs.getDate(4));
         activity.setDeadLine(rs.getDate(5));
-        activity.setTime(new Duration(rs.getDouble(6)));
+        activity.setTime(new Duration(rs.getDouble(6) * 1000));
         activity.setUserId(rs.getInt(7));
         activity.setAddRequest(rs.getBoolean(8));
         activity.setRemoveRequest(rs.getBoolean(9));
@@ -161,7 +193,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append(activity.getDescription() + "\", ");
         builder.append("deadline = " + convertDateToString(activity.getDeadLine()) + ", ");
         Duration duration = activity.getTime();
-        builder.append("working_time = working_time + " + (duration == null ? "0," : (int)activity.getTime().toMillis() + ", "));
+        builder.append("working_time = working_time + " + (duration == null ? "0," : (int)activity.getTime().toSeconds() + ", "));
         int userId = activity.getUserId();
         builder.append("user_id = " + ((userId == 0) ? "null" : userId) + ", ");
         builder.append("add_request = " + activity.isAddRequest() + ", ");

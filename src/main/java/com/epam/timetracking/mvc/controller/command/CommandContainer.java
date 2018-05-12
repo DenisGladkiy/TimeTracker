@@ -21,6 +21,7 @@ public class CommandContainer {
         commands.put("deleteActivity", new ActivityDelete());
         commands.put("updateActivity", new ActivityUpdate());
         commands.put("selectActivity", new ActivitySelect());
+        commands.put("acceptActivities", new ActivityAccept());
         commands.put("insertUser", new UserInsert());
         commands.put("selectUser", new UserSelect());
         commands.put("deleteUser", new UserDelete());

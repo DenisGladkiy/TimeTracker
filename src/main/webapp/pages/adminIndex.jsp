@@ -1,54 +1,52 @@
 <html>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <title>Time Tracker</title>
 <body>
-<h2>Time Tracking</h2>
-<table align="center">
+<h2 align="center">Time Tracking</h2>
+<table width="100%">
     <tr>
-        <form method="POST" action="timetracking">
-            <td>
+        <td>
+            <form id="actual" method="POST" action="timetracking">
                 <input type="hidden" name="command" value="selectActivity"/>
                 <input type="hidden" name="select" value="activities.jsp"/>
-                <input type="submit" value="View actual activities"/>
-            </td>
-        </form>
-        <form method="POST" action="timetracking">
-            <td>
+                <a href="#" onclick="document.getElementById('actual').submit()"><h3>Actual activities</h3></a>
+            </form>
+        </td>
+        <td>
+            <form id="added" method="POST" action="timetracking">
                 <input type="hidden" name="command" value="selectActivity"/>
                 <input type="hidden" name="select" value="addedActivities.jsp"/>
-                <input type="submit" value="View add requests"/>
-            </td>
-        </form>
-        <form method="POST" action="timetracking">
-            <td>
+                <a href="#" onclick="document.getElementById('added').submit()"><h3>Add activity requests</h3></a>
+            </form>
+        </td>
+        <td>
+            <form id="removed" method="POST" action="timetracking">
                 <input type="hidden" name="command" value="selectActivity"/>
                 <input type="hidden" name="select" value="removedActivities.jsp"/>
-                <input type="submit" value="View remove requests"/>
-            </td>
-        </form>
-        <form method="POST" action="timetracking">
-            <td>
+                <a href="#" onclick="document.getElementById('removed').submit()"><h3>Remove activity requests</h3></a>
+            </form>
+        </td>
+        <td>
+            <form id="completed" method="POST" action="timetracking">
                 <input type="hidden" name="command" value="selectActivity"/>
                 <input type="hidden" name="select" value="completedActivities.jsp"/>
-                <input type="submit" value="View completed"/>
-            </td>
-        </form>
-    </tr>
-    <tr>
-        <form method="POST" action="timetracking">
-            <td>
+                <a href="#" onclick="document.getElementById('completed').submit()"><h3>Completed activities</h3></a>
+            </form>
+        </td>
+        <td>
+            <form id="users" method="POST" action="timetracking">
                 <input type="hidden" name="select" value="userIndex.jsp"/>
                 <input type="hidden" name="command" value="selectUser"/>
-                <input type="submit" value="View users"/>
-            </td>
-        </form>
+                <a href="#" onclick="document.getElementById('users').submit()"><h3>Users</h3></a>
+            </form>
+        </td>
     </tr>
 </table>
 <table>
     <tr>
-        <td><h2>Create Activity</h2></td>
+        <td><big>Create Activity</big></td>
     </tr>
-
     <tr>
         <td>Name</td>
         <td>Description</td>
@@ -66,8 +64,9 @@
             <td><input type="submit" value="Create"/></td>
         </form>
     </tr>
+    <tr><br></tr>
     <tr>
-        <td><h2>Create User</h2></td>
+        <td><big>Create User</big></td>
     </tr>
     <tr>
         <td>First Name</td>
@@ -90,4 +89,4 @@
 </table>
 </body>
 </html>
-</html>
+
