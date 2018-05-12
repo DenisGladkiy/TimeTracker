@@ -36,8 +36,8 @@ public class UserDao implements AbstractDao<User, Integer> {
         }else{return null;}
     }
 
-    public User getByLoginData(String login, String password){
-        String query = "SELECT * FROM Users WHERE email=\"" + login + "\" AND password=\"" + password +"\"";
+    public User getByLogin(String login){
+        String query = "SELECT * FROM Users WHERE email=\"" + login + "\"";
         logger.debug("Login query = " + query);
         List<User> users = getByQuery(query);
         if(users != null && users.size() > 0) {

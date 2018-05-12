@@ -5,6 +5,7 @@ import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -72,12 +73,13 @@ public class ControllerHelper {
         String strId = request.getParameter("id");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        logger.debug("Helper user bean = " + firstName + " " + lastName);
+        String hashedPassword = hashPassword(request.getParameter("pass"));
+        logger.debug("Helper user bean = " + firstName + " " + lastName + " " + hashedPassword);
         int id = 0;
         if (strId != null) id = Integer.valueOf(strId);
         User user = new User(id, firstName, lastName);
         user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("pass"));
+        user.setPassword(hashedPassword);
         String role = request.getParameter("role");
         if(role != null) {
             user.setRole(UserRoleEnum.valueOf(role));
@@ -114,5 +116,9 @@ public class ControllerHelper {
                 return null;
             }
         }
+    }
+
+    private String hashPassword(String password){
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }
