@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by Denis on 04.05.2018.
+ * Executor Class that handles removal of a user
  */
 public class UserDelete implements GeneralCommand {
     @Override

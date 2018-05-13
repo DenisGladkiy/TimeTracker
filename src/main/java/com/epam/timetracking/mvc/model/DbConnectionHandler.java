@@ -10,6 +10,8 @@ import java.util.Properties;
 
 /**
  * Created by Denis on 28.04.2018.
+ * Connection Pool Class
+ * Provides DataBase connection to DAO
  */
 public class DbConnectionHandler {
     private static volatile DataSource dataSource;

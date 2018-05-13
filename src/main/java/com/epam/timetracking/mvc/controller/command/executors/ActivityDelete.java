@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by Denis on 03.05.2018.
+ * Executor Class that handles activity removal by ADMIN
  */
 public class ActivityDelete implements GeneralCommand {
 

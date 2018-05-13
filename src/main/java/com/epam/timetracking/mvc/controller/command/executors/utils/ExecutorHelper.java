@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 08.05.2018.
+ * Helper class that provides to executor a list of activities
+ * according to the source of the request
  */
 public class ExecutorHelper {
     Logger logger = Logger.getLogger(ExecutorHelper.class);

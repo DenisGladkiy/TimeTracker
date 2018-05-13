@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 03.05.2018.
+ * Executor Class that handles selection of activities
+ * according to required conditions
  */
 public class ActivitySelect implements GeneralCommand {
 

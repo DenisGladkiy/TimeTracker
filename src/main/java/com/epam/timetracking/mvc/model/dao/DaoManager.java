@@ -7,6 +7,8 @@ import java.sql.Connection;
 
 /**
  * Created by Denis on 28.04.2018.
+ * DAO factory class
+ * Creates DAO by request
  */
 public class DaoManager {
     private static volatile DaoManager instance;

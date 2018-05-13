@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 27.04.2018.
+ * DAO of Activity Class
+ * Provides interface to work with activities table in Data Base
  */
 public class ActivityDao implements AbstractDao<Activity, Integer> {
     private Connection connection;

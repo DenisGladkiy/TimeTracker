@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 01.05.2018.
+ * Class helps to executors in creation of Activity or User instances
+ * from HttpServletRequest parameters
  */
 public class ControllerHelper {
     private static Logger logger = Logger.getLogger(ControllerHelper.class);

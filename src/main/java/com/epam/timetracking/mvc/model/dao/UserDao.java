@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 27.04.2018.
+ * DAO of User Class
+ * Provides interface to work with users table in Data Base
  */
 public class UserDao implements AbstractDao<User, Integer> {
     private Connection connection;

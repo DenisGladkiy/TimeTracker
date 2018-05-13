@@ -6,14 +6,24 @@
         version="2.1">
 
     <tlib-version>1.0</tlib-version>
-    <short-name>time</short-name>
-    <uri>timetablib</uri>
+    <short-name>user</short-name>
+    <uri>mytaglib</uri>
     <tag>
         <name>getHours</name>
         <tag-class>com.epam.timetracking.utils.WorkingHoursTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>activity</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>getName</name>
+        <tag-class>com.epam.timetracking.utils.UserNameTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>userId</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>

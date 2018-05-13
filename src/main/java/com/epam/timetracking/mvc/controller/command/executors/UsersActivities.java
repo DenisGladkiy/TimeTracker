@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by Denis on 04.05.2018.
+ * Executor Class that handles selection of activities according to user ID
  */
 public class UsersActivities implements GeneralCommand {
     @Override

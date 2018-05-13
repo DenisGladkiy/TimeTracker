@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * Created by Denis on 09.05.2018.
+ * Filter Class allows access to users with role - ADMIN
  */
 @WebFilter(filterName = "AdminFilter")
 public class AdminFilter implements Filter {
@@ -23,16 +24,13 @@ public class AdminFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        logger.debug("Filter");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
         if(session != null){
-            logger.debug("Filter session");
             User user = (User) session.getAttribute("User");
             logger.debug("Filter session user = " + user);
             if(user != null && user.getRole().equals(UserRoleEnum.ADMIN)){
-                logger.debug("Filter admin");
                 filterChain.doFilter(request, response);
             }else{response.sendRedirect("/index.jsp");}
         }else {

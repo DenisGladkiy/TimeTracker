@@ -13,6 +13,10 @@ import java.io.IOException;
 
 /**
  * Created by Denis on 29.04.2018.
+ * Controller Class
+ * In Post request it gets a command from jsp View
+ * and calls corresponding executor.
+ * Then it redirects result to the view
  */
 @WebServlet(name="Time-Tracking", urlPatterns={"/pages/timetracking"})
 public class MainController extends HttpServlet {

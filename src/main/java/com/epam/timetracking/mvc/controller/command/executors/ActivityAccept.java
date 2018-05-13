@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 12.05.2018.
+ * Executor Class that handles batch acceptance
+ * of requests to add new activity from the users
  */
 public class ActivityAccept implements GeneralCommand {
     @Override

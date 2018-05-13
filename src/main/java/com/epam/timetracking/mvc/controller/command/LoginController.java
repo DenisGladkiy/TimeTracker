@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * Created by Denis on 10.05.2018.
+ * Controller Class that manages user login procedure
  */
 @WebServlet(name="Login", urlPatterns={"/login"})
 public class LoginController extends HttpServlet {

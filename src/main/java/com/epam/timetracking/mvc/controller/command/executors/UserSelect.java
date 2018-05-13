@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by Denis on 04.05.2018.
+ * Executor Class that handles selection of all users
  */
 public class UserSelect implements GeneralCommand {
     @Override

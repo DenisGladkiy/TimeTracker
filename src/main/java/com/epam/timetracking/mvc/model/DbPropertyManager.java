@@ -8,6 +8,7 @@ import java.util.Properties;
 
 /**
  * Created by Denis on 28.04.2018.
+ * Class creates DB connection properties from file
  */
 public class DbPropertyManager {
     private Properties property;

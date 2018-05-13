@@ -1,6 +1,7 @@
 <html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="user" uri="mytaglib"%>
 <script language="javascript">
     function deleteLine(formId){
         var okay=confirm('Do you want to delete the activity?');
@@ -20,7 +21,8 @@
 		<th>Description</th>
 		<th>Creation Date</th>
 		<th>DeadLine</th>
-		<th>User</th>
+		<th>User Name</th>
+		<th>User ID</th>
 		<c:set var="formId" value="0" scope="page"/>
 		<c:forEach var="activity" items="${Activities}">
 		<c:set var="formId" value="${formId+1}" scope="page"/>
@@ -30,6 +32,7 @@
 			<td>${activity.description}</td>
 			<td>${activity.creationDate}</td>
 			<td>${activity.deadLine}</td>
+			<td><user:getName userId="${activity.userId}"/></td>
 			<td>${activity.userId}</td>
 			<form id="${formId}" action="timetracking" method="post">
 				<input type="hidden" name="id" value=${activity.id}>

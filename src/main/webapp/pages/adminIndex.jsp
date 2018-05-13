@@ -43,50 +43,39 @@
         </td>
     </tr>
 </table>
-<table>
+<table style="float: left">
     <tr>
         <td><big>Create Activity</big></td>
     </tr>
-    <tr>
-        <td>Name</td>
-        <td>Description</td>
-        <td>Deadline</td>
-        <td>User</td>
-    </tr>
-    <tr>
-        <form method="POST" action="timetracking">
-            <td><input type="text" name="name" /></td>
-            <td><input type="text" name="description" /></td>
-            <td><input type="text" name="deadLine" /></td>
-            <td><input type="text" name="userId" /></td>
-            <input type="hidden" name="select" value="adminIndex.jsp"/>
-            <input type="hidden" name="command" value="insertActivity"/>
-            <td><input type="submit" value="Create"/></td>
-        </form>
-    </tr>
-    <tr><br></tr>
+    <form method="POST" action="timetracking">
+        <tr><td>Name</td><td><input type="text" name="name" /></td></tr>
+        <tr><td>Description</td><td><textarea rows="3" cols="22" name="description"></textarea></td></tr>
+        <tr><td>Deadline</td><td><input type="text" name="deadLine" /></td></tr>
+        <tr><td>User</td><td><input type="text" name="userId" /></td></tr>
+        <input type="hidden" name="select" value="adminIndex.jsp"/>
+        <input type="hidden" name="command" value="insertActivity"/>
+        <tr><td></td><td><input type="submit" value="Create"/></td></tr>
+    </form>
+</table>
+<table style="float: right">
     <tr>
         <td><big>Create User</big></td>
     </tr>
-    <tr>
-        <td>First Name</td>
-        <td>Last Name</td>
-        <td>E-mail</td>
-        <td>Password</td>
-        <td>Role</td>
-    </tr>
-    <tr>
-        <form method="POST" action="timetracking">
-            <td><input type="text" name="firstName" /></td>
-            <td><input type="text" name="lastName" /></td>
-            <td><input type="text" name="email" /></td>
-            <td><input type="text" name="pass" /></td>
-            <td><input type="text" name="role" /></td>
-            <input type="hidden" name="command" value="insertUser"/>
-            <td><input type="submit" value="Create" /></td>
-        </form>
-    </tr>
+    <form method="POST" action="timetracking">
+        <tr><td>First Name</td><td><input type="text" name="firstName" /></td></tr>
+        <tr><td>Last Name</td><td><input type="text" name="lastName" /></td></tr>
+        <tr><td>E-mail</td><td><input type="text" name="email" /></td></tr>
+        <tr><td>Password</td><td><input type="text" name="pass" /></td></tr>
+        <tr><td>Role</td><td><input type="text" name="role" /></td></tr>
+        <input type="hidden" name="command" value="insertUser"/>
+        <tr><td></td><td><input type="submit" value="Create" /></td></tr>
+    </form>
 </table>
+<style type="text/css">
+    textarea {
+        resize: none;
+    }
+</style>
 </body>
 </html>
 

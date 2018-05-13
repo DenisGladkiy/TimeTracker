@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by Denis on 03.05.2018.
+ * Executor Class that handles creation of new activity
  */
 public class ActivityInsert implements GeneralCommand {
 

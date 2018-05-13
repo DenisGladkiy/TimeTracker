@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * Created by Denis on 26.04.2018.
- * Describes activity of time tracking system
+ * Class describes an activity of the time tracking system
  */
 public class Activity {
     private int id;

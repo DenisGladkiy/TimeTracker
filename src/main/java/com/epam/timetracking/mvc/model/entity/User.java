@@ -2,6 +2,7 @@ package com.epam.timetracking.mvc.model.entity;
 
 /**
  * Created by Denis on 26.04.2018.
+ * Class describes a user of the time tracking system
  */
 public class User {
     private int id;

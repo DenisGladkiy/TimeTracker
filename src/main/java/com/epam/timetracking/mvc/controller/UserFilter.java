@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * Created by Denis on 10.05.2018.
+ * Filter Class allows access to users with role - USER
  */
 @WebFilter("/userPages/*")
 public class UserFilter implements Filter {

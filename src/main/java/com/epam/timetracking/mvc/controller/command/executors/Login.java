@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Denis on 09.05.2018.
+ * Executor Class that handles users authorization
  */
 public class Login implements GeneralCommand {
     @Override

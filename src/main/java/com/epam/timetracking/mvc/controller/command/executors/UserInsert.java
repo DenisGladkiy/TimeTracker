@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Denis on 04.05.2018.
+ * Executor Class that handles creation of a user
  */
 public class UserInsert implements GeneralCommand {
     @Override

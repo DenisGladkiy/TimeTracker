@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by Denis on 27.04.2018.
+ * Interface defines general methods for DAO classes
  */
 public interface AbstractDao<T, K> {
 

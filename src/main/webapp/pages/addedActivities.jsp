@@ -1,6 +1,7 @@
 <html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="user" uri="mytaglib"%>
 <script language="javascript">
     function deleteLine(formId){
         var okay=confirm('Do you want to delete the activity?');
@@ -33,7 +34,8 @@
 		<th>Description</th>
 		<th>Creation Date</th>
 		<th>DeadLine</th>
-		<th>User</th>
+		<th>User Name</th>
+		<th>User ID</th>
 		<th>Select</th>
 		<c:set var="formId" value="0" scope="page"/>
 		<c:forEach var="activity" items="${Activities}">
@@ -45,6 +47,7 @@
 			<td><input type="text" name="description"  value="${activity.description}"></td>
 			<td>${activity.creationDate}</td>
 			<td><input type="text" name="deadLine"  value=${activity.deadLine}></td>
+			<td><user:getName userId="${activity.userId}"/></td>
 			<td><input type="text" name="userId"  value=${activity.userId}></td>
 			<td><input type="checkbox" name="batch" value="${activity.id};${activity.name}"></td>
 			<td>
@@ -68,7 +71,7 @@
 			</td>
 		</tr>
         </c:forEach>
-			<tr><td></td><td></td><td></td><td></td><td></td><td></td>
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 				<td><input type="submit" value="Accept Selected" onclick="acceptBatch()"/></td></tr>
 		</table>
 		<form action="/pages/adminIndex.jsp" method="post">

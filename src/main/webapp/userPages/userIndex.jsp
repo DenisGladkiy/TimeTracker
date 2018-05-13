@@ -1,7 +1,7 @@
 <html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="time" uri="timetablib"%>
+<%@ taglib prefix="user" uri="mytaglib"%>
 <head>
     <style type="text/css">
         td{text-align: center}
@@ -29,7 +29,7 @@
                 <td>${activity.description}</td>
                 <td>${activity.creationDate}</td>
                 <td>${activity.deadLine}</td>
-                <td><time:getHours activity="${activity}"/></td>
+                <td><user:getHours activity="${activity}"/></td>
                 <td><c:choose>
                     <c:when test="${activity.addRequest != true}">
                         <input type="text" name="time" value="0.0">
@@ -78,11 +78,11 @@
             <td><input type="text" name="name" /></td>
             <td><input type="text" name="description" /></td>
             <td><input type="text" name="deadLine" /></td>
-            <input type="hidden" name="userId" value=${User.id} /> <!--How to pass ID of the user???????-->
+            <input type="hidden" name="userId" value=${User.id} />
             <input type="hidden" name="added" value="true" />
             <input type="hidden" name="select" value="/userPages/userIndex.jsp">
             <input type="hidden" name="command" value="insertActivity"/>
-            <td><input type="submit" /></td>
+            <td><input type="submit" value="Send" /></td>
         </form>
     </tr>
 </table>

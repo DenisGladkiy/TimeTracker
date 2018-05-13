@@ -7,6 +7,8 @@ import java.util.Map;
 
 /**
  * Created by Denis on 03.05.2018.
+ * Class contains executors for all commands
+ * that can come from jsp view
  */
 public class CommandContainer {
     private Map<String, GeneralCommand> commands;

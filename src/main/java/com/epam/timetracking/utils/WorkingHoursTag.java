@@ -7,6 +7,8 @@ import java.io.IOException;
 
 /**
  * Created by Denis on 10.05.2018.
+ * Class describes custom tag that converts working time
+ * from milliseconds to hours
  */
 public class WorkingHoursTag extends TagSupport {
     private Activity activity;

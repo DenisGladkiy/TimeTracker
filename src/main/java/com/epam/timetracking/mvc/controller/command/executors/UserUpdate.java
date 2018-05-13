@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * Created by Denis on 04.05.2018.
+ * Executor Class that handles update of user information
+ * (currently not in use)
  */
 public class UserUpdate implements GeneralCommand {
     @Override

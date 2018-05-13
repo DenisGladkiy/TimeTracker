@@ -20,7 +20,7 @@
     </filter-mapping>
     <jsp-config>
         <taglib>
-            <taglib-uri>timetablib</taglib-uri>
+            <taglib-uri>mytaglib</taglib-uri>
             <taglib-location>/WEB-INF/mytaglib.tld</taglib-location>
         </taglib>
     </jsp-config>
