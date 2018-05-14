@@ -5,6 +5,7 @@ import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
+import com.epam.timetracking.utils.Constants;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +30,13 @@ public class Login implements GeneralCommand {
                 request.getSession().setAttribute("User", user);
                 ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");
                 request.getSession().setAttribute("Activities", activityDao.getByUserId(user.getId()));
-                return "/userPages/userIndex.jsp";
+                return Constants.USER_INDEX;
             }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
                 request.getSession().setAttribute("User", user);
-                return "/pages/adminIndex.jsp";
+                return Constants.ADMIN_INDEX;
             }
         }
-        return "/index.jsp";
+        return Constants.INDEX;
     }
 
     private boolean isValid(User user, String password){

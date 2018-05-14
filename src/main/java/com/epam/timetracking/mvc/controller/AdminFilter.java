@@ -3,6 +3,7 @@ package com.epam.timetracking.mvc.controller;
 
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
+import com.epam.timetracking.utils.Constants;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -32,14 +33,12 @@ public class AdminFilter implements Filter {
             logger.debug("Filter session user = " + user);
             if(user != null && user.getRole().equals(UserRoleEnum.ADMIN)){
                 filterChain.doFilter(request, response);
-            }else{response.sendRedirect("/index.jsp");}
+            }else{response.sendRedirect(Constants.INDEX);}
         }else {
-            response.sendRedirect("/index.jsp");
+            response.sendRedirect(Constants.INDEX);
         }
     }
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() { }
 }

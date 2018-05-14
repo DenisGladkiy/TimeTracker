@@ -18,7 +18,5 @@ public interface AbstractDao<T, K> {
 
     boolean delete(T t);
 
-    boolean isExist(T t);
-
     void closeConnection();
 }

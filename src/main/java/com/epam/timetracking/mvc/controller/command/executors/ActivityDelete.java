@@ -2,7 +2,6 @@ package com.epam.timetracking.mvc.controller.command.executors;
 
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
-import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
 import com.epam.timetracking.utils.ControllerHelper;
@@ -27,6 +26,6 @@ public class ActivityDelete implements GeneralCommand {
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeConnection();
         request.getSession().setAttribute("Activities", activities);
-        return "/pages/" + selection;
+        return selection;
     }
 }

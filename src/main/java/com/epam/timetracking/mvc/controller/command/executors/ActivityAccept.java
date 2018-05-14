@@ -4,6 +4,7 @@ import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
+import com.epam.timetracking.utils.Constants;
 import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,6 @@ public class ActivityAccept implements GeneralCommand {
             request.getSession().setAttribute("Activities", activities);
             dao.closeConnection();
         }
-        return "/pages/addedActivities.jsp";
+        return Constants.ADDED_ACTIVITIES;
     }
 }

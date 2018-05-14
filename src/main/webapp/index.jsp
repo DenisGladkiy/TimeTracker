@@ -19,9 +19,9 @@
     <table align="center">
         <form name="loginForm" method="POST" action="/login">
             <tr><td><fmt:message key="index.login"/> </td></tr>
-            <tr><td><input type="text" name="login"></td></tr>
+            <tr><td><input type="text" name="login" required></td></tr>
             <tr><td><fmt:message key="index.password"/> </td></tr>
-            <tr><td><input type="password" name="password"></td></tr>
+            <tr><td><input type="password" name="password" required></td></tr>
             <tr><td><input type="hidden" name="command" value="loginData"></td></tr>
             <tr><td><input type="submit" value="<fmt:message key="index.button.login"/>" ></td></tr>
         </form>

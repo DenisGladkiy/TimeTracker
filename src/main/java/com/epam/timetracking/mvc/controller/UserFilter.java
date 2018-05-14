@@ -2,6 +2,7 @@ package com.epam.timetracking.mvc.controller;
 
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
+import com.epam.timetracking.utils.Constants;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -15,9 +16,7 @@ import java.io.IOException;
 @WebFilter("/userPages/*")
 public class UserFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
+    public void init(FilterConfig filterConfig) throws ServletException { }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -28,14 +27,12 @@ public class UserFilter implements Filter {
             User user = (User) session.getAttribute("User");
             if(user != null && user.getRole().equals(UserRoleEnum.USER)){
                 filterChain.doFilter(request, response);
-            }else{response.sendRedirect("/index.jsp");}
+            }else{response.sendRedirect(Constants.INDEX);}
         }else {
-            response.sendRedirect("/index.jsp");
+            response.sendRedirect(Constants.INDEX);
         }
     }
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() { }
 }

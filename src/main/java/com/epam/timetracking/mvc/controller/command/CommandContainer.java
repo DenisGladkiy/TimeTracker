@@ -27,7 +27,6 @@ public class CommandContainer {
         commands.put("insertUser", new UserInsert());
         commands.put("selectUser", new UserSelect());
         commands.put("deleteUser", new UserDelete());
-        commands.put("updateUser", new UserUpdate());
         commands.put("usersActivities", new UsersActivities());
         commands.put("loginData", new Login());
     }

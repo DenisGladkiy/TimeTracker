@@ -74,10 +74,6 @@ public class UserDao implements AbstractDao<User, Integer> {
         }
     }
 
-    public boolean isExist(User user) {
-        return false;
-    }
-
     @Override
     public void closeConnection() {
         try {

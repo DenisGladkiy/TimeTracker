@@ -2,6 +2,7 @@ package com.epam.timetracking.mvc.controller.command.executors.utils;
 
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
+import com.epam.timetracking.utils.Constants;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,21 +21,21 @@ public class ExecutorHelper {
         logger.debug("Helper selection = " + selection);
         int userId;
         switch (selection) {
-            case "completedActivities.jsp":
+            case Constants.COMPLETED_ACTIVITIES:
                 return dao.getCompleted();
-            case "activities.jsp":
+            case Constants.ACTIVITIES:
                 return dao.getActual();
-            case "addedActivities.jsp":
+            case Constants.ADDED_ACTIVITIES:
                 return dao.getAdded();
-            case "removedActivities.jsp":
+            case Constants.REMOVED_ACTIVITIES:
                 return dao.getRemoved();
-            case "/userPages/userIndex.jsp":
+            case Constants.USER_INDEX:
                 userId = Integer.valueOf(request.getParameter("userId"));
                 return dao.getByUserId(userId);
-            case "/pages/activitiesByUser.jsp":
+            case Constants.ACTIVITIES_BY_USER:
                 userId = Integer.valueOf(request.getParameter("userId"));
                 return dao.getByUserId(userId);
-            case "adminIndex.jsp":
+            case Constants.ADMIN_INDEX:
                 return null;
         }
         return null;

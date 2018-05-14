@@ -3,6 +3,7 @@ package com.epam.timetracking.mvc.controller.command.executors;
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.User;
+import com.epam.timetracking.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,6 @@ public class UserSelect implements GeneralCommand {
         dao.closeConnection();
         request.getSession().setAttribute("Users", users);
         logger.debug("Users = " + users);
-        return "/pages/users.jsp";
+        return Constants.USERS;
     }
 }

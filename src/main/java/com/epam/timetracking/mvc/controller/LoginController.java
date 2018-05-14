@@ -1,4 +1,6 @@
-package com.epam.timetracking.mvc.controller.command;
+package com.epam.timetracking.mvc.controller;
+
+import com.epam.timetracking.mvc.controller.command.CommandContainer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -7,7 +7,6 @@ import com.epam.timetracking.mvc.model.entity.Activity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -26,10 +25,6 @@ public class ActivitySelect implements GeneralCommand {
         logger.debug("List of selected activities = " + activities);
         dao.closeConnection();
         request.getSession().setAttribute("Activities", activities);
-        if(selection.startsWith("/")){
-            return selection;
-        }else {
-            return "/pages/" + selection;
-        }
+        return selection;
     }
 }

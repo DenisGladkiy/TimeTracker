@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
+<%@ page import="com.epam.timetracking.utils.ConstantsImpl" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="user" uri="mytaglib" %>
@@ -47,10 +48,9 @@
             	<input type="hidden" name="description" value="${activity.description}">
             	<input type="hidden" name="creationDate" value=${activity.creationDate}>
             	<input type="hidden" name="deadLine" value=${activity.deadLine}>
-            	<%--<input type="hidden" name="time" value=${activity.time}>--%>
             	<input type="hidden" name="userId" value=${activity.userId}>
 			    <input type="hidden" name="removed" value="false">
-			    <input type="hidden" name="select" value="completedActivities.jsp">
+			    <input type="hidden" name="select" value=${ConstantsImpl.COMPLETED_ACTIVITIES}>
 				<input type="hidden" name="command" value="updateActivity">
 				<input type="submit" value="<fmt:message key="activities.continueWork"/> " />
 			</td>
@@ -58,7 +58,7 @@
 			<form id="${formId}" action="timetracking" method="post">
 				<input type="hidden" name="id" value=${activity.id} >
 				<input type="hidden" name="name" value=${activity.name} >
-				<input type="hidden" name="select" value="completedActivities.jsp">
+				<input type="hidden" name="select" value=${ConstantsImpl.COMPLETED_ACTIVITIES}>
 				<input type="hidden" name="command" value="deleteActivity">
 			</form>
 			<td>
@@ -67,9 +67,6 @@
 		</tr>
         </c:forEach>
 		</table>
-	<A HREF="/pages/adminIndex.jsp"><fmt:message key="activities.homePage"/></A>
-	<%--<form action="/pages/adminIndex.jsp" method="post">
-		<input type="submit" name="home" value="<fmt:message key="activities.homePage"/>" />
-	</form>--%>
+	<A HREF=${ConstantsImpl.ADMIN_INDEX}><fmt:message key="activities.homePage"/></A>
     </body>
 </html>

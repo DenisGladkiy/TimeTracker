@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
+<%@ page import="com.epam.timetracking.utils.ConstantsImpl" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="user" uri="mytaglib"%>
@@ -47,7 +48,7 @@
         <form name="acceptForm" action="timetracking" method="post">
             <td>${activity.id}</td>
 			<td>${activity.name}</td>
-			<td><input type="text" name="description"  value="${activity.description}"></td>
+			<td><input type="text" name="description" required value="${activity.description}"></td>
 			<td>${activity.creationDate}</td>
 			<td><input type="text" name="deadLine"  value=${activity.deadLine}></td>
 			<td><user:getName userId="${activity.userId}"/></td>
@@ -58,7 +59,7 @@
 			    <input type="hidden" name="name" value="${activity.name}">
 				<input type="hidden" name="removed" value="false">
 				<input type="hidden" name="complete" value="false">
-			    <input type="hidden" name="select" value="addedActivities.jsp">
+			    <input type="hidden" name="select" value=${ConstantsImpl.ADDED_ACTIVITIES}>
 				<input type="hidden" name="command" value="updateActivity">
 				<input type="submit" value="<fmt:message key="activities.accept"/>" />
 			</td>
@@ -66,7 +67,7 @@
 		<form id="${formId}" action="timetracking" method="post">
 			<input type="hidden" name="id" value=${activity.id} >
 			<input type="hidden" name="name" value="${activity.name}" >
-			<input type="hidden" name="select" value="addedActivities.jsp">
+			<input type="hidden" name="select" value=${ConstantsImpl.ADDED_ACTIVITIES}>
 			<input type="hidden" name="command" value="deleteActivity">
 		</form>
 			<td>
@@ -78,13 +79,10 @@
 				<td><input type="submit" value="<fmt:message key="activities.acceptSelected"/>"
 						   onclick="acceptBatch()"/></td></tr>
 		</table>
-		<A HREF="/pages/adminIndex.jsp"><fmt:message key="activities.homePage"/></A>
-		<%--<form action="/pages/adminIndex.jsp" method="post">
-			<input type="submit" name="home" value="<fmt:message key="activities.homePage"/>" />
-		</form>--%>
+		<A HREF=${ConstantsImpl.ADMIN_INDEX}><fmt:message key="activities.homePage"/></A>
 	<form id="sendBatch" action="timetracking" method="post">
 		<input type="hidden" name="accepted" id="accepted" >
-		<input type="hidden" name="select" value="addedActivities.jsp">
+		<input type="hidden" name="select" value=${ConstantsImpl.ADDED_ACTIVITIES}>
 		<input type="hidden" name="command"  value="acceptActivities"/>
 	</form>
     </body>

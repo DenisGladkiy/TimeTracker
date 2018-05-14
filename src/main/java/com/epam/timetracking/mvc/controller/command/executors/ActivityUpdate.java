@@ -3,15 +3,11 @@ package com.epam.timetracking.mvc.controller.command.executors;
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
-import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
-import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,10 +27,6 @@ public class ActivityUpdate implements GeneralCommand {
         logger.debug("Update selection = " + selection);
         request.getSession().setAttribute("Activities", activities);
         dao.closeConnection();
-        if(selection.startsWith("/")){
-            return selection;
-        }else {
-            return "/pages/" + selection;
-        }
+        return selection;
     }
 }

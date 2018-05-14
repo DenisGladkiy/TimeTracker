@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;UTF-8" language="java"%>
+<%@ page import="com.epam.timetracking.utils.ConstantsImpl" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="user" uri="mytaglib"%>
@@ -62,7 +63,7 @@
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
                     <input type="hidden" name="deadLine" value=${activity.deadLine}>
                     <input type="hidden" name="userId" value="${activity.userId}">
-                    <input type="hidden" name="select" value="/userPages/userIndex.jsp">
+                    <input type="hidden" name="select" value=${ConstantsImpl.USER_INDEX}>
                     <input type="hidden" name="command" value="updateActivity">
                     <input type="submit" value="<fmt:message key="userIndex.save"/>" />
                 </td>
@@ -78,12 +79,12 @@
     <th><fmt:message key="userIndex.deadLine"/></th>
     <tr>
         <form method="POST" action="/pages/timetracking">
-            <td><input type="text" name="name" /></td>
-            <td><input type="text" name="description" /></td>
+            <td><input type="text" name="name" required/></td>
+            <td><input type="text" name="description" required/></td>
             <td><input type="text" name="deadLine" /></td>
             <input type="hidden" name="userId" value=${User.id} />
             <input type="hidden" name="added" value="true" />
-            <input type="hidden" name="select" value="/userPages/userIndex.jsp">
+            <input type="hidden" name="select" value=${ConstantsImpl.USER_INDEX}>
             <input type="hidden" name="command" value="insertActivity"/>
             <td><input type="submit" value="<fmt:message key="userIndex.send"/>" /></td>
         </form>

@@ -25,8 +25,7 @@ public class MainController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         //test useBean
-        logger.debug("Use bean = " + request.getSession(false).getAttribute("list"));
-        //finish test
+        //logger.debug("Use bean = " + request.getSession(false).getAttribute("list"));
         String command = request.getParameter("command");
         logger.debug("Controller command = " + command);
         CommandContainer container = new CommandContainer();

@@ -130,10 +130,6 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return true;
     }
 
-    public boolean isExist(Activity activity) {
-        return false;
-    }
-
     @Override
     public void closeConnection() {
         try {

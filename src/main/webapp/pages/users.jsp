@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
+<%@ page import="com.epam.timetracking.utils.ConstantsImpl" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setLocale value="${language}" />
@@ -45,7 +46,7 @@
 			    <input type="hidden" name="userId" value=${user.id}>
 			    <input type="hidden" name="firstName" value=${user.firstName}>
 			    <input type="hidden" name="lastName" value=${user.lastName}>
-				<input type="hidden" name="select" value="/pages/activitiesByUser.jsp">
+				<input type="hidden" name="select" value=${ConstantsImpl.ACTIVITIES_BY_USER}>
 			    <input type="hidden" name="command" value="usersActivities">
 				<input type="submit" class="submitLink" value="<fmt:message key="activities.viewUserActivities"/> " />
 			</td>
@@ -61,6 +62,6 @@
 		</tr>
         </c:forEach>
 		</table>
-		<A HREF="/pages/adminIndex.jsp"><fmt:message key="activities.homePage"/></A>
+		<A HREF=${ConstantsImpl.ADMIN_INDEX}><fmt:message key="activities.homePage"/></A>
     </body>
 </html>

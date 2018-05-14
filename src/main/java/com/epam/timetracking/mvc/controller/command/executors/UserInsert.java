@@ -3,6 +3,7 @@ package com.epam.timetracking.mvc.controller.command.executors;
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.entity.User;
+import com.epam.timetracking.utils.Constants;
 import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,6 @@ public class UserInsert implements GeneralCommand {
         AbstractDao dao = manager.getDao("USER");
         dao.insert(user);
         dao.closeConnection();
-        return "/pages/adminIndex.jsp";
+        return Constants.ADMIN_INDEX;
     }
 }

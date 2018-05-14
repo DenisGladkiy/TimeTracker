@@ -1,9 +1,9 @@
 package com.epam.timetracking.mvc.controller.command.executors;
 
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
-import com.epam.timetracking.mvc.model.dao.AbstractDao;
 import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.User;
+import com.epam.timetracking.utils.Constants;
 import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +24,6 @@ public class UserDelete implements GeneralCommand {
         List<User> users = dao.getAll();
         request.getSession().setAttribute("Users", users);
         dao.closeConnection();
-        return "/pages/users.jsp";
+        return Constants.USERS;
     }
 }
