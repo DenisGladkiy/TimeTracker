@@ -1,6 +1,10 @@
-<html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="bundle" />
+<html>
+<title>Time Tracker</title>
 <script language="javascript">
     function deleteLine(formId){
         var okay=confirm('Do you want to delete the user?');
@@ -11,15 +15,22 @@
 </script>
 <style type="text/css">
 	td{text-align: center}
+	.submitLink {
+		background-color: transparent;
+		text-decoration: underline;
+		border: none;
+		color: blue;
+		cursor: pointer;
+	}
 </style>
     <body>
-        <h2>Users</h2>
-		<table>
-		<th>Id</th>
-		<th>First Name</th>
-		<th>Last Name</th>
+        <h2 align="center"><fmt:message key="adminIndex.usersList"/> </h2>
+		<table width="100%">
+		<th><fmt:message key="adminIndex.userId"/></th>
+		<th><fmt:message key="adminIndex.firstName"/></th>
+		<th><fmt:message key="adminIndex.lastName"/></th>
 		<th>E-mail</th>
-		<th>Role</th>
+		<th><fmt:message key="adminIndex.role"/></th>
 		<c:set var="formId" value="0" scope="page"/>
 		<c:forEach var="user" items="${Users}">
 		<c:set var="formId" value="${formId+1}" scope="page"/>
@@ -36,7 +47,7 @@
 			    <input type="hidden" name="lastName" value=${user.lastName}>
 				<input type="hidden" name="select" value="/pages/activitiesByUser.jsp">
 			    <input type="hidden" name="command" value="usersActivities">
-				<input type="submit" value="View user's activities" />
+				<input type="submit" class="submitLink" value="<fmt:message key="activities.viewUserActivities"/> " />
 			</td>
 			</form>
 			<form id="${formId}" action="timetracking" method="post">
@@ -45,11 +56,11 @@
 				<input type="hidden" name="command" value="deleteUser" />
 			</form>
 			<td>
-                <input type="submit" value="Delete" onclick="deleteLine(${formId})"/>
+                <input type="submit" value="<fmt:message key="activities.button.delete"/>" onclick="deleteLine(${formId})"/>
 			</td>
 		</tr>
         </c:forEach>
 		</table>
-		<A HREF="/pages/adminIndex.jsp" style="text-decoration:none" class="A">Go Home</A>
+		<A HREF="/pages/adminIndex.jsp"><fmt:message key="activities.homePage"/></A>
     </body>
 </html>

@@ -1,7 +1,11 @@
-<html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="user" uri="mytaglib"%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="bundle" />
+<html>
+<title>Time Tracker</title>
 <script language="javascript">
     function deleteLine(formId){
         var okay=confirm('Do you want to delete the activity?');
@@ -14,17 +18,17 @@
     td{text-align: center}
 </style>
 <body>
-<h2>Actual Activities of ${SelectedUser.firstName}</h2>
+<h2 align="center"><fmt:message key="activities.actualByUser"/> ${SelectedUser.firstName}</h2>
 <table width="100%">
-    <th>Id</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Creation Date</th>
-    <th>DeadLine</th>
-    <th>Working<br> Time(h)</th>
-    <th>User Name</th>
-    <th>User ID</th>
-    <th>Complete</th>
+    <th><fmt:message key="userIndex.id"/></th>
+    <th><fmt:message key="userIndex.name"/></th>
+    <th><fmt:message key="userIndex.description"/></th>
+    <th><fmt:message key="userIndex.creationDate"/></th>
+    <th><fmt:message key="userIndex.deadLine"/></th>
+    <th><fmt:message key="userIndex.workingTime"/></th>
+    <th><fmt:message key="activities.userName"/></th>
+    <th><fmt:message key="adminIndex.userId"/></th>
+    <th><fmt:message key="userIndex.complete"/></th>
     <c:set var="formId" value="0" scope="page"/>
     <c:forEach var="activity" items="${Activities}">
     <c:set var="formId" value="${formId+1}" scope="page"/>
@@ -49,7 +53,7 @@
                     <input type="hidden" name="removed" value="false">
                     <input type="hidden" name="select" value="/pages/activitiesByUser.jsp">
                     <input type="hidden" name="command" value="updateActivity" />
-                    <input type="submit" value="Save" />
+                    <input type="submit" value="<fmt:message key="userIndex.save"/>" />
                 </td>
             </form>
             <form id="${formId}" action="timetracking" method="post">
@@ -59,14 +63,16 @@
                 <input type="hidden" name="command" value="deleteActivity">
             </form>
                 <td>
-                    <input type="submit" value="Delete" onclick="deleteLine(${formId})" />
+                    <input type="submit" value="<fmt:message key="activities.button.delete"/>"
+                           onclick="deleteLine(${formId})" />
                 </td>
         </tr>
     </c:if>
     </c:forEach>
 </table>
-<form action="/pages/adminIndex.jsp" method="post">
-    <input type="submit" name="home" value="Go Home Page" />
-</form>
+<A HREF="/pages/adminIndex.jsp"><fmt:message key="activities.homePage"/></A>
+<%--<form action="/pages/adminIndex.jsp" method="post">
+    <input type="submit" name="home" value="<fmt:message key="activities.homePage"/>" />
+</form>--%>
 </body>
 </html>

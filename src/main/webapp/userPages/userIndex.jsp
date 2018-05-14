@@ -1,7 +1,10 @@
-<html>
-<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html;UTF-8" language="java"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="user" uri="mytaglib"%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="bundle" />
+<html>
 <head>
     <style type="text/css">
         td{text-align: center}
@@ -9,17 +12,17 @@
     <title>Time Tracker</title>
 </head>
 <body>
-<h2>My Activities</h2>
+<h2><fmt:message key="userIndex.myActivities"/></h2>
 <table width="100%">
-    <th>Id</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Creation Date</th>
-    <th>DeadLine</th>
-    <th>Working Time</br>Total(h)</th>
-    <th>Time Today(h)</th>
-    <th>Complete</th>
-    <th>Ask to Delete</th>
+    <th><fmt:message key="userIndex.id"/></th>
+    <th><fmt:message key="userIndex.name"/></th>
+    <th><fmt:message key="userIndex.description"/></th>
+    <th><fmt:message key="userIndex.creationDate"/></th>
+    <th><fmt:message key="userIndex.deadLine"/></th>
+    <th><fmt:message key="userIndex.workingTime"/></th>
+    <th><fmt:message key="userIndex.timeToday"/></th>
+    <th><fmt:message key="userIndex.complete"/></th>
+    <th><fmt:message key="userIndex.askDelete"/></th>
     <c:forEach var="activity" items="${Activities}">
         <c:if test="${activity.completed != true}">
         <tr>
@@ -61,18 +64,18 @@
                     <input type="hidden" name="userId" value="${activity.userId}">
                     <input type="hidden" name="select" value="/userPages/userIndex.jsp">
                     <input type="hidden" name="command" value="updateActivity">
-                    <input type="submit" value="Save" />
+                    <input type="submit" value="<fmt:message key="userIndex.save"/>" />
                 </td>
             </form>
         </tr>
         </c:if>
     </c:forEach>
 </table>
-<h3>Propose new activity</h3>
+<h3><fmt:message key="userIndex.propose"/></h3>
 <table>
-    <th>Name</th>
-    <th>Description</th>
-    <th>DeadLine</th>
+    <th><fmt:message key="userIndex.name"/> </th>
+    <th><fmt:message key="userIndex.description"/></th>
+    <th><fmt:message key="userIndex.deadLine"/></th>
     <tr>
         <form method="POST" action="/pages/timetracking">
             <td><input type="text" name="name" /></td>
@@ -82,10 +85,9 @@
             <input type="hidden" name="added" value="true" />
             <input type="hidden" name="select" value="/userPages/userIndex.jsp">
             <input type="hidden" name="command" value="insertActivity"/>
-            <td><input type="submit" value="Send" /></td>
+            <td><input type="submit" value="<fmt:message key="userIndex.send"/>" /></td>
         </form>
     </tr>
 </table>
-
 </body>
 </html>
