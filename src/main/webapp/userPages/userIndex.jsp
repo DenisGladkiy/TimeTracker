@@ -31,12 +31,12 @@
                 <td>${activity.id}</td>
                 <td>${activity.name}</td>
                 <td>${activity.description}</td>
-                <td>${activity.creationDate}</td>
-                <td>${activity.deadLine}</td>
+                <td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
+                <td><fmt:formatDate value="${activity.deadLine}" pattern="MM/dd/yyyy"/></td>
                 <td><user:getHours activity="${activity}"/></td>
                 <td><c:choose>
                     <c:when test="${activity.addRequest != true}">
-                        <input type="text" name="time" value="0.0">
+                        <input type="number" name="time" min="0" max="24" step="0.5" value="0.0">
                     </c:when>
                     <c:otherwise>
                         0.0
@@ -81,7 +81,7 @@
         <form method="POST" action="/pages/timetracking">
             <td><input type="text" name="name" required/></td>
             <td><input type="text" name="description" required/></td>
-            <td><input type="text" name="deadLine" /></td>
+            <td><input type="date" name="deadLine" /></td>
             <input type="hidden" name="userId" value=${User.id} />
             <input type="hidden" name="added" value="true" />
             <input type="hidden" name="select" value=${ConstantsImpl.USER_INDEX}>

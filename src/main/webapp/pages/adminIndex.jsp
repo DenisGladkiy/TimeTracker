@@ -55,11 +55,11 @@
 <table style="float: left">
     <caption><h4><fmt:message key="adminIndex.createActivity"/></h4></caption>
     <form method="POST" action="timetracking">
-        <tr><td><fmt:message key="userIndex.name"/></td><td><input type="text" name="name" required /></td></tr>
+        <tr><td><fmt:message key="userIndex.name"/></td><td><input type="text" name="name" required style="width:170px"/></td></tr>
         <tr><td><fmt:message key="userIndex.description"/></td><td>
-        <textarea rows="3" cols=${language == "ru" ? "19" : "22"} name="description" required></textarea></td></tr>
-        <tr><td><fmt:message key="userIndex.deadLine"/></td><td><input type="date" name="deadLine" /></td></tr>
-        <tr><td><fmt:message key="adminIndex.userId"/></td><td><input type="text" name="userId" /></td></tr>
+        <textarea <%--rows="3" cols=${language == "ru" ? "19" : "22"}--%> name="description" required></textarea></td></tr>
+        <tr><td><fmt:message key="userIndex.deadLine"/></td><td align="right"><input type="date" name="deadLine" style="width:170px"/></td></tr>
+        <tr><td><fmt:message key="adminIndex.userId"/></td><td><input type="text" name="userId" style="width:170px"/></td></tr>
         <input type="hidden" name="select" value=${ConstantsImpl.ADMIN_INDEX}>
         <input type="hidden" name="command" value="insertActivity"/>
         <tr><td></td><td><input type="submit" value="<fmt:message key="adminIndex.button.create"/>"/></td></tr>
@@ -68,11 +68,11 @@
 <table style="float: right">
     <caption><h4><fmt:message key="adminIndex.createUser"/></h4></caption>
     <form method="POST" action="timetracking">
-        <tr><td><fmt:message key="adminIndex.firstName"/></td><td><input type="text" name="firstName" required /></td></tr>
-        <tr><td><fmt:message key="adminIndex.lastName"/></td><td><input type="text" name="lastName" required/></td></tr>
-        <tr><td>E-mail</td><td><input type="text" name="email" required/></td></tr>
-        <tr><td><fmt:message key="index.password"/></td><td><input type="text" name="pass" required/></td></tr>
-        <tr><td><fmt:message key="adminIndex.role"/></td><td><input type="text" name="role" required/></td></tr>
+        <tr><td><fmt:message key="adminIndex.firstName"/></td><td><input type="text" name="firstName" required style="width:170px" /></td></tr>
+        <tr><td><fmt:message key="adminIndex.lastName"/></td><td><input type="text" name="lastName" required style="width:170px"/></td></tr>
+        <tr><td>E-mail</td><td><input type="text" name="email" required style="width:170px"/></td></tr>
+        <tr><td><fmt:message key="index.password"/></td><td><input type="text" name="pass" required style="width:170px"/></td></tr>
+        <tr><td><fmt:message key="adminIndex.role"/></td><td><input type="text" name="role" required style="width:170px"/></td></tr>
         <input type="hidden" name="command" value="insertUser"/>
         <tr><td></td><td><input type="submit" value="<fmt:message key="adminIndex.button.create"/>" /></td></tr>
     </form>
@@ -80,6 +80,8 @@
 <style type="text/css">
     textarea {
         resize: none;
+        width: 170px;
+        height: 60px;
     }
 </style>
 </body>

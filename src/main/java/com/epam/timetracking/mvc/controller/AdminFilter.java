@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 @WebFilter(filterName = "AdminFilter")
 public class AdminFilter implements Filter {
-    private static Logger logger = Logger.getLogger(MainController.class);
+    private static Logger logger = Logger.getLogger(AdminFilter.class);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
 

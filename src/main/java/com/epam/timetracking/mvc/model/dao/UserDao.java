@@ -1,14 +1,10 @@
 package com.epam.timetracking.mvc.model.dao;
 
-import com.epam.timetracking.exception.IncorrectInputException;
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,35 +23,77 @@ public class UserDao implements AbstractDao<User, Integer> {
 
     public List<User> getAll() {
         String query = "SELECT * FROM Users";
-        return getByQuery(query);
+        try(PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()){
+            return getByQuery(rs);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public User getById(Integer id) {
-        String query = "SELECT * FROM Users WHERE user_id = " + id;
-        List<User> users = getByQuery(query);
-        if(users != null && users.size() > 0) {
-            return getByQuery(query).get(0);
-        }else{return null;}
+        String query = "SELECT * FROM Users WHERE user_id =?";
+        ResultSet rs = null;
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                User user = createUserFromRs(rs);
+                return user;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public User getByLogin(String login){
-        String query = "SELECT * FROM Users WHERE email=\"" + login + "\"";
-        logger.debug("Login query = " + query);
-        List<User> users = getByQuery(query);
-        if(users != null && users.size() > 0) {
-            return getByQuery(query).get(0);
-        }else {return null;}
+        String query = "SELECT * FROM Users WHERE email=?";
+        ResultSet rs = null;
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, login);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                User user = createUserFromRs(rs);
+                return user;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public boolean insert(User user) {
-        try (Statement statement = connection.createStatement()){
-            String query = createInsertionQuery(user);
-            statement.execute(query);
-            return true;
-        } catch (SQLException | IncorrectInputException e) {
-            logger.debug(e);
+        if(user == null) return false;
+        String insert = "INSERT INTO Users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
+        try(PreparedStatement insertStatement = connection.prepareStatement(insert)){
+            insertStatement.setString(1, user.getFirstName());
+            insertStatement.setString(2, user.getLastName());
+            insertStatement.setString(3, user.getEmail());
+            insertStatement.setString(4, user.getPassword());
+            insertStatement.setString(5, user.getRole().toString());
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
+        return true;
     }
 
     public boolean update(User user) {
@@ -83,30 +121,12 @@ public class UserDao implements AbstractDao<User, Integer> {
         }
     }
 
-    private List<User> getByQuery(String query){
+    private List<User> getByQuery(ResultSet rs) throws SQLException {
         List<User> users = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)){
-            while (resultSet.next()){
-                users.add(createUserFromRs(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.debug(e);
+        while (rs.next()){
+            users.add(createUserFromRs(rs));
         }
         return users;
-    }
-
-    private String createInsertionQuery(User user) throws IncorrectInputException {
-        if(user == null) throw new IncorrectInputException();
-        StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO Users (first_name, last_name, email, password, role) VALUES (\"");
-        builder.append(user.getFirstName() + "\", \"");
-        builder.append(user.getLastName() + "\", \"");
-        builder.append(user.getEmail() + "\", \"");
-        builder.append(user.getPassword() + "\", \"");
-        builder.append(user.getRole() + "\")");
-        logger.debug("Insert = " + builder);
-        return builder.toString();
     }
 
     private User createUserFromRs(ResultSet rs) throws SQLException {
@@ -114,7 +134,7 @@ public class UserDao implements AbstractDao<User, Integer> {
         user.setEmail(rs.getString(4));
         user.setPassword(rs.getString(5));
         String role = rs.getString(6);
-        if(role != null) {
+        if (role != null) {
             user.setRole(UserRoleEnum.valueOf(rs.getString(6)));
         }
         return user;

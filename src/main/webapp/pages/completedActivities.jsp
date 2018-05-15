@@ -37,8 +37,8 @@
             <td>${activity.id}</td>
 			<td>${activity.name}</td>
 			<td>${activity.description}</td>
-			<td>${activity.creationDate}</td>
-			<td>${activity.deadLine}</td>
+			<td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
+			<td><fmt:formatDate value="${activity.deadLine}" pattern="MM/dd/yyyy"/></td>
 			<td><user:getHours activity="${activity}"/></td>
 			<td><user:getName userId="${activity.userId}"/></td>
 			<td>${activity.userId}</td>

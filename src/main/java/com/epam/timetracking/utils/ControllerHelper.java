@@ -24,14 +24,16 @@ public class ControllerHelper {
     private static Logger logger = Logger.getLogger(ControllerHelper.class);
 
     public Activity createActivityBean(HttpServletRequest request){
-        Activity activity;
+        Activity activity = null;
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         if(id != null){
             activity = new Activity(Integer.valueOf(id), name);
-        }else {
+        }else if(name != null && !name.equals("")) {
             activity = new Activity();
             activity.setName(name);
+        }else{
+            return null;
         }
         String description = request.getParameter("description");
         String creationDate = request.getParameter("creationDate");
@@ -46,25 +48,25 @@ public class ControllerHelper {
         activity.setDescription(description);
         activity.setDeadLine(parseDate(deadline));
         activity.setCreationDate(parseDate(creationDate));
-        if(time != null) {
+        if (time != null) {
             activity.setTime(new Duration(Double.valueOf(time) * 3600000));
         }
-        if(accept != null && accept.equals("true")) {
+        if (accept != null && accept.equals("true")) {
             activity.setAddRequest(true);
-        }else{
+        } else {
             activity.setAddRequest(false);
         }
-        if(remove != null && remove.equals("on")) {
+        if (remove != null && remove.equals("on")) {
             activity.setRemoveRequest(true);
-        }else{
+        } else {
             activity.setRemoveRequest(false);
         }
-        if(complete != null && complete.equals("on")){
-        activity.setCompleted(true);
-        }else{
+        if (complete != null && complete.equals("on")) {
+            activity.setCompleted(true);
+        } else {
             activity.setCompleted(false);
         }
-        if(user != null && !user.equals("")) {
+        if (user != null && !user.equals("")) {
             activity.setUserId(Integer.valueOf(user));
         }
         logger.debug("Activity from helper = " + activity);
