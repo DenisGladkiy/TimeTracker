@@ -58,7 +58,7 @@
         <tr><td><fmt:message key="userIndex.name"/></td><td><input type="text" name="name" required /></td></tr>
         <tr><td><fmt:message key="userIndex.description"/></td><td>
         <textarea rows="3" cols=${language == "ru" ? "19" : "22"} name="description" required></textarea></td></tr>
-        <tr><td><fmt:message key="userIndex.deadLine"/></td><td><input type="text" name="deadLine" /></td></tr>
+        <tr><td><fmt:message key="userIndex.deadLine"/></td><td><input type="date" name="deadLine" /></td></tr>
         <tr><td><fmt:message key="adminIndex.userId"/></td><td><input type="text" name="userId" /></td></tr>
         <input type="hidden" name="select" value=${ConstantsImpl.ADMIN_INDEX}>
         <input type="hidden" name="command" value="insertActivity"/>

@@ -40,7 +40,7 @@
 			<td>${activity.name}</td>
 			<td><input type="text" name="description" required  value="${activity.description}"></td>
 			<td>${activity.creationDate}</td>
-			<td><input type="text" name="deadLine"  value=${activity.deadLine}></td>
+			<td><input type="date" name="deadLine"  value=${activity.deadLine}></td>
 			<td><user:getHours activity="${activity}"/></td>
 			<td><user:getName userId="${activity.userId}"/></td>
 			<td><input type="text" name="userId"  value=${activity.userId}></td>
