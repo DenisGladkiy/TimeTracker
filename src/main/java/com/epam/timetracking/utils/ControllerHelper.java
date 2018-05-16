@@ -24,48 +24,24 @@ public class ControllerHelper {
     private static Logger logger = Logger.getLogger(ControllerHelper.class);
 
     public Activity createActivityBean(HttpServletRequest request){
-        Activity activity = null;
         String id = request.getParameter("id");
         String name = request.getParameter("name");
-        if(id != null){
-            activity = new Activity(Integer.valueOf(id), name);
-        }else if(name != null && !name.equals("")) {
-            activity = new Activity();
-            activity.setName(name);
-        }else{
-            return null;
-        }
-        String description = request.getParameter("description");
-        String creationDate = request.getParameter("creationDate");
-        String deadline = request.getParameter("deadLine");
+        Activity activity = createActivityInstance(id, name);
+        if(activity == null) return null;
+        activity.setDescription(request.getParameter("description"));
+        activity.setCreationDate(parseDate(request.getParameter("creationDate")));
+        activity.setDeadLine(parseDate(request.getParameter("deadLine")));
         String time = request.getParameter("time");
         String user = request.getParameter("userId");
         String accept = request.getParameter("added");
         String remove = request.getParameter("removed");
         String complete = request.getParameter("complete");
-        logger.debug("Params from request = " + id + ", " + name + ", " + description + "," + creationDate + "," + deadline + ", " +
-                    time + ", " + user + ", " + accept + ", " + remove + ", " + complete);
-        activity.setDescription(description);
-        activity.setDeadLine(parseDate(deadline));
-        activity.setCreationDate(parseDate(creationDate));
         if (time != null) {
             activity.setTime(new Duration(Double.valueOf(time) * 3600000));
         }
-        if (accept != null && accept.equals("true")) {
-            activity.setAddRequest(true);
-        } else {
-            activity.setAddRequest(false);
-        }
-        if (remove != null && remove.equals("on")) {
-            activity.setRemoveRequest(true);
-        } else {
-            activity.setRemoveRequest(false);
-        }
-        if (complete != null && complete.equals("on")) {
-            activity.setCompleted(true);
-        } else {
-            activity.setCompleted(false);
-        }
+        activity.setAddRequest(isTrue(accept));
+        activity.setRemoveRequest(isTrue(remove));
+        activity.setCompleted(isTrue(complete));
         if (user != null && !user.equals("")) {
             activity.setUserId(Integer.valueOf(user));
         }
@@ -120,6 +96,24 @@ public class ControllerHelper {
                 return null;
             }
         }
+    }
+
+    private Activity createActivityInstance(String id, String name){
+        Activity activity;
+        if(id != null){
+            activity = new Activity(Integer.valueOf(id), name);
+            return activity;
+        }else if(name != null && !name.equals("")) {
+            activity = new Activity();
+            activity.setName(name);
+            return activity;
+        }else{
+            return null;
+        }
+    }
+
+    private boolean isTrue(String input){
+        return input != null && (input.equals("on")||input.equals("true"));
     }
 
     private String hashPassword(String password){

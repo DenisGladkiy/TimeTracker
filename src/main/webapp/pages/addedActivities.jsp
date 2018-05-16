@@ -40,7 +40,7 @@
 		<th><fmt:message key="userIndex.deadLine"/></th>
 		<th><fmt:message key="activities.userName"/></th>
 		<th><fmt:message key="adminIndex.userId"/></th>
-		<th><fmt:message key="userIndex.complete"/></th>
+		<th><fmt:message key="activities.select"/></th>
 		<c:set var="formId" value="0" scope="page"/>
 		<c:forEach var="activity" items="${Activities}">
 		<c:set var="formId" value="${formId+1}" scope="page"/>

@@ -16,7 +16,7 @@ public class DaoManager {
     private enum DaoEnum{ACTIVITY, USER}
     private static Logger logger = Logger.getLogger(DaoManager.class);
     private DaoManager(){
-        connectionHandler = new DbConnectionHandler();
+        connectionHandler = new DbConnectionHandler("dbconfig.properties");
     }
 
     public static DaoManager getInstance(){

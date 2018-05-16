@@ -36,7 +36,7 @@
                 <td><user:getHours activity="${activity}"/></td>
                 <td><c:choose>
                     <c:when test="${activity.addRequest != true}">
-                        <input type="number" name="time" min="0" max="24" step="0.5" value="0.0">
+                        <input type="number" name="time" min="0" max="24" step="0.1" value="0.0">
                     </c:when>
                     <c:otherwise>
                         0.0
@@ -63,6 +63,7 @@
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
                     <input type="hidden" name="deadLine" value=${activity.deadLine}>
                     <input type="hidden" name="userId" value="${activity.userId}">
+                    <input type="hidden" name="added" value="${activity.addRequest}">
                     <input type="hidden" name="select" value=${ConstantsImpl.USER_INDEX}>
                     <input type="hidden" name="command" value="updateActivity">
                     <input type="submit" value="<fmt:message key="userIndex.save"/>" />
@@ -83,7 +84,7 @@
             <td><input type="text" name="description" required/></td>
             <td><input type="date" name="deadLine" /></td>
             <input type="hidden" name="userId" value=${User.id} />
-            <input type="hidden" name="added" value="true" />
+            <input type="hidden" name="added" value="on" />
             <input type="hidden" name="select" value=${ConstantsImpl.USER_INDEX}>
             <input type="hidden" name="command" value="insertActivity"/>
             <td><input type="submit" value="<fmt:message key="userIndex.send"/>" /></td>

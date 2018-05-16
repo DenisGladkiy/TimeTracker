@@ -18,8 +18,8 @@ public class DbConnectionHandler {
     private DbPropertyManager dpm;
     private static Properties properties;
 
-    public DbConnectionHandler(){
-        dpm = new DbPropertyManager();
+    public DbConnectionHandler(String resource){
+        dpm = new DbPropertyManager(resource);
         properties = dpm.getProperty();
     }
 
@@ -45,6 +45,7 @@ public class DbConnectionHandler {
     public Connection getConnection(){
         try {
             Connection connection = getDataSource().getConnection();
+            System.out.println("Connection " + connection);
             return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);

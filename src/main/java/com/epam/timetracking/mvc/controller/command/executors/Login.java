@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Login implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String forward = Constants.INDEX;;
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         UserDao userDao = (UserDao)manager.getDao("USER");
@@ -30,13 +31,14 @@ public class Login implements GeneralCommand {
                 request.getSession().setAttribute("User", user);
                 ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");
                 request.getSession().setAttribute("Activities", activityDao.getByUserId(user.getId()));
-                return Constants.USER_INDEX;
+                activityDao.closeConnection();
+                forward = Constants.USER_INDEX;
             }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
                 request.getSession().setAttribute("User", user);
-                return Constants.ADMIN_INDEX;
+                forward = Constants.ADMIN_INDEX;
             }
         }
-        return Constants.INDEX;
+        return forward;
     }
 
     private boolean isValid(User user, String password){

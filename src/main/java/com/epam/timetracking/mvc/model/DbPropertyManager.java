@@ -11,10 +11,15 @@ import java.util.Properties;
  */
 public class DbPropertyManager {
     private Properties property;
+    private String resource;
+
+    public DbPropertyManager(String resource){
+        this.resource = resource;
+    }
 
     public Properties getProperty(){
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream input = classLoader.getResourceAsStream("dbconfig.properties");
+        InputStream input = classLoader.getResourceAsStream(resource);
         try {
             property = new Properties();
             property.load(input);
