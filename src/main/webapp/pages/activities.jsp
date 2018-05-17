@@ -71,13 +71,5 @@
         </c:forEach>
 		</table>
 		<A HREF=${ConstantsImpl.ADMIN_INDEX} ><fmt:message key="activities.homePage"/></A>
-		<%--<form action="timetracking" method="post">
-			<jsp:useBean id="list" scope="session" class="com.epam.timetracking.mvc.controller.command.executors.utils.ActivitySort">
-			<jsp:setProperty name="list" property="activities" value="${Activities}"/>
-			</jsp:useBean>
-			<input type="hidden" name="command" value="selectActivity" />
-			<input type="hidden" name="select" value="activities.jsp" />
-			<input type="submit"  value="Test bean" />
-		</form>--%>
     </body>
 </html>

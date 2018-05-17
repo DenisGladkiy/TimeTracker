@@ -45,7 +45,6 @@ public class DbConnectionHandler {
     public Connection getConnection(){
         try {
             Connection connection = getDataSource().getConnection();
-            System.out.println("Connection " + connection);
             return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);

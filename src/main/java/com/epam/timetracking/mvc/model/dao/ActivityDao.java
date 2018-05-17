@@ -68,6 +68,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             return true;
         } catch (SQLException | IncorrectInputException e) {
             logger.debug(e);
+            e.printStackTrace();
             return false;
         }
     }
@@ -79,6 +80,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             return true;
         } catch (SQLException e) {
             logger.debug(e);
+            e.printStackTrace();
             return false;
         }
     }
@@ -91,6 +93,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             return true;
         } catch (SQLException e) {
             logger.debug(e);
+            e.printStackTrace();
             return false;
         }
     }
@@ -136,6 +139,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             connection.close();
         } catch (SQLException e) {
             logger.debug(e);
+            e.printStackTrace();
         }
     }
 
@@ -148,6 +152,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             }
         } catch (SQLException e) {
             logger.debug(e);
+            e.printStackTrace();
         }
         return activities;
     }

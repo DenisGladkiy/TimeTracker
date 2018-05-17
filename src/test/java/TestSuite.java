@@ -23,42 +23,38 @@ import static org.mockito.Mockito.when;
  * Created by Denis on 16.05.2018.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ DbTest.class, SelectionTest.class, LoginTest.class,})
+@Suite.SuiteClasses({ SelectionTest.class, UsersTest.class, ActivityTest.class})
 public class TestSuite {
 
-    static HttpServletRequest request;
-    static HttpServletResponse response;
     static HttpSession session;
-    static Map attributes;
+    static Map testSession;
     private  static Connection connection;
 
     @BeforeClass
     public static void initialize(){
         DbConnectionHandler dbHandler = new DbConnectionHandler("testdb.properties");
         connection = dbHandler.getConnection();
-        attributes = new HashMap();
-        request = mock(HttpServletRequest.class);
+        testSession = new HashMap();
         session = mock(HttpSession.class);
-        when(request.getSession()).thenReturn(session);
         when(session.getAttribute(anyString())).thenAnswer(aInvocation -> {
             String key = (String) aInvocation.getArguments()[0];
-            return attributes.get(key);
+            return testSession.get(key);
         });
         Mockito.doAnswer(aInvocation -> {
             String key = (String) aInvocation.getArguments()[0];
             Object value = aInvocation.getArguments()[1];
-            attributes.put(key, value);
+            testSession.put(key, value);
             return null;
         }).when(session).setAttribute(anyString(), anyObject());
     }
 
     @AfterClass
     public static void finalizeTest(){
-        try(Statement statement = connection.createStatement();) {
-            statement.executeUpdate("TRUNCATE activities");
+        try {
+            clearTables();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
@@ -67,4 +63,11 @@ public class TestSuite {
         }
     }
 
+    public static void clearTables() throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("SET FOREIGN_KEY_CHECKS=0");
+        statement.executeUpdate("TRUNCATE activities");
+        statement.executeUpdate("TRUNCATE users");
+        statement.close();
+    }
 }
