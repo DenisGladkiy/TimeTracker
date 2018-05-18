@@ -15,10 +15,6 @@
         }
     }
 </script>
-<style type="text/css">
-	td{text-align: center;
-		vertical-align: middle;}
-</style>
     <body>
         <h2 align="center"><fmt:message key="adminIndex.actualActivities"/> </h2>
 		<table width="100%">
@@ -39,9 +35,8 @@
             <td>${activity.id}</td>
 			<td>${activity.name}</td>
 			<td><input type="text" name="description" required  value="${activity.description}"></td>
-			<%--<td>${activity.creationDate}</td>--%>
 			<td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
-			<td><input type="date" name="deadLine"  value=${activity.deadLine}></td>
+			<td><input type="date" name="deadLine"  value="${activity.deadLine}" style="width:150px"></td>
 			<td><user:getHours activity="${activity}"/></td>
 			<td><user:getName userId="${activity.userId}"/></td>
 			<td><input type="text" name="userId"  value=${activity.userId}></td>
@@ -70,6 +65,20 @@
 		</tr>
         </c:forEach>
 		</table>
-		<A HREF=${ConstantsImpl.ADMIN_INDEX} ><fmt:message key="activities.homePage"/></A>
+		<A HREF="${ConstantsImpl.ADMIN_INDEX}" class="topcorner" ><fmt:message key="activities.homePage"/></A>
     </body>
+<style type="text/css">
+	td{text-align: center;
+		vertical-align: middle;  }
+	* { font-family: Arial; }
+	body{ background: #F5F5F5; }
+	tr{
+		height: 40px;
+		color: dimgray;
+	}
+	.topcorner{
+		position:absolute;
+		top:1%;
+		left:1%;}
+</style>
 </html>

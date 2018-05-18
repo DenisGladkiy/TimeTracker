@@ -5,4 +5,8 @@ package com.epam.timetracking.exception;
  */
 public class IncorrectInputException extends Exception {
 
+    public IncorrectInputException(String message){
+        super(message);
+    }
+
 }

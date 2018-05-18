@@ -23,6 +23,16 @@
 		color: blue;
 		cursor: pointer;
 	}
+	* { font-family: Arial; }
+	body{ background: #F5F5F5; }
+	tr{
+		height: 40px;
+		color: dimgray;
+	}
+	.topcorner{
+		position:absolute;
+		top:1%;
+		left:1%;}
 </style>
     <body>
         <h2 align="center"><fmt:message key="adminIndex.usersList"/> </h2>
@@ -62,6 +72,6 @@
 		</tr>
         </c:forEach>
 		</table>
-		<A HREF=${ConstantsImpl.ADMIN_INDEX}><fmt:message key="activities.homePage"/></A>
+		<A HREF="${ConstantsImpl.ADMIN_INDEX}" class="topcorner"><fmt:message key="activities.homePage"/></A>
     </body>
 </html>

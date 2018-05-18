@@ -83,6 +83,14 @@ public class ActivityTest {
         assertEquals(1, activities.get(0).getId());
     }
 
+    @Test
+    public void testIncorrectFK(){
+        when(request.getParameter("userId")).thenReturn("5");
+        assertEquals(3, dao.getAll().size());
+        insertActivity();
+        assertEquals(3, dao.getAll().size());
+    }
+
     private void insertActivity(){
         GeneralCommand insert = new ActivityInsert();
         insert.execute(request, response);

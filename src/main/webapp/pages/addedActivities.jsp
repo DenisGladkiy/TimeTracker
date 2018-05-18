@@ -29,6 +29,16 @@
 </script>
 <style type="text/css">
 	td{text-align: center}
+	* { font-family: Arial; }
+	body{ background: #F5F5F5; }
+	tr{
+		height: 40px;
+		color: dimgray;
+	}
+	.topcorner{
+		position:absolute;
+		top:1%;
+		left:1%;}
 </style>
     <body>
         <h2 align="center"><fmt:message key="activities.addActivitiesTitle"/> </h2>
@@ -79,7 +89,7 @@
 				<td><input type="submit" value="<fmt:message key="activities.acceptSelected"/>"
 						   onclick="acceptBatch()"/></td></tr>
 		</table>
-		<A HREF=${ConstantsImpl.ADMIN_INDEX}><fmt:message key="activities.homePage"/></A>
+		<A HREF="${ConstantsImpl.ADMIN_INDEX}" class="topcorner"><fmt:message key="activities.homePage"/></A>
 	<form id="sendBatch" action="timetracking" method="post">
 		<input type="hidden" name="accepted" id="accepted" >
 		<input type="hidden" name="select" value=${ConstantsImpl.ADDED_ACTIVITIES}>

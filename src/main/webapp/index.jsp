@@ -13,6 +13,10 @@
     position:absolute;
     top:1%;
     right:1%;}
+* { font-family: Arial; }
+    body{
+        background: #F5F5F5;
+    }
 </style>
     <body>
     <h1 align="center"><fmt:message key="index.welcome"/> </h1>

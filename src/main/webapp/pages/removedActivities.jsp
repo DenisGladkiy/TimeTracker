@@ -17,6 +17,16 @@
 </script>
 <style type="text/css">
 	td{text-align: center}
+	* { font-family: Arial; }
+	body{ background: #F5F5F5; }
+	tr{
+		height: 40px;
+		color: dimgray;
+	}
+	.topcorner{
+		position:absolute;
+		top:1%;
+		left:1%;}
 </style>
     <body>
         <h2 align="center"><fmt:message key="activities.removeActivityTitle"/> </h2>
@@ -66,6 +76,6 @@
 		</tr>
         </c:forEach>
 		</table>
-		<A HREF=${ConstantsImpl.ADMIN_INDEX} ><fmt:message key="activities.homePage"/></A>
+		<A HREF="${ConstantsImpl.ADMIN_INDEX}" class="topcorner" ><fmt:message key="activities.homePage"/></A>
     </body>
 </html>

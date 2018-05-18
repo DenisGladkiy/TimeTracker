@@ -112,6 +112,27 @@ public class UserDao implements AbstractDao<User, Integer> {
         }
     }
 
+    public boolean doesExist(Integer userId){
+        String query = "SELECT user_id FROM users WHERE user_id = ?";
+        ResultSet rs = null;
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
     @Override
     public void closeConnection() {
         try {

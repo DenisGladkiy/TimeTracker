@@ -61,6 +61,10 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return null;
     }
 
+    public boolean doesExist(Integer id) {
+        return false;
+    }
+
     public boolean insert(Activity activity) {
         try (Statement statement = connection.createStatement()){
             String query = createInsertionQuery(activity);
@@ -171,7 +175,8 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     }
 
     private String createInsertionQuery(Activity activity) throws IncorrectInputException {
-        if(activity == null || activity.getDescription() == null) throw new IncorrectInputException();
+        if(activity == null)
+            throw new IncorrectInputException("Impossible to create activity with provided data");
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO Activities (name, description, creation_date, deadline, " +
                                                "working_time, user_id, add_request, remove_request, completed) VALUES (\"");

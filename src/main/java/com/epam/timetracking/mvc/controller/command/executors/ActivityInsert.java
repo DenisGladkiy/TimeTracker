@@ -3,6 +3,7 @@ package com.epam.timetracking.mvc.controller.command.executors;
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
+import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
 import com.epam.timetracking.utils.ControllerHelper;
 
@@ -23,10 +24,20 @@ public class ActivityInsert implements GeneralCommand {
         Activity activity = helper.createActivityBean(request);
         logger.debug("Activity to insert = " + activity);
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
-        dao.insert(activity);
+        dao.insert(isForeignKeyValid(activity)? activity : null);
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeConnection();
         request.getSession().setAttribute("Activities", activities);
         return selection;
+    }
+
+    private boolean isForeignKeyValid(Activity activity){
+        int userId = activity.getUserId();
+        if(userId > 0) {
+            UserDao dao = (UserDao) manager.getDao("USER");
+            return dao.doesExist(userId);
+        }else {
+            return true;
+        }
     }
 }
