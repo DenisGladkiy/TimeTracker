@@ -27,3 +27,32 @@ Final project
 3. Spring / EJB;
 4. Hibernate, JPA
 
+Установка:
+
+1. Для создания схемы, таблиц и дефолтного администратора 
+    в базе данных MySql выполнить скрипт:
+    /resources/CreateDb.sql
+2. Для JUnit тестов создать тестовую схему и таблицы следующим скриптом:
+    /resources/CreateTestDb.sql
+3. В файлах dbconfig.properties и testdb.properties настроить 
+    параметры подключения к MySql базе данных:
+    db.url=
+    db.login=
+    db.password=
+4. Собрать проект с помощью Maven
+    mvn clean install
+5. Скопировать собранный timetracking.war на сервер
+    tomcat/webapps
+    
+Запуск:
+
+1. Запустить сервер Tomcat
+    startup
+2. Заустить приложение timetracking (в браузере с поддержкой HTML5)
+3. Ввести учетные данные дефолтного администратора:
+    login: admin
+    password: admin
+4. На странице администратора создать пользователей и активности.
+5. Предоставить пользователям учетные данные для доступа в систему.
+
+
