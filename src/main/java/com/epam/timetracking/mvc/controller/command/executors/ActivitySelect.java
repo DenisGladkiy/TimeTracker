@@ -4,9 +4,12 @@ import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
+import com.epam.timetracking.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -21,10 +24,18 @@ public class ActivitySelect implements GeneralCommand {
         String selection = request.getParameter("select");
         logger.debug("Selection selection = " + selection);
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
-        List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+        HttpSession session = request.getSession();
+        List<Activity> activities = null;
+        try {
+            activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+        } catch (SQLException e) {
+            session.setAttribute("Error", "Bad request");
+            selection = Constants.ERROR;
+            logger.debug(e);
+        }
         logger.debug("List of selected activities = " + activities);
         dao.closeConnection();
-        request.getSession().setAttribute("Activities", activities);
+        session.setAttribute("Activities", activities);
         return selection;
     }
 }

@@ -25,34 +25,34 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         this.connection = connection;
     }
 
-    public List<Activity> getAll() {
+    public List<Activity> getAll() throws SQLException {
         String queryAll = "SELECT * FROM Activities";
         return getByQuery(queryAll);
     }
 
-    public List<Activity> getActual(){
+    public List<Activity> getActual() throws SQLException {
         String queryActual = "SELECT * FROM Activities WHERE add_request <> true " +
                 "                                        AND remove_request <> true " +
                 "                                        AND completed <> true";
         return getByQuery(queryActual);
     }
 
-    public List<Activity> getAdded() {
+    public List<Activity> getAdded() throws SQLException {
         String query = "SELECT * FROM Activities WHERE add_request = true";
         return getByQuery(query);
     }
 
-    public List<Activity> getRemoved(){
+    public List<Activity> getRemoved() throws SQLException {
         String query = "SELECT * FROM Activities WHERE remove_request = true";
         return getByQuery(query);
     }
 
-    public List<Activity> getCompleted(){
+    public List<Activity> getCompleted() throws SQLException {
         String query = "SELECT * FROM Activities WHERE completed = true";
         return getByQuery(query);
     }
 
-    public List<Activity> getByUserId(int userId) {
+    public List<Activity> getByUserId(int userId) throws SQLException {
         String query = "SELECT * FROM Activities WHERE user_id = " + userId;
         return getByQuery(query);
     }
@@ -65,44 +65,29 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return false;
     }
 
-    public boolean insert(Activity activity) {
-        try (Statement statement = connection.createStatement()){
-            String query = createInsertionQuery(activity);
-            statement.execute(query);
-            return true;
-        } catch (SQLException | IncorrectInputException e) {
-            logger.debug(e);
-            e.printStackTrace();
-            return false;
-        }
+    public void insert(Activity activity) throws SQLException, IncorrectInputException {
+        Statement statement = connection.createStatement();
+        String query = createInsertionQuery(activity);
+        statement.execute(query);
+        statement.close();
     }
 
-    public boolean update(Activity activity) {
+    public void update(Activity activity) throws SQLException {
         String query = createUpdateQuery(activity);
-        try (Statement statement = connection.createStatement()){
-            statement.execute(query);
-            return true;
-        } catch (SQLException e) {
-            logger.debug(e);
-            e.printStackTrace();
-            return false;
-        }
+        Statement statement = connection.createStatement();
+        statement.execute(query);
+        statement.close();
     }
 
-    public boolean delete(Activity activity) {
+    public void delete(Activity activity) throws SQLException {
         int id = activity.getId();
         logger.debug("Activity to delete = " + activity.getName() + ", " + id);
-        try(Statement statement = connection.createStatement()) {
-            statement.execute("delete from activities where activity_id = " + id);
-            return true;
-        } catch (SQLException e) {
-            logger.debug(e);
-            e.printStackTrace();
-            return false;
-        }
+        Statement statement = connection.createStatement();
+        statement.execute("delete from activities where activity_id = " + id);
+        statement.close();
     }
 
-    public boolean acceptActivities(List<Activity> activities){
+    public void acceptActivities(List<Activity> activities) throws SQLException {
         PreparedStatement acceptStatement = null;
         String update = "UPDATE Activities SET add_request=? WHERE activity_id=?";
         try{
@@ -115,26 +100,16 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
                 connection.commit();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             if(connection != null){
-                try {
-                    connection.rollback();
-                    return false;
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+                connection.rollback();
             }
+            throw e;
         }finally {
             if(acceptStatement != null){
-                try {
-                    acceptStatement.close();
-                    connection.setAutoCommit(true);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                acceptStatement.close();
+                connection.setAutoCommit(true);
             }
         }
-        return true;
     }
 
     @Override
@@ -147,16 +122,12 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         }
     }
 
-    private List<Activity> getByQuery(String query){
+    private List<Activity> getByQuery(String query) throws SQLException {
         List<Activity> activities = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)){
-            while (resultSet.next()){
-                activities.add(createActivityFromRs(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.debug(e);
-            e.printStackTrace();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()){
+            activities.add(createActivityFromRs(resultSet));
         }
         return activities;
     }

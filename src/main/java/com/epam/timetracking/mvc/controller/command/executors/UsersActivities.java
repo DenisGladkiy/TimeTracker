@@ -1,14 +1,18 @@
 package com.epam.timetracking.mvc.controller.command.executors;
 
+import com.epam.timetracking.exception.IncorrectInputException;
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
 import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.Activity;
 import com.epam.timetracking.mvc.model.entity.User;
+import com.epam.timetracking.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,16 +22,26 @@ import java.util.List;
 public class UsersActivities implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
         int userId = Integer.valueOf(request.getParameter("userId"));
         String selection = request.getParameter("select");
         ActivityDao activityDao = (ActivityDao)manager.getDao("ACTIVITY");
-        List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, activityDao);
-        activityDao.closeConnection();
-        UserDao userDao = (UserDao)manager.getDao("USER");
-        User user = userDao.getById(userId);
+        List<Activity> activities = null;
+        UserDao userDao = null;
+        User user = null;
+        try {
+            activities = new ExecutorHelper().getActivitiesBySelection(request, activityDao);
+            activityDao.closeConnection();
+            userDao = (UserDao)manager.getDao("USER");
+            user = userDao.getById(userId);
+        } catch (SQLException | IncorrectInputException e) {
+            session.setAttribute("Error", "Bad request");
+            selection = Constants.ERROR;
+            logger.debug(e);
+        }
         userDao.closeConnection();
-        request.getSession().setAttribute("Activities", activities);
-        request.getSession().setAttribute("SelectedUser", user);
+        session.setAttribute("Activities", activities);
+        session.setAttribute("SelectedUser", user);
         return selection;
     }
 }

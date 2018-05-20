@@ -8,6 +8,8 @@ import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -17,13 +19,22 @@ import java.util.List;
 public class UserDelete implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String forward = Constants.USERS;
         ControllerHelper helper = new ControllerHelper();
         User user = helper.createUserBean(request);
         UserDao dao = (UserDao)manager.getDao("USER");
-        dao.delete(user);
-        List<User> users = dao.getAll();
-        request.getSession().setAttribute("Users", users);
+        HttpSession session = request.getSession();
+        List<User> users = null;
+        try {
+            dao.delete(user);
+            users = dao.getAll();
+        } catch (SQLException e) {
+            session.setAttribute("Error", "Bad request");
+            forward = Constants.ERROR;
+            logger.debug(e);
+        }
+        session.setAttribute("Users", users);
         dao.closeConnection();
-        return Constants.USERS;
+        return forward;
     }
 }

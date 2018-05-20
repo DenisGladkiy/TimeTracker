@@ -1,5 +1,8 @@
 package com.epam.timetracking.mvc.model.dao;
 
+import com.epam.timetracking.exception.IncorrectInputException;
+
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -8,17 +11,17 @@ import java.util.List;
  */
 public interface AbstractDao<T, K> {
 
-    List<T> getAll();
+    List<T> getAll() throws SQLException;
 
-    T getById(K id);
+    T getById(K id) throws SQLException, IncorrectInputException;
 
-    boolean insert(T t);
+    void insert(T t) throws SQLException, IncorrectInputException;
 
-    boolean update(T t);
+    void update(T t) throws SQLException;
 
-    boolean delete(T t);
+    void delete(T t) throws SQLException;
 
-    boolean doesExist(K id);
+    boolean doesExist(K id) throws SQLException;
 
     void closeConnection();
 }

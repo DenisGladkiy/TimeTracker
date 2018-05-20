@@ -1,5 +1,6 @@
 package com.epam.timetracking.utils;
 
+import com.epam.timetracking.exception.IncorrectInputException;
 import com.epam.timetracking.mvc.model.dao.DaoManager;
 import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.User;
@@ -7,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created by Denis on 13.05.2018.
@@ -27,11 +29,12 @@ public class UserNameTag extends TagSupport {
     public int doStartTag(){
         if(userId > 0) {
             UserDao dao = (UserDao) manager.getDao("USER");
-            User user = dao.getById(userId);
-            dao.closeConnection();
+            User user = null;
             try {
+                user = dao.getById(userId);
+                dao.closeConnection();
                 pageContext.getOut().write(user.getFirstName() + " " + user.getLastName());
-            } catch (IOException e) {
+            } catch (IOException | SQLException | IncorrectInputException e) {
                 e.printStackTrace();
             }
         }

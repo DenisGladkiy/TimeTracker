@@ -9,6 +9,8 @@ import com.epam.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -19,16 +21,24 @@ import java.util.List;
 public class ActivityAccept implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String forward = Constants.ADDED_ACTIVITIES;
         String acceptedActivities = request.getParameter("accepted");
         if(acceptedActivities != null && acceptedActivities.length() > 0) {
+            HttpSession session = request.getSession();
             ControllerHelper helper = new ControllerHelper();
             List<Activity> activities = helper.getListActivities(acceptedActivities);
             ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
-            dao.acceptActivities(activities);
-            activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-            request.getSession().setAttribute("Activities", activities);
+            try {
+                dao.acceptActivities(activities);
+                activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+            } catch (SQLException e) {
+                session.setAttribute("Error", "Bad request");
+                forward = Constants.ERROR;
+                logger.debug(e);
+            }
+            session.setAttribute("Activities", activities);
             dao.closeConnection();
         }
-        return Constants.ADDED_ACTIVITIES;
+        return forward;
     }
 }

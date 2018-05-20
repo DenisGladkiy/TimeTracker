@@ -6,6 +6,7 @@ import com.epam.timetracking.utils.Constants;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
 public class ExecutorHelper {
     Logger logger = Logger.getLogger(ExecutorHelper.class);
 
-    public List<Activity> getActivitiesBySelection(HttpServletRequest request, ActivityDao dao) {
+    public List<Activity> getActivitiesBySelection(HttpServletRequest request, ActivityDao dao) throws SQLException {
         String selection = request.getParameter("select");
         logger.debug("Helper selection = " + selection);
         int userId;

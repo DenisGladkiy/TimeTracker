@@ -14,5 +14,5 @@ public interface Constants {
     String USER_INDEX = "/userPages/userIndex.jsp";
     String INDEX = "/index.jsp";
     String USERS = "/pages/users.jsp";
-
+    String ERROR = "/error.jsp";
 }

@@ -23,6 +23,7 @@
     <title>Time Tracker</title>
 </head>
 <body>
+<h2><fmt:message key="activities.welcome"/> ${User.firstName}</h2>
 <h2><fmt:message key="userIndex.myActivities"/></h2>
 <table width="100%">
     <th><fmt:message key="userIndex.id"/></th>

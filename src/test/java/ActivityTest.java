@@ -8,6 +8,7 @@ import org.junit.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -40,7 +41,7 @@ public class ActivityTest {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() throws SQLException {
         assertEquals(3, dao.getAll().size());
         insertActivity();
         assertEquals(4, dao.getAll().size());
@@ -53,14 +54,14 @@ public class ActivityTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() throws SQLException {
         assertEquals(3, dao.getAll().size());
         deleteActivity();
         assertEquals(2, dao.getAll().size());
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() throws SQLException {
         List<Activity> activities = dao.getAll();
         assertEquals("description", activities.get(0).getDescription());
         updateActivity();
@@ -69,7 +70,7 @@ public class ActivityTest {
     }
 
     @Test
-    public void testAccept(){
+    public void testAccept() throws SQLException {
         assertEquals(1, dao.getAdded().size());
         acceptActivity();
         assertEquals(0, dao.getAdded().size());
@@ -84,7 +85,7 @@ public class ActivityTest {
     }
 
     @Test
-    public void testIncorrectFK(){
+    public void testIncorrectFK() throws SQLException {
         when(request.getParameter("userId")).thenReturn("5");
         assertEquals(3, dao.getAll().size());
         insertActivity();

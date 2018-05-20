@@ -7,6 +7,8 @@ import com.epam.timetracking.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,11 +18,20 @@ import java.util.List;
 public class UserSelect implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String forward = Constants.USERS;
         UserDao dao = (UserDao) manager.getDao("USER");
-        List<User> users = dao.getAll();
+        HttpSession session = request.getSession();
+        List<User> users = null;
+        try {
+            users = dao.getAll();
+        } catch (SQLException e) {
+            session.setAttribute("Error", "Bad request");
+            forward = Constants.ERROR;
+            logger.debug(e);
+        }
         dao.closeConnection();
-        request.getSession().setAttribute("Users", users);
+        session.setAttribute("Users", users);
         logger.debug("Users = " + users);
-        return Constants.USERS;
+        return forward;
     }
 }

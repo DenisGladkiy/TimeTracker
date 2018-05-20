@@ -1,5 +1,6 @@
 package com.epam.timetracking.mvc.model.dao;
 
+import com.epam.timetracking.exception.IncorrectInputException;
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
 import org.apache.log4j.Logger;
@@ -21,115 +22,79 @@ public class UserDao implements AbstractDao<User, Integer> {
         this.connection = connection;
     }
 
-    public List<User> getAll() {
+    public List<User> getAll() throws SQLException {
         String query = "SELECT * FROM Users";
-        try(PreparedStatement ps = connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery()){
-            return getByQuery(rs);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        PreparedStatement ps = connection.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        List<User> users = getByQuery(rs);
+        closeResources(rs, ps);
+        return users;
     }
 
-    public User getById(Integer id) {
+    public User getById(Integer id) throws SQLException, IncorrectInputException {
         String query = "SELECT * FROM Users WHERE user_id =?";
-        ResultSet rs = null;
-        try(PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if(rs.next()){
-                User user = createUserFromRs(rs);
-                return user;
-            }
+        ResultSet rs;
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        if(rs.next()){
+            User user = createUserFromRs(rs);
+            closeResources(rs, ps);
+            return user;
+        }else{
+            throw new IncorrectInputException("User with id = " + id + " doesn't exist");
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
-    public User getByLogin(String login){
+    public User getByLogin(String login) throws SQLException, IncorrectInputException {
         String query = "SELECT * FROM Users WHERE email=?";
-        ResultSet rs = null;
-        try(PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setString(1, login);
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                User user = createUserFromRs(rs);
-                return user;
-            }
+        ResultSet rs;
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, login);
+        rs = ps.executeQuery();
+        if(rs.next()) {
+            User user = createUserFromRs(rs);
+            closeResources(rs, ps);
+            return user;
+        }else{
+            throw new IncorrectInputException("User doesn't exist");
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
-    public boolean insert(User user) {
-        if(user == null) return false;
+    public void insert(User user) throws SQLException, IncorrectInputException {
+        if(user == null) throw new IncorrectInputException("Impossible to create user with provided data");
         String insert = "INSERT INTO Users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
-        try(PreparedStatement insertStatement = connection.prepareStatement(insert)){
-            insertStatement.setString(1, user.getFirstName());
-            insertStatement.setString(2, user.getLastName());
-            insertStatement.setString(3, user.getEmail());
-            insertStatement.setString(4, user.getPassword());
-            insertStatement.setString(5, user.getRole().toString());
-            insertStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        PreparedStatement insertStatement = connection.prepareStatement(insert);
+        insertStatement.setString(1, user.getFirstName());
+        insertStatement.setString(2, user.getLastName());
+        insertStatement.setString(3, user.getEmail());
+        insertStatement.setString(4, user.getPassword());
+        insertStatement.setString(5, user.getRole().toString());
+        insertStatement.executeUpdate();
+        insertStatement.close();
     }
 
-    public boolean update(User user) {
-        return false;
-    }
+    public void update(User user) { }
 
-    public boolean delete(User user) {
+    public void delete(User user) throws SQLException {
         int id = user.getId();
         logger.debug("User to delete = " + user.getFirstName() + ", " + id);
-        try(Statement statement = connection.createStatement()) {
-            statement.execute("DELETE FROM users where user_id = " + id);
-            return true;
-        } catch (SQLException e) {
-            logger.debug(e);
-            return false;
-        }
+        Statement statement = connection.createStatement();
+        statement.execute("DELETE FROM users where user_id = " + id);
+        statement.close();
     }
 
-    public boolean doesExist(Integer userId){
+    public boolean doesExist(Integer userId) throws SQLException {
         String query = "SELECT user_id FROM users WHERE user_id = ?";
         ResultSet rs = null;
-        try(PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setInt(1, userId);
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, userId);
+        rs = ps.executeQuery();
+        if(rs.next()) {
+            closeResources(rs, ps);
+            return true;
         }
+        closeResources(rs, ps);
         return false;
     }
 
@@ -159,5 +124,10 @@ public class UserDao implements AbstractDao<User, Integer> {
             user.setRole(UserRoleEnum.valueOf(rs.getString(6)));
         }
         return user;
+    }
+
+    private void closeResources(ResultSet rs, PreparedStatement ps) throws SQLException {
+        rs.close();
+        ps.close();
     }
 }

@@ -14,6 +14,7 @@ import org.junit.Test;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -45,7 +46,7 @@ public class UsersTest {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() throws SQLException {
         assertEquals(3, dao.getAll().size());
         insertUser();
         assertEquals(4, dao.getAll().size());
@@ -53,7 +54,7 @@ public class UsersTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() throws SQLException {
         assertEquals(3, dao.getAll().size());
         deleteUser();
         assertEquals(2, dao.getAll().size());
