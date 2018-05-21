@@ -57,12 +57,14 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return getByQuery(query);
     }
 
-    public Activity getById(Integer id) {
-        return null;
+    public Activity getById(Integer id) throws SQLException {
+        String query = "SELECT * FROM Activities WHERE activity_id = " + id;
+        return getByQuery(query).get(0);
     }
 
-    public boolean doesExist(Integer id) {
-        return false;
+    public boolean doesExist(Integer id) throws SQLException {
+        String query = "SELECT * FROM Activities WHERE activity_id = " + id;
+        return getByQuery(query).size() > 0;
     }
 
     public void insert(Activity activity) throws SQLException, IncorrectInputException {

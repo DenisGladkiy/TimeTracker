@@ -62,7 +62,7 @@
 			<td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
 			<td><input type="date" name="deadLine"  value=${activity.deadLine}></td>
 			<td><user:getName userId="${activity.userId}"/></td>
-			<td><input type="text" name="userId"  value=${activity.userId}></td>
+			<td><input type="number" name="userId"  value=${activity.userId}></td>
 			<td><input type="checkbox" name="batch" value="${activity.id};${activity.name}"></td>
 			<td>
 			    <input type="hidden" name="id" value=${activity.id}>

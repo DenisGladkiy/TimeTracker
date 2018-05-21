@@ -1,3 +1,4 @@
+
 import com.epam.timetracking.mvc.controller.command.GeneralCommand;
 import com.epam.timetracking.mvc.controller.command.executors.*;
 import com.epam.timetracking.mvc.model.dao.ActivityDao;
@@ -18,25 +19,30 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Denis on 16.05.2018.
  */
-public class ActivityTest {
+public class ActivityCommandsTest {
     private DaoManager manager;
     private ActivityDao dao;
     private HttpServletRequest request;
+    private static TestInitializer initializer;
     private HttpServletResponse response;
 
+    @BeforeClass
+    public static void initClass(){
+        initializer = new TestInitializer();
+        initializer.initializeTest();
+    }
+
     @Before
-    public void init(){
+    public void initTest(){
         request = mock(HttpServletRequest.class);
-        when(request.getSession()).thenReturn(TestSuite.session);
+        initializer.initializeData(request);
         manager = DaoManager.getInstance();
         dao = (ActivityDao) manager.getDao("ACTIVITY");
-        DbInitializer.initializeActivities(request);
-        DbInitializer.initializeUsers(request);
     }
 
     @After
     public void clearData(){
-        DbInitializer.clearData();
+        initializer.clearData();
         dao.closeConnection();
     }
 
@@ -48,9 +54,9 @@ public class ActivityTest {
     }
 
     @Test
-    public void testSelect(){
+    public void testSelectActual(){
         List<Activity> activities = selectActivities();
-        assertEquals(2, activities.size());
+        assertEquals(1, activities.size());
     }
 
     @Test
@@ -84,14 +90,6 @@ public class ActivityTest {
         assertEquals(1, activities.get(0).getId());
     }
 
-    @Test
-    public void testIncorrectFK() throws SQLException {
-        when(request.getParameter("userId")).thenReturn("5");
-        assertEquals(3, dao.getAll().size());
-        insertActivity();
-        assertEquals(3, dao.getAll().size());
-    }
-
     private void insertActivity(){
         GeneralCommand insert = new ActivityInsert();
         insert.execute(request, response);
@@ -101,7 +99,7 @@ public class ActivityTest {
         when(request.getParameter("select")).thenReturn(Constants.ACTIVITIES);
         GeneralCommand selectActivities = new ActivitySelect();
         selectActivities.execute(request, response);
-        return (List<Activity>) TestSuite.testSession.get("Activities");
+        return (List<Activity>) initializer.testSession.get("Activities");
     }
 
     private void deleteActivity(){
@@ -129,6 +127,6 @@ public class ActivityTest {
         when(request.getParameter("select")).thenReturn(Constants.ACTIVITIES_BY_USER);
         GeneralCommand select = new UsersActivities();
         select.execute(request, response);
-        return (List<Activity>) TestSuite.testSession.get("Activities");
+        return (List<Activity>) initializer.testSession.get("Activities");
     }
 }

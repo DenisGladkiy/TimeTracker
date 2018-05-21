@@ -53,7 +53,7 @@
                 <td><input type="date" name="deadLine"  value=${activity.deadLine}></td>
                 <td><user:getHours activity="${activity}"/></td>
                 <td><user:getName userId="${activity.userId}"/></td>
-                <td><input type="text" name="userId"  value=${activity.userId}></td>
+                <td><input type="number" name="userId"  value=${activity.userId}></td>
                 <td>
                     <input type="checkbox" name="complete"/>
                 </td>

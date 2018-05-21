@@ -53,7 +53,7 @@
         <tr><td><fmt:message key="userIndex.deadLine"/></td>
             <td><input type="date" name="deadLine" style="width:170px"/></td><td colspan="2"></td></tr>
         <tr><td><fmt:message key="adminIndex.userId"/></td>
-            <td><input type="text" name="userId" style="width:170px"/></td><td colspan="2"></td></tr>
+            <td><input type="number" name="userId" style="width:170px"/></td><td colspan="2"></td></tr>
         <input type="hidden" name="select" value=${ConstantsImpl.ADMIN_INDEX}>
         <input type="hidden" name="command" value="insertActivity"/>
         <tr><td></td><td><input type="submit" value="<fmt:message key="adminIndex.button.create"/>"/></td>
@@ -79,7 +79,6 @@
         <tr><td><fmt:message key="index.password"/></td><td><input type="text" name="pass" required style="width:170px"/></td></tr>
         <tr><td><fmt:message key="adminIndex.role"/></td>
             <td>
-                <%--<input type="text" name="role" required style="width:170px"/>--%>
                 <select name="role" style="width:170px">
                     <option value="USER">USER</option>
                     <option value="ADMIN">ADMIN</option>

@@ -1,11 +1,8 @@
-import com.epam.timetracking.mvc.controller.command.GeneralCommand;
-import com.epam.timetracking.mvc.controller.command.executors.ActivityInsert;
 import com.epam.timetracking.mvc.controller.command.executors.ActivitySelect;
-import com.epam.timetracking.mvc.model.entity.Activity;
+import com.epam.timetracking.mvc.model.dao.DaoManager;
+import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.utils.Constants;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -22,7 +19,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(Parameterized.class)
 public class SelectionTest {
-
+    private static TestInitializer initializer;
     private String select;
     private static HttpServletRequest request;
     private static HttpServletResponse response;
@@ -42,21 +39,32 @@ public class SelectionTest {
     }
 
     @BeforeClass
-    public static void init(){
-        request = mock(HttpServletRequest.class);
-        DbInitializer.initializeActivities(request);
+    public static void initClass(){
+        initializer = new TestInitializer();
+        initializer.initializeTest();
     }
 
-    @AfterClass
-    public static void clear(){
-        DbInitializer.clearData();
+    @Before
+    public void initTest(){
+        request = mock(HttpServletRequest.class);
+        initializer.initializeData(request);
+    }
+
+//    @AfterClass
+//    public static void finalizeTest(){
+//        initializer.closeTestConnection();
+//    }
+
+    @After
+    public void clearData(){
+        initializer.clearData();
     }
 
     @Test
-    public void testCommands(){
+    public void testSelectCommands(){
         when(request.getParameter("select")).thenReturn(select);
         when(request.getParameter("userId")).thenReturn("1");
-        assertEquals(new ActivitySelect().execute(request, response),select);
-        assertTrue(TestSuite.testSession.get("Activities") instanceof ArrayList);
+        assertEquals(select, new ActivitySelect().execute(request, response));
+        assertTrue(initializer.testSession.get("Activities") instanceof ArrayList);
     }
 }

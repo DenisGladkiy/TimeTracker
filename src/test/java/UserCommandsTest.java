@@ -7,9 +7,7 @@ import com.epam.timetracking.mvc.model.dao.DaoManager;
 import com.epam.timetracking.mvc.model.dao.UserDao;
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.utils.Constants;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,24 +23,31 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Denis on 16.05.2018.
  */
-public class UsersTest {
+public class UserCommandsTest {
+    private static TestInitializer initializer;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private DaoManager manager;
     private UserDao dao;
 
+    @BeforeClass
+    public static void initClass(){
+        initializer = new TestInitializer();
+        initializer.initializeTest();
+    }
+
     @Before
-    public void init(){
+    public void initTest(){
         request = mock(HttpServletRequest.class);
-        when(request.getSession()).thenReturn(TestSuite.session);
+        initializer.initializeData(request);
         manager = DaoManager.getInstance();
         dao = (UserDao) manager.getDao("USER");
-        DbInitializer.initializeUsers(request);
     }
 
     @After
     public void clearData(){
-        DbInitializer.clearData();
+        initializer.clearData();
+        dao.closeConnection();
     }
 
     @Test
@@ -66,7 +71,7 @@ public class UsersTest {
         when(request.getParameter("login")).thenReturn("ivan@q.w");
         when(request.getParameter("password")).thenReturn("1234");
         assertEquals(Constants.ADMIN_INDEX, new Login().execute(request, response));
-        assertNotNull(TestSuite.testSession.get("User"));
+        assertNotNull(initializer.testSession.get("User"));
     }
 
     @Test
@@ -74,8 +79,8 @@ public class UsersTest {
         when(request.getParameter("login")).thenReturn("ivan@a.b");
         when(request.getParameter("password")).thenReturn("1234");
         assertEquals(Constants.USER_INDEX, new Login().execute(request, response));
-        assertNotNull(TestSuite.testSession.get("Activities"));
-        assertNotNull(TestSuite.testSession.get("User"));
+        assertNotNull(initializer.testSession.get("Activities"));
+        assertNotNull(initializer.testSession.get("User"));
     }
 
     @Test
@@ -93,7 +98,7 @@ public class UsersTest {
     private List<User> selectAllUsers(){
         GeneralCommand selectUsers = new UserSelect();
         selectUsers.execute(request, response);
-        return (List<User>) TestSuite.testSession.get("Users");
+        return (List<User>) initializer.testSession.get("Users");
     }
 
     private void deleteUser(){

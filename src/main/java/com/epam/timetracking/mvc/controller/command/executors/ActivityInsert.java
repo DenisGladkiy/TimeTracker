@@ -51,7 +51,9 @@ public class ActivityInsert implements GeneralCommand {
         int userId = activity.getUserId();
         if(userId > 0) {
             UserDao dao = (UserDao) manager.getDao("USER");
-            return dao.doesExist(userId);
+            boolean exist = dao.doesExist(userId);
+            dao.closeConnection();
+            return exist;
         }else {
             return true;
         }
