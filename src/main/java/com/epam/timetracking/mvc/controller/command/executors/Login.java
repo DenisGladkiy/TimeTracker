@@ -43,6 +43,7 @@ public class Login implements GeneralCommand {
         if(isValid(user, password)){
             logger.info("Password is valid");
             if(user.getRole().equals(UserRoleEnum.USER)){
+                logger.debug("USER");
                 session.setAttribute("User", user);
                 ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");
                 try {
@@ -56,7 +57,9 @@ public class Login implements GeneralCommand {
                 activityDao.closeConnection();
                 forward = Constants.USER_INDEX;
             }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
+                logger.debug("ADMIN");
                 request.getSession().setAttribute("User", user);
+                logger.debug("ADMIN user " + user);
                 forward = Constants.ADMIN_INDEX;
             }
         }

@@ -24,20 +24,4 @@
             <taglib-location>/WEB-INF/mytaglib.tld</taglib-location>
         </taglib>
     </jsp-config>
-   <!-- <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>com.epam.timetracking.mvc.controller.LoginController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>Timetracking</servlet-name>
-        <servlet-class>com.epam.timetracking.mvc.controller.MainController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Timetracking</servlet-name>
-        <url-pattern>/pages/timetracking</url-pattern>
-    </servlet-mapping>-->
 </web-app>
