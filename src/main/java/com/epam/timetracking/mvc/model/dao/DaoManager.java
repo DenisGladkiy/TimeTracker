@@ -35,8 +35,10 @@ public class DaoManager {
         DaoEnum dao = DaoEnum.valueOf(daoName);
         switch (dao){
             case ACTIVITY:
+                logger.info("Dao manager returns Activity Dao");
                 return new ActivityDao(connection);
             case USER:
+                logger.info("Dao manager returns User Dao");
                 return new UserDao(connection);
             default: throw new EnumConstantNotPresentException(DaoEnum.class, dao.name());
         }

@@ -1,6 +1,7 @@
 package com.epam.timetracking.mvc.controller.command;
 
 import com.epam.timetracking.mvc.controller.command.executors.*;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  * that can come from jsp view
  */
 public class CommandContainer {
+    private static Logger logger = Logger.getLogger(CommandContainer.class);
     private Map<String, GeneralCommand> commands;
 
     public CommandContainer(){
@@ -32,6 +34,7 @@ public class CommandContainer {
     }
 
     public GeneralCommand getCommand(String strCommand){
+        logger.debug("CommandContainer command = " + strCommand) ;
         return commands.get(strCommand);
     }
 }

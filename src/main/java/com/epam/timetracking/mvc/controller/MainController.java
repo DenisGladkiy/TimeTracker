@@ -25,7 +25,7 @@ public class MainController extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String command = request.getParameter("command");
-        logger.debug("Controller command = " + command);
+        logger.info("Main controller command = " + command);
         CommandContainer container = new CommandContainer();
         String url = container.getCommand(command).execute(request, response);
         response.sendRedirect(url);

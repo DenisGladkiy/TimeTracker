@@ -37,6 +37,7 @@ public class ActivityDelete implements GeneralCommand {
         }
         dao.closeConnection();
         session.setAttribute("Activities", activities);
+        logger.info("Activity delete forward = " + selection);
         return selection;
     }
 }

@@ -39,6 +39,7 @@ public class ActivityAccept implements GeneralCommand {
             session.setAttribute("Activities", activities);
             dao.closeConnection();
         }
+        logger.info("Activity accept forward = " + forward);
         return forward;
     }
 }

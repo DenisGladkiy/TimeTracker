@@ -23,7 +23,7 @@ public class UserDao implements AbstractDao<User, Integer> {
     }
 
     public List<User> getAll() throws SQLException {
-        String query = "SELECT * FROM Users";
+        String query = "SELECT * FROM users";
         PreparedStatement ps = connection.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         List<User> users = getByQuery(rs);
@@ -32,7 +32,7 @@ public class UserDao implements AbstractDao<User, Integer> {
     }
 
     public User getById(Integer id) throws SQLException, IncorrectInputException {
-        String query = "SELECT * FROM Users WHERE user_id =?";
+        String query = "SELECT * FROM users WHERE user_id =?";
         ResultSet rs;
         PreparedStatement ps = connection.prepareStatement(query);
         ps.setInt(1, id);
@@ -47,7 +47,7 @@ public class UserDao implements AbstractDao<User, Integer> {
     }
 
     public User getByLogin(String login) throws SQLException, IncorrectInputException {
-        String query = "SELECT * FROM Users WHERE email=?";
+        String query = "SELECT * FROM users WHERE email=?";
         ResultSet rs;
         PreparedStatement ps = connection.prepareStatement(query);
         ps.setString(1, login);
@@ -63,7 +63,7 @@ public class UserDao implements AbstractDao<User, Integer> {
 
     public void insert(User user) throws SQLException, IncorrectInputException {
         if(user == null) throw new IncorrectInputException("Impossible to create user with provided data");
-        String insert = "INSERT INTO Users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
+        String insert = "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
         PreparedStatement insertStatement = connection.prepareStatement(insert);
         insertStatement.setString(1, user.getFirstName());
         insertStatement.setString(2, user.getLastName());

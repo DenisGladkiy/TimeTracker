@@ -37,6 +37,7 @@ public class UserInsert implements GeneralCommand {
             logger.debug(e);
         }
         dao.closeConnection();
+        logger.info("User insert forward = " + forward);
         return forward;
     }
 }

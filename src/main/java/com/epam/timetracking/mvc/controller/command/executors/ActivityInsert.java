@@ -44,6 +44,7 @@ public class ActivityInsert implements GeneralCommand {
         }
         dao.closeConnection();
         session.setAttribute("Activities", activities);
+        logger.info("Activity insert forward = " + selection);
         return selection;
     }
 

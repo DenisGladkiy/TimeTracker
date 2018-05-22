@@ -35,6 +35,7 @@ public class UserDelete implements GeneralCommand {
         }
         session.setAttribute("Users", users);
         dao.closeConnection();
+        logger.info("User delete forward = " + forward);
         return forward;
     }
 }

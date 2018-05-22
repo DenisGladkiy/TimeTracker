@@ -32,6 +32,7 @@ public class UserSelect implements GeneralCommand {
         dao.closeConnection();
         session.setAttribute("Users", users);
         logger.debug("Users = " + users);
+        logger.info("UserSelection forward = " + forward);
         return forward;
     }
 }

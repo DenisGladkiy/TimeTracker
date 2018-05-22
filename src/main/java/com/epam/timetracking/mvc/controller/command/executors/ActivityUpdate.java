@@ -35,7 +35,7 @@ public class ActivityUpdate implements GeneralCommand {
             selection = Constants.ERROR;
             logger.debug(e);
         }
-        logger.debug("Update selection = " + selection);
+        logger.info("Update selection = " + selection);
         session.setAttribute("Activities", activities);
         dao.closeConnection();
         return selection;

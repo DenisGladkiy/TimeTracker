@@ -36,6 +36,7 @@ public class ActivitySelect implements GeneralCommand {
         logger.debug("List of selected activities = " + activities);
         dao.closeConnection();
         session.setAttribute("Activities", activities);
+        logger.info("Activity select forward = " + selection);
         return selection;
     }
 }

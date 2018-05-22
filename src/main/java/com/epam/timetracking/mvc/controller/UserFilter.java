@@ -3,6 +3,7 @@ package com.epam.timetracking.mvc.controller;
 import com.epam.timetracking.mvc.model.entity.User;
 import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
 import com.epam.timetracking.utils.Constants;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -15,6 +16,7 @@ import java.io.IOException;
  */
 @WebFilter("/userPages/*")
 public class UserFilter implements Filter {
+    private static Logger logger = Logger.getLogger(UserFilter.class);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException { }
 
@@ -25,6 +27,7 @@ public class UserFilter implements Filter {
         HttpSession session = request.getSession(false);
         if(session != null){
             User user = (User) session.getAttribute("User");
+            logger.debug("UserFilter session user = " + user);
             if(user != null && user.getRole().equals(UserRoleEnum.USER)){
                 filterChain.doFilter(request, response);
             }else{response.sendRedirect(Constants.INDEX);}

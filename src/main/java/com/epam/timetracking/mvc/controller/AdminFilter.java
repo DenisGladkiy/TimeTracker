@@ -30,7 +30,7 @@ public class AdminFilter implements Filter {
         HttpSession session = request.getSession(false);
         if(session != null){
             User user = (User) session.getAttribute("User");
-            logger.debug("Filter session user = " + user);
+            logger.debug("AdminFilter session user = " + user);
             if(user != null && user.getRole().equals(UserRoleEnum.ADMIN)){
                 filterChain.doFilter(request, response);
             }else{response.sendRedirect(Constants.INDEX);}

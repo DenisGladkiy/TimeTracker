@@ -26,44 +26,44 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     }
 
     public List<Activity> getAll() throws SQLException {
-        String queryAll = "SELECT * FROM Activities";
+        String queryAll = "SELECT * FROM activities";
         return getByQuery(queryAll);
     }
 
     public List<Activity> getActual() throws SQLException {
-        String queryActual = "SELECT * FROM Activities WHERE add_request <> true " +
+        String queryActual = "SELECT * FROM activities WHERE add_request <> true " +
                 "                                        AND remove_request <> true " +
                 "                                        AND completed <> true";
         return getByQuery(queryActual);
     }
 
     public List<Activity> getAdded() throws SQLException {
-        String query = "SELECT * FROM Activities WHERE add_request = true";
+        String query = "SELECT * FROM activities WHERE add_request = true";
         return getByQuery(query);
     }
 
     public List<Activity> getRemoved() throws SQLException {
-        String query = "SELECT * FROM Activities WHERE remove_request = true";
+        String query = "SELECT * FROM activities WHERE remove_request = true";
         return getByQuery(query);
     }
 
     public List<Activity> getCompleted() throws SQLException {
-        String query = "SELECT * FROM Activities WHERE completed = true";
+        String query = "SELECT * FROM activities WHERE completed = true";
         return getByQuery(query);
     }
 
     public List<Activity> getByUserId(int userId) throws SQLException {
-        String query = "SELECT * FROM Activities WHERE user_id = " + userId;
+        String query = "SELECT * FROM activities WHERE user_id = " + userId;
         return getByQuery(query);
     }
 
     public Activity getById(Integer id) throws SQLException {
-        String query = "SELECT * FROM Activities WHERE activity_id = " + id;
+        String query = "SELECT * FROM activities WHERE activity_id = " + id;
         return getByQuery(query).get(0);
     }
 
     public boolean doesExist(Integer id) throws SQLException {
-        String query = "SELECT * FROM Activities WHERE activity_id = " + id;
+        String query = "SELECT * FROM activities WHERE activity_id = " + id;
         return getByQuery(query).size() > 0;
     }
 
@@ -91,7 +91,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
 
     public void acceptActivities(List<Activity> activities) throws SQLException {
         PreparedStatement acceptStatement = null;
-        String update = "UPDATE Activities SET add_request=? WHERE activity_id=?";
+        String update = "UPDATE activities SET add_request=? WHERE activity_id=?";
         try{
             connection.setAutoCommit(false);
             acceptStatement = connection.prepareStatement(update);
@@ -151,7 +151,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         if(activity == null)
             throw new IncorrectInputException("Impossible to create activity with provided data");
         StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO Activities (name, description, creation_date, deadline, " +
+        builder.append("INSERT INTO activities (name, description, creation_date, deadline, " +
                                                "working_time, user_id, add_request, remove_request, completed) VALUES (\"");
         builder.append(activity.getName() + "\", \"");
         builder.append(activity.getDescription() + "\", ");
@@ -170,7 +170,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
 
     private String createUpdateQuery(Activity activity){
         StringBuilder builder = new StringBuilder();
-        builder.append("UPDATE Activities SET description = " + "\"");
+        builder.append("UPDATE activities SET description = " + "\"");
         builder.append(activity.getDescription() + "\", ");
         builder.append("deadline = " + convertDateToString(activity.getDeadLine()) + ", ");
         Duration duration = activity.getTime();

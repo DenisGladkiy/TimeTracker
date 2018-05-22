@@ -38,10 +38,10 @@ public class Login implements GeneralCommand {
             forward = Constants.ERROR;
             logger.debug(e);
         }
-        logger.debug("Login user = " + user);
+        logger.info("Login user = " + user);
         userDao.closeConnection();
         if(isValid(user, password)){
-            logger.debug("Password is valid");
+            logger.info("Password is valid");
             if(user.getRole().equals(UserRoleEnum.USER)){
                 session.setAttribute("User", user);
                 ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");

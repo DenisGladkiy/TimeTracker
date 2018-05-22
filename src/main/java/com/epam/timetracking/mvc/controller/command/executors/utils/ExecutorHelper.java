@@ -19,7 +19,7 @@ public class ExecutorHelper {
 
     public List<Activity> getActivitiesBySelection(HttpServletRequest request, ActivityDao dao) throws SQLException {
         String selection = request.getParameter("select");
-        logger.debug("Helper selection = " + selection);
+        logger.debug("ExecutorHelper selection = " + selection);
         int userId;
         switch (selection) {
             case Constants.COMPLETED_ACTIVITIES:

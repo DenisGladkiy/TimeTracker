@@ -24,6 +24,7 @@ public class UsersActivities implements GeneralCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         int userId = Integer.valueOf(request.getParameter("userId"));
+        logger.debug("UsersActivities user id = " + userId);
         String selection = request.getParameter("select");
         ActivityDao activityDao = (ActivityDao)manager.getDao("ACTIVITY");
         List<Activity> activities = null;
@@ -40,6 +41,7 @@ public class UsersActivities implements GeneralCommand {
             logger.debug(e);
         }
         userDao.closeConnection();
+        logger.info("Users activities forward = " + selection);
         session.setAttribute("Activities", activities);
         session.setAttribute("SelectedUser", user);
         return selection;

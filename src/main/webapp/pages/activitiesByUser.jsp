@@ -53,7 +53,7 @@
                 <td><input type="date" name="deadLine"  value=${activity.deadLine}></td>
                 <td><user:getHours activity="${activity}"/></td>
                 <td><user:getName userId="${activity.userId}"/></td>
-                <td><input type="number" name="userId"  value=${activity.userId}></td>
+                <td>${activity.userId}</td>
                 <td>
                     <input type="checkbox" name="complete"/>
                 </td>
@@ -70,6 +70,7 @@
             <form id="${formId}" action="timetracking" method="post">
                 <input type="hidden" name="id" value=${activity.id} >
                 <input type="hidden" name="name" value="${activity.name}">
+                <input type="hidden" name="userId" value="${activity.userId}">
                 <input type="hidden" name="select" value=${ConstantsImpl.ACTIVITIES_BY_USER}>
                 <input type="hidden" name="command" value="deleteActivity">
             </form>
