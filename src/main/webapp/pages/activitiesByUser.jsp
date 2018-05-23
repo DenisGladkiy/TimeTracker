@@ -36,7 +36,7 @@
     <th><fmt:message key="userIndex.description"/></th>
     <th><fmt:message key="userIndex.creationDate"/></th>
     <th><fmt:message key="userIndex.deadLine"/></th>
-    <th><fmt:message key="userIndex.workingTime"/></th>
+    <th style="background: lightsalmon"><fmt:message key="userIndex.workingTime"/></th>
     <th><fmt:message key="activities.userName"/></th>
     <th><fmt:message key="adminIndex.userId"/></th>
     <th><fmt:message key="userIndex.complete"/></th>
@@ -51,7 +51,7 @@
                 <td><input type="text" name="description" required value="${activity.description}"></td>
                 <td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
                 <td><input type="date" name="deadLine"  value=${activity.deadLine}></td>
-                <td><user:getHours activity="${activity}"/></td>
+                <td style="background: lightsalmon"><user:getHours activity="${activity}"/></td>
                 <td><user:getName userId="${activity.userId}"/></td>
                 <td>${activity.userId}</td>
                 <td>

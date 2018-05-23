@@ -31,8 +31,8 @@
     <th><fmt:message key="userIndex.description"/></th>
     <th><fmt:message key="userIndex.creationDate"/></th>
     <th><fmt:message key="userIndex.deadLine"/></th>
-    <th><fmt:message key="userIndex.workingTime"/></th>
-    <th><fmt:message key="userIndex.timeToday"/></th>
+    <th style="background: lightsalmon"><fmt:message key="userIndex.workingTime"/></th>
+    <th style="background: lightsalmon"><fmt:message key="userIndex.timeToday"/></th>
     <th><fmt:message key="userIndex.complete"/></th>
     <th><fmt:message key="userIndex.askDelete"/></th>
     <c:forEach var="activity" items="${Activities}">
@@ -44,8 +44,8 @@
                 <td>${activity.description}</td>
                 <td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
                 <td><fmt:formatDate value="${activity.deadLine}" pattern="MM/dd/yyyy"/></td>
-                <td><user:getHours activity="${activity}"/></td>
-                <td><c:choose>
+                <td style="background: lightsalmon"><user:getHours activity="${activity}"/></td>
+                <td style="background: lightsalmon"><c:choose>
                     <c:when test="${activity.addRequest != true}">
                         <input type="number" name="time" min="0" max="24" step="0.1" value="0.0">
                     </c:when>

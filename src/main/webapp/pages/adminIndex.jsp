@@ -48,12 +48,18 @@
         <tr><td><fmt:message key="userIndex.name"/></td>
             <td><input type="text" name="name" required style="width:170px"/></td><td colspan="2"></td></tr>
         <tr><td><fmt:message key="userIndex.description"/></td>
-            <td><textarea <%--rows="3" cols=${language == "ru" ? "19" : "22"}--%> name="description" required></textarea>
+            <td><textarea maxlength="200" name="description" required></textarea>
             <td colspan="2"></td></tr>
         <tr><td><fmt:message key="userIndex.deadLine"/></td>
             <td><input type="date" name="deadLine" style="width:170px"/></td><td colspan="2"></td></tr>
         <tr><td><fmt:message key="adminIndex.userId"/></td>
-            <td><input type="number" name="userId" style="width:170px"/></td><td colspan="2"></td></tr>
+            <td>
+                <select name="userId" style="width:170px">
+                    <c:forEach var="user" items="${Users}">
+                        <option value="${user.id}">${user.id}</option>
+                    </c:forEach>
+                </select>
+            </td>
         <input type="hidden" name="select" value=${ConstantsImpl.ADMIN_INDEX}>
         <input type="hidden" name="command" value="insertActivity"/>
         <tr><td></td><td><input type="submit" value="<fmt:message key="adminIndex.button.create"/>"/></td>
@@ -72,11 +78,12 @@
         </th>
     </tr>
     <tr><td colspan="2" align="center"><h4><fmt:message key="adminIndex.createUser"/></h4></td></tr>
-    <form method="POST" action="timetracking">
+    <form id="submitUser" method="POST" action="timetracking">
         <tr><td><fmt:message key="adminIndex.firstName"/></td><td><input type="text" name="firstName" required style="width:170px" /></td></tr>
         <tr><td><fmt:message key="adminIndex.lastName"/></td><td><input type="text" name="lastName" required style="width:170px"/></td></tr>
-        <tr><td>E-mail</td><td><input type="text" name="email" required style="width:170px"/></td></tr>
-        <tr><td><fmt:message key="index.password"/></td><td><input type="text" name="pass" required style="width:170px"/></td></tr>
+        <tr><td>E-mail</td><td><input type="text" name="email" id="email" required style="width:170px"/></td></tr>
+        <tr><td><fmt:message key="index.password"/></td><td><input type="password" name="pass" id="pass1" required style="width:170px"/></td></tr>
+        <tr><td><fmt:message key="index.chkPassword"/></td><td><input type="password" name="chkpass" id="pass2" required style="width:170px"/></td></tr>
         <tr><td><fmt:message key="adminIndex.role"/></td>
             <td>
                 <select name="role" style="width:170px">
@@ -86,14 +93,14 @@
             </td>
         </tr>
         <input type="hidden" name="command" value="insertUser"/>
-        <tr><td></td><td><input type="submit" value="<fmt:message key="adminIndex.button.create"/>" /></td></tr>
+        <tr><td></td><td><input type="button" value="<fmt:message key="adminIndex.button.create"/>" onclick="checkPassword()" /></td></tr>
     </form>
 </table>
 <style type="text/css">
     textarea {
         resize: none;
         width: 170px;
-        height: 50px;
+        height: 70px;
     }
     .table1 {
         background: #F0F8FF;
@@ -115,6 +122,27 @@
         background: #F5F5F5;
     }
 </style>
+<script language="javascript">
+    function checkPassword(){
+        var pass = document.getElementById("pass1").value;
+        var chkpass = document.getElementById("pass2").value;
+        var form = document.getElementById("submitUser");
+        var email = document.getElementById("email").value;
+        if(pass == chkpass && form.checkValidity() && emailIsValid(email)){
+            form.submit();
+        }else if(!form.checkValidity()){
+            alert("<fmt:message key='index.formError'/>");
+        }else if(!emailIsValid(email)){
+            alert("Incorrect Email format");
+        }else{
+            alert("<fmt:message key='index.wrongPass'/>");
+        }
+    }
+    function emailIsValid(email) {
+        var regex = /\S+@\S+\.\S+/;
+        return regex.test(email);
+    }
+</script>
 </body>
 </html>
 

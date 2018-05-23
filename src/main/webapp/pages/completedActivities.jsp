@@ -36,7 +36,7 @@
 		<th><fmt:message key="userIndex.description"/></th>
 		<th><fmt:message key="userIndex.creationDate"/></th>
 		<th><fmt:message key="userIndex.deadLine"/></th>
-		<th><fmt:message key="userIndex.workingTime"/></th>
+		<th style="background: lightsalmon"><fmt:message key="userIndex.workingTime"/></th>
 		<th><fmt:message key="activities.userName"/></th>
 		<th><fmt:message key="adminIndex.userId"/></th>
 		<c:set var="formId" value="0" scope="page"/>
@@ -49,7 +49,7 @@
 			<td>${activity.description}</td>
 			<td><fmt:formatDate value="${activity.creationDate}" pattern="MM/dd/yyyy"/></td>
 			<td><fmt:formatDate value="${activity.deadLine}" pattern="MM/dd/yyyy"/></td>
-			<td><user:getHours activity="${activity}"/></td>
+			<td style="background: lightsalmon"><user:getHours activity="${activity}"/></td>
 			<td><user:getName userId="${activity.userId}"/></td>
 			<td>${activity.userId}</td>
 			<td>

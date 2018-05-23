@@ -62,20 +62,30 @@ public class Login implements GeneralCommand {
             try {
                 session.setAttribute("Activities", activityDao.getByUserId(user.getId()));
             } catch (SQLException e) {
-                session.setAttribute("Error", "Bad request");
-                forward = Constants.ERROR;
                 logger.debug(e);
-                return forward;
+                return handleSqlException(session);
             }
             activityDao.closeConnection();
             forward = Constants.USER_INDEX;
         }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
             logger.debug("ADMIN");
             session.setAttribute("User", user);
+            UserDao userDao = (UserDao) manager.getDao("USER");
+            try {
+                session.setAttribute("Users", userDao.getAll());
+            } catch (SQLException e) {
+                logger.debug(e);
+                return handleSqlException(session);
+            }
             logger.debug("ADMIN user " + user);
             forward = Constants.ADMIN_INDEX;
         }
         return forward;
+    }
+
+    private String handleSqlException(HttpSession session){
+        session.setAttribute("Error", "Bad request");
+        return Constants.ERROR;
     }
 
     private boolean isValid(User user, String password){
