@@ -22,7 +22,13 @@ public class AdminFilter implements Filter {
     private static Logger logger = Logger.getLogger(AdminFilter.class);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
-
+    /**
+     * @param servletRequest
+     * @param servletResponse
+     * @param filterChain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;

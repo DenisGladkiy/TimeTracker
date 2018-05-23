@@ -20,16 +20,27 @@ public class Activity {
     private boolean removeRequest;
     private boolean completed;
 
+    /**
+     * Instantiates a new Activity.
+     */
     public Activity(){}
 
+    /**
+     * Instantiates a new Activity.
+     *
+     * @param id   Activity id
+     * @param name Activity name
+     */
     public Activity(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
+
     public int getId() {
         return id;
     }
+
 
     public void setName(String name){
         this.name = name;

@@ -23,6 +23,12 @@ import java.util.List;
 public class ControllerHelper {
     private static Logger logger = Logger.getLogger(ControllerHelper.class);
 
+    /**
+     * Create activity bean activity.
+     *
+     * @param request the request
+     * @return the activity
+     */
     public Activity createActivityBean(HttpServletRequest request){
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -49,6 +55,12 @@ public class ControllerHelper {
         return activity;
     }
 
+    /**
+     * Create user bean user.
+     *
+     * @param request the request
+     * @return the user
+     */
     public User createUserBean(HttpServletRequest request){
         String strId = request.getParameter("id");
         String firstName = request.getParameter("firstName");
@@ -67,6 +79,12 @@ public class ControllerHelper {
         return user;
     }
 
+    /**
+     * Get list of accepted activities.
+     *
+     * @param acceptedActivities String pairs id-name of accepted activities from JSP
+     * @return the list of Activities
+     */
     public List<Activity> getListActivities(String acceptedActivities){
         String[] activitiesArr = acceptedActivities.split(",");
         List<Activity> activities = new ArrayList<>();

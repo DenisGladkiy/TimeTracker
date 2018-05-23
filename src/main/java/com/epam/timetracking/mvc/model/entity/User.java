@@ -12,8 +12,18 @@ public class User {
     private String password;
     private UserRoleEnum role;
 
+    /**
+     * Instantiates a new User.
+     */
     public User(){}
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param id        the id
+     * @param firstName the first name
+     * @param lastName  the last name
+     */
     public User(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;

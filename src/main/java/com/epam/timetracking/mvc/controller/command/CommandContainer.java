@@ -15,6 +15,9 @@ public class CommandContainer {
     private static Logger logger = Logger.getLogger(CommandContainer.class);
     private Map<String, GeneralCommand> commands;
 
+    /**
+     * Instantiates a new Command container.
+     */
     public CommandContainer(){
         initContainer();
     }
@@ -33,6 +36,12 @@ public class CommandContainer {
         commands.put("loginData", new Login());
     }
 
+    /**
+     * Get command executor.
+     *
+     * @param strCommand the String command
+     * @return the general command
+     */
     public GeneralCommand getCommand(String strCommand){
         logger.debug("CommandContainer command = " + strCommand) ;
         return commands.get(strCommand);

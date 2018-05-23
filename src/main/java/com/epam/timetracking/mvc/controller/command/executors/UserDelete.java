@@ -17,6 +17,11 @@ import java.util.List;
  * Executor Class that handles removal of a user
  */
 public class UserDelete implements GeneralCommand {
+    /**
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String forward = Constants.USERS;

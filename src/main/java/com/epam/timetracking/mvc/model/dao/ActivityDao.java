@@ -21,6 +21,11 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     private Connection connection;
     private static Logger logger = Logger.getLogger(ActivityDao.class);
 
+    /**
+     * Instantiates a new Activity dao.
+     *
+     * @param connection the connection
+     */
     public ActivityDao(Connection connection){
         this.connection = connection;
     }
@@ -30,6 +35,12 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return getByQuery(queryAll);
     }
 
+    /**
+     * Gets actual activities.
+     *
+     * @return the actual activities
+     * @throws SQLException the sql exception
+     */
     public List<Activity> getActual() throws SQLException {
         String queryActual = "SELECT * FROM activities WHERE add_request <> true " +
                 "                                        AND remove_request <> true " +
@@ -37,36 +48,79 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return getByQuery(queryActual);
     }
 
+    /**
+     * Gets added activities.
+     *
+     * @return the added activities
+     * @throws SQLException the sql exception
+     */
     public List<Activity> getAdded() throws SQLException {
         String query = "SELECT * FROM activities WHERE add_request = true";
         return getByQuery(query);
     }
 
+    /**
+     * Gets removed activities.
+     *
+     * @return the removed activities
+     * @throws SQLException the sql exception
+     */
     public List<Activity> getRemoved() throws SQLException {
         String query = "SELECT * FROM activities WHERE remove_request = true";
         return getByQuery(query);
     }
 
+    /**
+     * Gets completed activities.
+     *
+     * @return the completed activities
+     * @throws SQLException the sql exception
+     */
     public List<Activity> getCompleted() throws SQLException {
         String query = "SELECT * FROM activities WHERE completed = true";
         return getByQuery(query);
     }
 
+    /**
+     * Gets activities by user id.
+     *
+     * @param userId the user id
+     * @return by user id activities
+     * @throws SQLException the sql exception
+     */
     public List<Activity> getByUserId(int userId) throws SQLException {
         String query = "SELECT * FROM activities WHERE user_id = " + userId;
         return getByQuery(query);
     }
 
+    /**
+     *
+     * @param id the id
+     * @return activity by id
+     * @throws SQLException
+     */
     public Activity getById(Integer id) throws SQLException {
         String query = "SELECT * FROM activities WHERE activity_id = " + id;
         return getByQuery(query).get(0);
     }
 
+    /**
+     *
+     * @param id activity id
+     * @return true if activity exists
+     * @throws SQLException
+     */
     public boolean doesExist(Integer id) throws SQLException {
         String query = "SELECT * FROM activities WHERE activity_id = " + id;
         return getByQuery(query).size() > 0;
     }
 
+    /**
+     *
+     * @param activity
+     * @throws SQLException
+     * @throws IncorrectInputException
+     */
     public void insert(Activity activity) throws SQLException, IncorrectInputException {
         Statement statement = connection.createStatement();
         String query = createInsertionQuery(activity);
@@ -74,6 +128,11 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         statement.close();
     }
 
+    /**
+     *
+     * @param activity
+     * @throws SQLException
+     */
     public void update(Activity activity) throws SQLException {
         String query = createUpdateQuery(activity);
         Statement statement = connection.createStatement();
@@ -81,6 +140,11 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         statement.close();
     }
 
+    /**
+     *
+     * @param activity
+     * @throws SQLException
+     */
     public void delete(Activity activity) throws SQLException {
         int id = activity.getId();
         logger.debug("Activity to delete = " + activity.getName() + ", " + id);
@@ -89,6 +153,12 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         statement.close();
     }
 
+    /**
+     * Accept activities.
+     *
+     * @param activities added activities to accept
+     * @throws SQLException the sql exception
+     */
     public void acceptActivities(List<Activity> activities) throws SQLException {
         PreparedStatement acceptStatement = null;
         String update = "UPDATE activities SET add_request=? WHERE activity_id=?";

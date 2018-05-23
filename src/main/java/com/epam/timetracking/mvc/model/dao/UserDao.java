@@ -18,10 +18,20 @@ public class UserDao implements AbstractDao<User, Integer> {
     private Connection connection;
     private static Logger logger = Logger.getLogger(ActivityDao.class);
 
+    /**
+     * Instantiates a new User dao.
+     *
+     * @param connection the connection
+     */
     public UserDao(Connection connection){
         this.connection = connection;
     }
 
+    /**
+     *
+     * @return the list of all users
+     * @throws SQLException
+     */
     public List<User> getAll() throws SQLException {
         String query = "SELECT * FROM users";
         PreparedStatement ps = connection.prepareStatement(query);
@@ -31,6 +41,14 @@ public class UserDao implements AbstractDao<User, Integer> {
         return users;
     }
 
+    /**
+     * Gets user by id.
+     *
+     * @param id the user id
+     * @return user by id
+     * @throws SQLException
+     * @throws IncorrectInputException
+     */
     public User getById(Integer id) throws SQLException, IncorrectInputException {
         String query = "SELECT * FROM users WHERE user_id =?";
         ResultSet rs;
@@ -46,6 +64,14 @@ public class UserDao implements AbstractDao<User, Integer> {
         }
     }
 
+    /**
+     * Gets user by login.
+     *
+     * @param login the login
+     * @return the by login
+     * @throws SQLException            the sql exception
+     * @throws IncorrectInputException the incorrect input exception
+     */
     public User getByLogin(String login) throws SQLException, IncorrectInputException {
         String query = "SELECT * FROM users WHERE email=?";
         ResultSet rs;
@@ -61,6 +87,12 @@ public class UserDao implements AbstractDao<User, Integer> {
         }
     }
 
+    /**
+     *
+     * @param user
+     * @throws SQLException
+     * @throws IncorrectInputException
+     */
     public void insert(User user) throws SQLException, IncorrectInputException {
         if(user == null) throw new IncorrectInputException("Impossible to create user with provided data");
         String insert = "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
@@ -76,6 +108,11 @@ public class UserDao implements AbstractDao<User, Integer> {
 
     public void update(User user) { }
 
+    /**
+     *
+     * @param user
+     * @throws SQLException
+     */
     public void delete(User user) throws SQLException {
         int id = user.getId();
         logger.debug("User to delete = " + user.getFirstName() + ", " + id);
@@ -84,6 +121,12 @@ public class UserDao implements AbstractDao<User, Integer> {
         statement.close();
     }
 
+    /**
+     *
+     * @param userId
+     * @return true if user exists
+     * @throws SQLException
+     */
     public boolean doesExist(Integer userId) throws SQLException {
         String query = "SELECT user_id FROM users WHERE user_id = ?";
         ResultSet rs = null;

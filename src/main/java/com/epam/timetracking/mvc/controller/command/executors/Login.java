@@ -19,6 +19,12 @@ import java.sql.SQLException;
  * Executor Class that handles users authorization
  */
 public class Login implements GeneralCommand {
+    /**
+     *
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String forward = Constants.INDEX;
@@ -42,26 +48,32 @@ public class Login implements GeneralCommand {
         userDao.closeConnection();
         if(isValid(user, password)){
             logger.info("Password is valid");
-            if(user.getRole().equals(UserRoleEnum.USER)){
-                logger.debug("USER");
-                session.setAttribute("User", user);
-                ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");
-                try {
-                    session.setAttribute("Activities", activityDao.getByUserId(user.getId()));
-                } catch (SQLException e) {
-                    session.setAttribute("Error", "Bad request");
-                    forward = Constants.ERROR;
-                    logger.debug(e);
-                    return forward;
-                }
-                activityDao.closeConnection();
-                forward = Constants.USER_INDEX;
-            }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
-                logger.debug("ADMIN");
-                request.getSession().setAttribute("User", user);
-                logger.debug("ADMIN user " + user);
-                forward = Constants.ADMIN_INDEX;
+            forward = checkUserRole(user, session);
+        }
+        return forward;
+    }
+
+    private String checkUserRole(User user, HttpSession session){
+        String forward = Constants.INDEX;
+        if(user.getRole().equals(UserRoleEnum.USER)){
+            logger.debug("USER");
+            session.setAttribute("User", user);
+            ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");
+            try {
+                session.setAttribute("Activities", activityDao.getByUserId(user.getId()));
+            } catch (SQLException e) {
+                session.setAttribute("Error", "Bad request");
+                forward = Constants.ERROR;
+                logger.debug(e);
+                return forward;
             }
+            activityDao.closeConnection();
+            forward = Constants.USER_INDEX;
+        }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
+            logger.debug("ADMIN");
+            session.setAttribute("User", user);
+            logger.debug("ADMIN user " + user);
+            forward = Constants.ADMIN_INDEX;
         }
         return forward;
     }

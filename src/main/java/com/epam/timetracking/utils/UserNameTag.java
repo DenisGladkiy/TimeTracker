@@ -12,6 +12,8 @@ import java.sql.SQLException;
 
 /**
  * Created by Denis on 13.05.2018.
+ * Class describes custom tag
+ * that converts user id to his/her name
  */
 public class UserNameTag extends TagSupport {
     private int userId;
@@ -21,6 +23,11 @@ public class UserNameTag extends TagSupport {
         manager = DaoManager.getInstance();
     }
 
+    /**
+     * Set user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(int userId){
         this.userId = userId;
     }
@@ -29,7 +36,7 @@ public class UserNameTag extends TagSupport {
     public int doStartTag(){
         if(userId > 0) {
             UserDao dao = (UserDao) manager.getDao("USER");
-            User user = null;
+            User user;
             try {
                 user = dao.getById(userId);
                 dao.closeConnection();

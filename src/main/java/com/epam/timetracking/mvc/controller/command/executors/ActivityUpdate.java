@@ -18,7 +18,12 @@ import java.util.List;
  * Executor Class that handles updated of activities
  */
 public class ActivityUpdate implements GeneralCommand {
-
+    /**
+     *
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String selection = request.getParameter("select");

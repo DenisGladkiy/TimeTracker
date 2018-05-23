@@ -21,7 +21,12 @@ import java.io.IOException;
 @WebServlet(name="Time-Tracking", urlPatterns={"/pages/timetracking"})
 public class MainController extends HttpServlet {
     private static Logger logger = Logger.getLogger(MainController.class);
-
+    /**
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String command = request.getParameter("command");

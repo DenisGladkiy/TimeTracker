@@ -16,6 +16,11 @@ import java.util.List;
  * Executor Class that handles selection of all users
  */
 public class UserSelect implements GeneralCommand {
+    /**
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String forward = Constants.USERS;

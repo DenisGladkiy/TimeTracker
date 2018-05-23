@@ -15,8 +15,19 @@ import java.util.List;
  * according to the source of the request
  */
 public class ExecutorHelper {
+    /**
+     * The Logger.
+     */
     Logger logger = Logger.getLogger(ExecutorHelper.class);
 
+    /**
+     * Gets activities by selection.
+     *
+     * @param request
+     * @param dao
+     * @return the activities by selection
+     * @throws SQLException the sql exception
+     */
     public List<Activity> getActivitiesBySelection(HttpServletRequest request, ActivityDao dao) throws SQLException {
         String selection = request.getParameter("select");
         logger.debug("ExecutorHelper selection = " + selection);

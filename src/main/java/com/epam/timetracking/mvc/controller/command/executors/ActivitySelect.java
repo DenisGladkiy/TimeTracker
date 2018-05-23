@@ -18,7 +18,12 @@ import java.util.List;
  * according to required conditions
  */
 public class ActivitySelect implements GeneralCommand {
-
+    /**
+     *
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String selection = request.getParameter("select");

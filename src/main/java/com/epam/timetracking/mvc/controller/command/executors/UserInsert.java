@@ -17,6 +17,11 @@ import java.sql.SQLException;
  * Executor Class that handles creation of a user
  */
 public class UserInsert implements GeneralCommand {
+    /**
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String forward = Constants.ADMIN_INDEX;

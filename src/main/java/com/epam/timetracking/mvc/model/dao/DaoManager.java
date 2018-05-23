@@ -13,12 +13,19 @@ import java.sql.Connection;
 public class DaoManager {
     private static volatile DaoManager instance;
     private DbConnectionHandler connectionHandler;
-    private enum DaoEnum{ACTIVITY, USER}
+    private enum DaoEnum{
+        ACTIVITY,
+        USER}
     private static Logger logger = Logger.getLogger(DaoManager.class);
     private DaoManager(){
         connectionHandler = new DbConnectionHandler("dbconfig.properties");
     }
 
+    /**
+     * Get instance of dao manager.
+     *
+     * @return the dao manager
+     */
     public static DaoManager getInstance(){
         if(instance == null){
             synchronized (DaoManager.class){
@@ -30,6 +37,12 @@ public class DaoManager {
         return instance;
     }
 
+    /**
+     * Get dao abstract dao.
+     *
+     * @param daoName the dao name
+     * @return the abstract dao
+     */
     public AbstractDao getDao(String daoName){
         Connection connection = connectionHandler.getConnection();
         DaoEnum dao = DaoEnum.valueOf(daoName);

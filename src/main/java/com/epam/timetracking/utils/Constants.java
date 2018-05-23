@@ -1,8 +1,5 @@
 package com.epam.timetracking.utils;
 
-/**
- * Created by Denis on 14.05.2018.
- */
 public interface Constants {
 
     String ADDED_ACTIVITIES = "/pages/addedActivities.jsp";

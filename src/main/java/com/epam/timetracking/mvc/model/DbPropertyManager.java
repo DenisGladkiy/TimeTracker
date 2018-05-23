@@ -13,10 +13,20 @@ public class DbPropertyManager {
     private Properties property;
     private String resource;
 
+    /**
+     * Instantiates a new Db property manager.
+     *
+     * @param resource the resource
+     */
     public DbPropertyManager(String resource){
         this.resource = resource;
     }
 
+    /**
+     * Get DB connection properties.
+     *
+     * @return the properties
+     */
     public Properties getProperty(){
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream(resource);

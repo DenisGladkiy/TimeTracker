@@ -18,6 +18,11 @@ public class DbConnectionHandler {
     private DbPropertyManager dpm;
     private static Properties properties;
 
+    /**
+     * Instantiates a new DB connection handler.
+     *
+     * @param resource DB connection properties file name
+     */
     public DbConnectionHandler(String resource){
         dpm = new DbPropertyManager(resource);
         properties = dpm.getProperty();
@@ -42,6 +47,9 @@ public class DbConnectionHandler {
         return dataSource;
     }
 
+    /**
+     * @return the connection
+     */
     public Connection getConnection(){
         try {
             Connection connection = getDataSource().getConnection();

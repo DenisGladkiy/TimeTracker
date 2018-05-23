@@ -41,7 +41,7 @@ Final project
     db.password=
 4. Собрать проект с помощью Maven
     mvn clean install
-5. Переименовать собранный timetracking.war а ROOT.war и развернуть на сервере tomcat
+5. Переименовать собранный timetracking.war в ROOT.war и развернуть на сервере tomcat
     
 Запуск:
 

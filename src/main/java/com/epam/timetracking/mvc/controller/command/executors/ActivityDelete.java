@@ -18,7 +18,12 @@ import java.util.List;
  * Executor Class that handles activity removal by ADMIN
  */
 public class ActivityDelete implements GeneralCommand {
-
+    /**
+     *
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String selection = request.getParameter("select");

@@ -20,7 +20,12 @@ import java.util.List;
  * Executor Class that handles creation of new activity
  */
 public class ActivityInsert implements GeneralCommand {
-
+    /**
+     *
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String selection = request.getParameter("select");

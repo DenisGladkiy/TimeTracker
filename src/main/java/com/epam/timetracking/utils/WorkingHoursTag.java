@@ -13,6 +13,11 @@ import java.io.IOException;
 public class WorkingHoursTag extends TagSupport {
     private Activity activity;
 
+    /**
+     * Set activity.
+     *
+     * @param activity the activity
+     */
     public void setActivity(Activity activity){
         this.activity = activity;
     }

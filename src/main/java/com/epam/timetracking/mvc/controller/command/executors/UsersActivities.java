@@ -20,6 +20,11 @@ import java.util.List;
  * Executor Class that handles selection of activities according to user ID
  */
 public class UsersActivities implements GeneralCommand {
+    /**
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();

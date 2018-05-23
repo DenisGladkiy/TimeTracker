@@ -17,7 +17,12 @@ import java.io.IOException;
 @WebServlet(name="Login", urlPatterns={"/login"})
 public class LoginController extends HttpServlet {
     private static Logger logger = Logger.getLogger(LoginController.class);
-
+    /**
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String command = request.getParameter("command");

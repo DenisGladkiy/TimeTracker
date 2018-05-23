@@ -19,6 +19,12 @@ import java.util.List;
  * of requests to add new activity from the users
  */
 public class ActivityAccept implements GeneralCommand {
+    /**
+     *
+     * @param request
+     * @param response
+     * @return url to forward
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String forward = Constants.ADDED_ACTIVITIES;
