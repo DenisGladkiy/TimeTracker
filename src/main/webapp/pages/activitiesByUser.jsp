@@ -61,6 +61,7 @@
                     <input type="hidden" name="id" value=${activity.id}>
                     <input type="hidden" name="name" value="${activity.name}">
                     <input type="hidden" name="creationDate" value=${activity.creationDate}>
+                    <input type="hidden" name="userId" value="${activity.userId}">
                     <input type="hidden" name="removed" value="false">
                     <input type="hidden" name="select" value=${ConstantsImpl.ACTIVITIES_BY_USER}>
                     <input type="hidden" name="command" value="updateActivity" />
