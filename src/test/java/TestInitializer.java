@@ -1,8 +1,8 @@
-import com.epam.timetracking.mvc.controller.command.GeneralCommand;
-import com.epam.timetracking.mvc.controller.command.executors.ActivityInsert;
-import com.epam.timetracking.mvc.controller.command.executors.UserInsert;
-import com.epam.timetracking.mvc.model.DbConnectionHandler;
-import com.epam.timetracking.utils.Constants;
+import com.denis.timetracking.mvc.controller.command.GeneralCommand;
+import com.denis.timetracking.mvc.controller.command.executors.ActivityInsert;
+import com.denis.timetracking.mvc.controller.command.executors.UserInsert;
+import com.denis.timetracking.mvc.model.DbConnectionHandler;
+import com.denis.timetracking.utils.Constants;
 import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;

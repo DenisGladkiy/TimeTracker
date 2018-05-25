@@ -1,7 +1,7 @@
-import com.epam.timetracking.exception.IncorrectInputException;
-import com.epam.timetracking.mvc.model.dao.ActivityDao;
-import com.epam.timetracking.mvc.model.dao.DaoManager;
-import com.epam.timetracking.mvc.model.entity.Activity;
+import com.denis.timetracking.exception.IncorrectInputException;
+import com.denis.timetracking.mvc.model.dao.ActivityDao;
+import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.entity.Activity;
 import org.junit.*;
 
 import javax.servlet.http.HttpServletRequest;

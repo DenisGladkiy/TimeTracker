@@ -1,10 +1,10 @@
 
-import com.epam.timetracking.mvc.controller.command.GeneralCommand;
-import com.epam.timetracking.mvc.controller.command.executors.*;
-import com.epam.timetracking.mvc.model.dao.ActivityDao;
-import com.epam.timetracking.mvc.model.dao.DaoManager;
-import com.epam.timetracking.mvc.model.entity.Activity;
-import com.epam.timetracking.utils.Constants;
+import com.denis.timetracking.mvc.controller.command.GeneralCommand;
+import com.denis.timetracking.mvc.controller.command.executors.*;
+import com.denis.timetracking.mvc.model.dao.ActivityDao;
+import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.entity.Activity;
+import com.denis.timetracking.utils.Constants;
 import org.junit.*;
 
 import javax.servlet.http.HttpServletRequest;

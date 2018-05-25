@@ -1,7 +1,5 @@
-import com.epam.timetracking.mvc.controller.command.executors.ActivitySelect;
-import com.epam.timetracking.mvc.model.dao.DaoManager;
-import com.epam.timetracking.mvc.model.dao.UserDao;
-import com.epam.timetracking.utils.Constants;
+import com.denis.timetracking.mvc.controller.command.executors.ActivitySelect;
+import com.denis.timetracking.utils.Constants;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

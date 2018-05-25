@@ -1,9 +1,8 @@
-import com.epam.timetracking.exception.IncorrectInputException;
-import com.epam.timetracking.mvc.model.dao.ActivityDao;
-import com.epam.timetracking.mvc.model.dao.DaoManager;
-import com.epam.timetracking.mvc.model.dao.UserDao;
-import com.epam.timetracking.mvc.model.entity.User;
-import com.epam.timetracking.mvc.model.entity.UserRoleEnum;
+import com.denis.timetracking.exception.IncorrectInputException;
+import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.dao.UserDao;
+import com.denis.timetracking.mvc.model.entity.User;
+import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

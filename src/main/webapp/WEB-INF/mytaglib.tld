@@ -10,7 +10,7 @@
     <uri>mytaglib</uri>
     <tag>
         <name>getHours</name>
-        <tag-class>com.epam.timetracking.utils.WorkingHoursTag</tag-class>
+        <tag-class>com.denis.timetracking.utils.WorkingHoursTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>activity</name>
@@ -20,7 +20,7 @@
     </tag>
     <tag>
         <name>getName</name>
-        <tag-class>com.epam.timetracking.utils.UserNameTag</tag-class>
+        <tag-class>com.denis.timetracking.utils.UserNameTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>userId</name>
