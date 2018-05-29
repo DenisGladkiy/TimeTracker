@@ -115,7 +115,7 @@ public class UserDao implements AbstractDao<User, Integer> {
      */
     public void delete(User user) throws SQLException {
         int id = user.getId();
-        logger.debug("User to delete = " + user.getFirstName() + ", " + id);
+        logger.info("User to delete = " + user.getFirstName() + ", " + id);
         Statement statement = connection.createStatement();
         statement.execute("DELETE FROM users where user_id = " + id);
         statement.close();

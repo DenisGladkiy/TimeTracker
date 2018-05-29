@@ -38,11 +38,11 @@ public class Login implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             forward = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         } catch (IncorrectInputException e) {
             session.setAttribute("Error", "Incorrect login/password");
             forward = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         logger.info("Login user = " + user);
         userDao.closeConnection();
@@ -56,28 +56,28 @@ public class Login implements GeneralCommand {
     private String checkUserRole(User user, HttpSession session){
         String forward = Constants.INDEX;
         if(user.getRole().equals(UserRoleEnum.USER)){
-            logger.debug("USER");
+            logger.info("USER");
             session.setAttribute("User", user);
             ActivityDao activityDao = (ActivityDao) manager.getDao("ACTIVITY");
             try {
                 session.setAttribute("Activities", activityDao.getByUserId(user.getId()));
             } catch (SQLException e) {
-                logger.debug(e);
+                logger.info(e);
                 return handleSqlException(session);
             }
             activityDao.closeConnection();
             forward = Constants.USER_INDEX;
         }else if(user.getRole().equals(UserRoleEnum.ADMIN)) {
-            logger.debug("ADMIN");
+            logger.info("ADMIN");
             session.setAttribute("User", user);
             UserDao userDao = (UserDao) manager.getDao("USER");
             try {
                 session.setAttribute("Users", userDao.getAll());
             } catch (SQLException e) {
-                logger.debug(e);
+                logger.info(e);
                 return handleSqlException(session);
             }
-            logger.debug("ADMIN user " + user);
+            logger.info("ADMIN user " + user);
             forward = Constants.ADMIN_INDEX;
         }
         return forward;

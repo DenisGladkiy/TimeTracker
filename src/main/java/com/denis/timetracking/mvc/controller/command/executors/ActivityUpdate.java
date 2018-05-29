@@ -38,7 +38,7 @@ public class ActivityUpdate implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             selection = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         logger.info("Update selection = " + selection);
         session.setAttribute("Activities", activities);

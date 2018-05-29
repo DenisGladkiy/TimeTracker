@@ -27,7 +27,7 @@ public class ActivitySelect implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String selection = request.getParameter("select");
-        logger.debug("Selection selection = " + selection);
+        logger.info("Selection selection = " + selection);
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         HttpSession session = request.getSession();
         List<Activity> activities = null;
@@ -36,9 +36,9 @@ public class ActivitySelect implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             selection = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
-        logger.debug("List of selected activities = " + activities);
+        logger.info("List of selected activities = " + activities);
         dao.closeConnection();
         session.setAttribute("Activities", activities);
         logger.info("Activity select forward = " + selection);

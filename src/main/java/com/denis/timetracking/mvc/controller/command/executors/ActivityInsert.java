@@ -31,7 +31,7 @@ public class ActivityInsert implements GeneralCommand {
         String selection = request.getParameter("select");
         ControllerHelper helper = new ControllerHelper();
         Activity activity = helper.createActivityBean(request);
-        logger.debug("Activity to insert = " + activity);
+        logger.info("Activity to insert = " + activity);
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         HttpSession session = request.getSession();
         List<Activity> activities = null;
@@ -41,11 +41,11 @@ public class ActivityInsert implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             selection = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         } catch (IncorrectInputException e) {
             session.setAttribute("Error", "Incorrect input");
             selection = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         dao.closeConnection();
         session.setAttribute("Activities", activities);

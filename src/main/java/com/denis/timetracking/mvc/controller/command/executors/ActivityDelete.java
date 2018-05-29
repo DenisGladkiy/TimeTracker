@@ -38,7 +38,7 @@ public class ActivityDelete implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             selection = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         dao.closeConnection();
         session.setAttribute("Activities", activities);

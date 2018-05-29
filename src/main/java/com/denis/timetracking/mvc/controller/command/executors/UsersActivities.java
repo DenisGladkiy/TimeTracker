@@ -29,7 +29,7 @@ public class UsersActivities implements GeneralCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         int userId = Integer.valueOf(request.getParameter("userId"));
-        logger.debug("UsersActivities user id = " + userId);
+        logger.info("UsersActivities user id = " + userId);
         String selection = request.getParameter("select");
         ActivityDao activityDao = (ActivityDao)manager.getDao("ACTIVITY");
         List<Activity> activities = null;
@@ -43,7 +43,7 @@ public class UsersActivities implements GeneralCommand {
         } catch (SQLException | IncorrectInputException e) {
             session.setAttribute("Error", "Bad request");
             selection = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         userDao.closeConnection();
         logger.info("Users activities forward = " + selection);

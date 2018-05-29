@@ -27,7 +27,7 @@ public class UserInsert implements GeneralCommand {
         String forward = Constants.ADMIN_INDEX;
         ControllerHelper helper = new ControllerHelper();
         User user = helper.createUserBean(request);
-        logger.debug("User to insert = " + user);
+        logger.info("User to insert = " + user);
         HttpSession session = request.getSession();
         AbstractDao dao = manager.getDao("USER");
         try {
@@ -35,11 +35,11 @@ public class UserInsert implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             forward = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         } catch (IncorrectInputException e) {
             session.setAttribute("Error", "Incorrect input");
             forward = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         dao.closeConnection();
         logger.info("User insert forward = " + forward);

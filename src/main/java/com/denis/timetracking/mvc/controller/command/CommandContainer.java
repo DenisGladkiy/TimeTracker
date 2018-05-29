@@ -43,7 +43,7 @@ public class CommandContainer {
      * @return the general command
      */
     public GeneralCommand getCommand(String strCommand){
-        logger.debug("CommandContainer command = " + strCommand) ;
+        logger.info("CommandContainer command = " + strCommand) ;
         return commands.get(strCommand);
     }
 }

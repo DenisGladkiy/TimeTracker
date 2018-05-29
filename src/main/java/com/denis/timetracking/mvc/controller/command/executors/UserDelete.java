@@ -36,7 +36,7 @@ public class UserDelete implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             forward = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         session.setAttribute("Users", users);
         dao.closeConnection();

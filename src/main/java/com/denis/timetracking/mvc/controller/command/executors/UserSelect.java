@@ -32,11 +32,11 @@ public class UserSelect implements GeneralCommand {
         } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             forward = Constants.ERROR;
-            logger.debug(e);
+            logger.info(e);
         }
         dao.closeConnection();
         session.setAttribute("Users", users);
-        logger.debug("Users = " + users);
+        logger.info("Users = " + users);
         logger.info("UserSelection forward = " + forward);
         return forward;
     }

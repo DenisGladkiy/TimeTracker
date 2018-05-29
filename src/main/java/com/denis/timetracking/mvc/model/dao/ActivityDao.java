@@ -111,8 +111,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws SQLException
      */
     public boolean doesExist(Integer id) throws SQLException {
-        String query = "SELECT * FROM activities WHERE activity_id = " + id;
-        return getByQuery(query).size() > 0;
+        return getById(id) != null;
     }
 
     /**
@@ -147,7 +146,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      */
     public void delete(Activity activity) throws SQLException {
         int id = activity.getId();
-        logger.debug("Activity to delete = " + activity.getName() + ", " + id);
+        logger.info("Activity to delete = " + activity.getName() + ", " + id);
         Statement statement = connection.createStatement();
         statement.execute("delete from activities where activity_id = " + id);
         statement.close();
@@ -189,7 +188,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         try {
             connection.close();
         } catch (SQLException e) {
-            logger.debug(e);
+            logger.info(e);
             e.printStackTrace();
         }
     }
@@ -234,7 +233,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append(activity.isAddRequest() + ", ");
         builder.append(activity.isRemoveRequest() + ", ");
         builder.append(activity.isCompleted() + ")");
-        logger.debug("Insert = " + builder);
+        logger.info("Insert = " + builder);
         return builder.toString();
     }
 
@@ -251,7 +250,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append("remove_request = " + activity.isRemoveRequest() + ", ");
         builder.append("completed = " + activity.isCompleted());
         builder.append(" WHERE activity_id = " + activity.getId());
-        logger.debug("Update = " + builder);
+        logger.info("Update = " + builder);
         return builder.toString();
     }
 

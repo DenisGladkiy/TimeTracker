@@ -51,7 +51,7 @@ public class ControllerHelper {
         if (user != null && !user.equals("")) {
             activity.setUserId(Integer.valueOf(user));
         }
-        logger.debug("Activity from helper = " + activity);
+        logger.info("Activity from helper = " + activity);
         return activity;
     }
 
@@ -66,7 +66,7 @@ public class ControllerHelper {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String hashedPassword = hashPassword(request.getParameter("pass"));
-        logger.debug("Helper user bean = " + firstName + " " + lastName + " " + hashedPassword);
+        logger.info("Helper user bean = " + firstName + " " + lastName + " " + hashedPassword);
         int id = 0;
         if (strId != null) id = Integer.valueOf(strId);
         User user = new User(id, firstName, lastName);
@@ -100,16 +100,16 @@ public class ControllerHelper {
     }
 
     private Date parseDate(String stringDate){
-        logger.debug("String date = " + stringDate);
+        logger.info("String date = " + stringDate);
         if(stringDate == null){
-            logger.debug("String date == null");
+            logger.info("String date == null");
             return null;
         }else {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 return format.parse(stringDate);
             } catch (ParseException e) {
-                logger.debug("Parse exception");
+                logger.info("Parse exception");
                 e.printStackTrace();
                 return null;
             }

@@ -40,7 +40,7 @@ public class ActivityAccept implements GeneralCommand {
             } catch (SQLException e) {
                 session.setAttribute("Error", "Bad request");
                 forward = Constants.ERROR;
-                logger.debug(e);
+                logger.info(e);
             }
             session.setAttribute("Activities", activities);
             dao.closeConnection();
