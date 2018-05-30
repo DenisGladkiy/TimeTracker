@@ -1,5 +1,6 @@
 package com.denis.timetracking.mvc.model.dao;
 
+import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
@@ -32,12 +33,18 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @return the list of all users
      * @throws SQLException
      */
-    public List<User> getAll() throws SQLException {
+    public List<User> getAll() {
         String query = "SELECT * FROM users";
-        PreparedStatement ps = connection.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();
-        List<User> users = getByQuery(rs);
-        closeResources(rs, ps);
+        PreparedStatement ps;
+        List<User> users = null;
+        try {
+            ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            users = getByQuery(rs);
+            closeResources(rs, ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return users;
     }
 
@@ -72,19 +79,23 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @throws SQLException            the sql exception
      * @throws IncorrectInputException the incorrect input exception
      */
-    public User getByLogin(String login) throws SQLException, IncorrectInputException {
+    public User getByLogin(String login) {
         String query = "SELECT * FROM users WHERE email=?";
         ResultSet rs;
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setString(1, login);
-        rs = ps.executeQuery();
-        if(rs.next()) {
-            User user = createUserFromRs(rs);
-            closeResources(rs, ps);
-            return user;
-        }else{
-            throw new IncorrectInputException("User doesn't exist");
+        PreparedStatement ps;
+        User user = null;
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, login);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                user = createUserFromRs(rs);
+                closeResources(rs, ps);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Get by login exception", e);
         }
+        return user;
     }
 
     /**

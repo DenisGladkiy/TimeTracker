@@ -1,6 +1,7 @@
 package com.denis.timetracking.mvc.model.dao;
 
 import com.denis.timetracking.mvc.model.DbConnectionHandler;
+import com.denis.timetracking.mvc.model.entity.EntityEnum;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -11,30 +12,12 @@ import java.sql.Connection;
  * Creates DAO by request
  */
 public class DaoManager {
-    private static volatile DaoManager instance;
     private DbConnectionHandler connectionHandler;
-    private enum DaoEnum{
-        ACTIVITY,
-        USER}
-    private static Logger logger = Logger.getLogger(DaoManager.class);
-    private DaoManager(){
-        connectionHandler = new DbConnectionHandler("dbconfig.properties");
-    }
 
-    /**
-     * Get instance of dao manager.
-     *
-     * @return the dao manager
-     */
-    public static DaoManager getInstance(){
-        if(instance == null){
-            synchronized (DaoManager.class){
-                if(instance == null){
-                    instance = new DaoManager();
-                }
-            }
-        }
-        return instance;
+    private static Logger logger = Logger.getLogger(DaoManager.class);
+
+    public DaoManager(){
+        connectionHandler = new DbConnectionHandler("dbconfig.properties");
     }
 
     /**
@@ -45,7 +28,7 @@ public class DaoManager {
      */
     public AbstractDao getDao(String daoName){
         Connection connection = connectionHandler.getConnection();
-        DaoEnum dao = DaoEnum.valueOf(daoName);
+        EntityEnum dao = EntityEnum.valueOf(daoName);
         switch (dao){
             case ACTIVITY:
                 logger.info("Dao manager returns Activity Dao");
@@ -53,7 +36,7 @@ public class DaoManager {
             case USER:
                 logger.info("Dao manager returns User Dao");
                 return new UserDao(connection);
-            default: throw new EnumConstantNotPresentException(DaoEnum.class, dao.name());
+            default: throw new EnumConstantNotPresentException(EntityEnum.class, dao.name());
         }
     }
 }

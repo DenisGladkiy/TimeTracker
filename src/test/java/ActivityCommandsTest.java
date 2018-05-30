@@ -36,7 +36,7 @@ public class ActivityCommandsTest {
     public void initTest(){
         request = mock(HttpServletRequest.class);
         initializer.initializeData(request);
-        manager = DaoManager.getInstance();
+        manager = new DaoManager();
         dao = (ActivityDao) manager.getDao("ACTIVITY");
     }
 

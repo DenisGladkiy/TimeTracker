@@ -67,7 +67,7 @@
 			<td>
 			    <input type="hidden" name="id" value=${activity.id}>
 			    <input type="hidden" name="name" value="${activity.name}">
-				<input type="hidden" name="useId" value="${activity.userId}">
+				<input type="hidden" name="userId" value="${activity.userId}">
 				<input type="hidden" name="removed" value="false">
 				<input type="hidden" name="complete" value="false">
 			    <input type="hidden" name="select" value=${ConstantsImpl.ADDED_ACTIVITIES}>

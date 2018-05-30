@@ -26,13 +26,10 @@ public class UserSelect implements GeneralCommand {
         String forward = Constants.USERS;
         UserDao dao = (UserDao) manager.getDao("USER");
         HttpSession session = request.getSession();
-        List<User> users = null;
-        try {
-            users = dao.getAll();
-        } catch (SQLException e) {
+        List<User> users = dao.getAll();
+        if(users == null) {
             session.setAttribute("Error", "Bad request");
             forward = Constants.ERROR;
-            logger.info(e);
         }
         dao.closeConnection();
         session.setAttribute("Users", users);

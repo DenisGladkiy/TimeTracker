@@ -14,6 +14,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface GeneralCommand {
     Logger logger = Logger.getLogger(GeneralCommand.class);
-    DaoManager manager = DaoManager.getInstance();
+    DaoManager manager = new DaoManager();
     String execute(HttpServletRequest request, HttpServletResponse response);
 }

@@ -34,7 +34,7 @@ public class UserFilter implements Filter {
         HttpSession session = request.getSession(false);
         if(session != null){
             User user = (User) session.getAttribute("User");
-            logger.info("UserFilter session user = " + user);
+            logger.info("UserFilter service user = " + user);
             if(user != null && user.getRole().equals(UserRoleEnum.USER)){
                 filterChain.doFilter(request, response);
             }else{response.sendRedirect(Constants.INDEX);}

@@ -1,5 +1,6 @@
 package com.denis.timetracking.mvc.model.dao;
 
+import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import javafx.util.Duration;
@@ -88,7 +89,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @return by user id activities
      * @throws SQLException the sql exception
      */
-    public List<Activity> getByUserId(int userId) throws SQLException {
+    public List<Activity> getByUserId(int userId) {
         String query = "SELECT * FROM activities WHERE user_id = " + userId;
         return getByQuery(query);
     }
@@ -193,12 +194,17 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         }
     }
 
-    private List<Activity> getByQuery(String query) throws SQLException {
+    private List<Activity> getByQuery(String query) {
         List<Activity> activities = new ArrayList<>();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        while (resultSet.next()){
-            activities.add(createActivityFromRs(resultSet));
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()){
+                activities.add(createActivityFromRs(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Activity get by query exception", e);
         }
         return activities;
     }

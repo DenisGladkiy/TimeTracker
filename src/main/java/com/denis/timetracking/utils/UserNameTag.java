@@ -19,7 +19,7 @@ public class UserNameTag extends TagSupport {
     private DaoManager manager;
 
     {
-        manager = DaoManager.getInstance();
+        manager = new DaoManager();
     }
 
     /**
