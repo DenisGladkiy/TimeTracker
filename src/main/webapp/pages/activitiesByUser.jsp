@@ -29,7 +29,7 @@
         left:1%;}
 </style>
 <body>
-<h2 align="center"><fmt:message key="activities.actualByUser"/> ${SelectedUser.firstName}</h2>
+<h2 align="center"><fmt:message key="activities.actualByUser"/> <user:getName userId="${SelectedUser}"/></h2>
 <table width="100%">
     <th><fmt:message key="userIndex.id"/></th>
     <th><fmt:message key="userIndex.name"/></th>

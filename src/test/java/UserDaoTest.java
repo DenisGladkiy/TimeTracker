@@ -3,10 +3,7 @@ import com.denis.timetracking.mvc.model.dao.DaoManager;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,16 +66,18 @@ public class UserDaoTest {
         assertEquals(1, user.getId());
     }
 
+    @Ignore
     @Test(expected = IncorrectInputException.class)
     public void testIncorrectInput() throws SQLException, IncorrectInputException {
         dao.insert(null);
     }
-
+    @Ignore
     @Test(expected = IncorrectInputException.class)
     public void testIncorrectId() throws SQLException, IncorrectInputException {
         dao.getById(6);
     }
 
+    @Ignore
     @Test(expected = IncorrectInputException.class)
     public void testIncorrectLogin() throws SQLException, IncorrectInputException {
         dao.getByLogin("");
@@ -104,7 +103,7 @@ public class UserDaoTest {
 
     @Test
     public void testExist() throws SQLException {
-        assertTrue(dao.doesExist(1));
+        assertTrue(dao.isExist(1));
     }
 
     private User createTestUser(){

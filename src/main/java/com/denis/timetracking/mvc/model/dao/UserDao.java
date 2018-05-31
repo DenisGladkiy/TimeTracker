@@ -35,15 +35,13 @@ public class UserDao implements AbstractDao<User, Integer> {
      */
     public List<User> getAll() {
         String query = "SELECT * FROM users";
-        PreparedStatement ps;
-        List<User> users = null;
-        try {
-            ps = connection.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+        List<User> users;
+        try(PreparedStatement ps = connection.prepareStatement(query);
+                                    ResultSet rs = ps.executeQuery()) {
             users = getByQuery(rs);
-            closeResources(rs, ps);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e);
+            throw new DaoException("Get all users exception", e);
         }
         return users;
     }
@@ -81,18 +79,16 @@ public class UserDao implements AbstractDao<User, Integer> {
      */
     public User getByLogin(String login) {
         String query = "SELECT * FROM users WHERE email=?";
-        ResultSet rs;
-        PreparedStatement ps;
         User user = null;
-        try {
-            ps = connection.prepareStatement(query);
+        try (PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, login);
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                user = createUserFromRs(rs);
-                closeResources(rs, ps);
+            try(ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = createUserFromRs(rs);
+                }
             }
         } catch (SQLException e) {
+            logger.info(e);
             throw new DaoException("Get by login exception", e);
         }
         return user;
@@ -104,17 +100,19 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @throws SQLException
      * @throws IncorrectInputException
      */
-    public void insert(User user) throws SQLException, IncorrectInputException {
-        if(user == null) throw new IncorrectInputException("Impossible to create user with provided data");
+    public void insert(User user) {
         String insert = "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
-        PreparedStatement insertStatement = connection.prepareStatement(insert);
-        insertStatement.setString(1, user.getFirstName());
-        insertStatement.setString(2, user.getLastName());
-        insertStatement.setString(3, user.getEmail());
-        insertStatement.setString(4, user.getPassword());
-        insertStatement.setString(5, user.getRole().toString());
-        insertStatement.executeUpdate();
-        insertStatement.close();
+        try(PreparedStatement insertStatement = connection.prepareStatement(insert)) {
+            insertStatement.setString(1, user.getFirstName());
+            insertStatement.setString(2, user.getLastName());
+            insertStatement.setString(3, user.getEmail());
+            insertStatement.setString(4, user.getPassword());
+            insertStatement.setString(5, user.getRole().toString());
+            insertStatement.executeUpdate();
+        }catch (SQLException e){
+            logger.info(e);
+            throw new DaoException("User Dao insert exception", e);
+        }
     }
 
     public void update(User user) { }
@@ -124,12 +122,15 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @param user
      * @throws SQLException
      */
-    public void delete(User user) throws SQLException {
+    public void delete(User user) {
         int id = user.getId();
         logger.info("User to delete = " + user.getFirstName() + ", " + id);
-        Statement statement = connection.createStatement();
-        statement.execute("DELETE FROM users where user_id = " + id);
-        statement.close();
+        try (Statement statement = connection.createStatement()){
+            statement.execute("DELETE FROM users where user_id = " + id);
+        } catch (SQLException e) {
+            logger.info(e);
+            throw new DaoException("User delete exception", e);
+        }
     }
 
     /**
@@ -138,7 +139,7 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @return true if user exists
      * @throws SQLException
      */
-    public boolean doesExist(Integer userId) throws SQLException {
+    public boolean isExist(Integer userId) throws SQLException {
         String query = "SELECT user_id FROM users WHERE user_id = ?";
         ResultSet rs = null;
         PreparedStatement ps = connection.prepareStatement(query);

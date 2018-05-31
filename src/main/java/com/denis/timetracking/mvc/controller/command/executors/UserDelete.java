@@ -3,6 +3,8 @@ package com.denis.timetracking.mvc.controller.command.executors;
 import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
+import com.denis.timetracking.mvc.model.service.ServiceManager;
+import com.denis.timetracking.mvc.model.service.UserService;
 import com.denis.timetracking.utils.Constants;
 import com.denis.timetracking.utils.ControllerHelper;
 
@@ -24,23 +26,7 @@ public class UserDelete implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String forward = Constants.USERS;
-        ControllerHelper helper = new ControllerHelper();
-        User user = helper.createUserBean(request);
-        UserDao dao = (UserDao)manager.getDao("USER");
-        HttpSession session = request.getSession();
-        List<User> users = null;
-        try {
-            dao.delete(user);
-            users = dao.getAll();
-        } catch (SQLException e) {
-            session.setAttribute("Error", "Bad request");
-            forward = Constants.ERROR;
-            logger.info(e);
-        }
-        session.setAttribute("Users", users);
-        dao.closeConnection();
-        logger.info("User delete forward = " + forward);
-        return forward;
+        UserService uService = (UserService) new ServiceManager().getService("USER");
+        return uService.delete(request);
     }
 }

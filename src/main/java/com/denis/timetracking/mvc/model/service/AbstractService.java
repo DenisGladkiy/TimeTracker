@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface AbstractService<T> {
 
-    List<T> select(HttpServletRequest request, HttpServletResponse response);
+    List<T> select(HttpServletRequest request);
 
-    void insert(HttpServletRequest request, HttpServletResponse response);
+    String insert(HttpServletRequest request);
 
-    void update(HttpServletRequest request, HttpServletResponse response);
+    void update(HttpServletRequest request);
 
-    void delete(HttpServletRequest request, HttpServletResponse response);
+    String delete(HttpServletRequest request);
 }

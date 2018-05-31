@@ -111,7 +111,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @return true if activity exists
      * @throws SQLException
      */
-    public boolean doesExist(Integer id) throws SQLException {
+    public boolean isExist(Integer id) throws SQLException {
         return getById(id) != null;
     }
 
@@ -145,12 +145,18 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @param activity
      * @throws SQLException
      */
-    public void delete(Activity activity) throws SQLException {
+    public void delete(Activity activity) {
         int id = activity.getId();
         logger.info("Activity to delete = " + activity.getName() + ", " + id);
-        Statement statement = connection.createStatement();
-        statement.execute("delete from activities where activity_id = " + id);
-        statement.close();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.execute("delete from activities where activity_id = " + id);
+            statement.close();
+        } catch (SQLException e) {
+            logger.info(e);
+            throw new DaoException("Activity delete exception", e);
+        }
     }
 
     /**
@@ -204,6 +210,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
                 activities.add(createActivityFromRs(resultSet));
             }
         } catch (SQLException e) {
+            logger.info(e);
             throw new DaoException("Activity get by query exception", e);
         }
         return activities;

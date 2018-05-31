@@ -69,7 +69,7 @@ public class UserCommandsTest {
     @Test
     public void testAdminLogin(){
         when(request.getParameter("login")).thenReturn("ivan@q.w");
-        when(request.getParameter("password")).thenReturn("1234");
+        when(request.getParameter("password")).thenReturn("1234qwer@");
         assertEquals(Constants.ADMIN_INDEX, new Login().execute(request, response));
         assertNotNull(initializer.testSession.get("User"));
     }
@@ -77,7 +77,7 @@ public class UserCommandsTest {
     @Test
     public void testUserLogin(){
         when(request.getParameter("login")).thenReturn("ivan@a.b");
-        when(request.getParameter("password")).thenReturn("1234");
+        when(request.getParameter("password")).thenReturn("1234qwer@");
         assertEquals(Constants.USER_INDEX, new Login().execute(request, response));
         assertNotNull(initializer.testSession.get("Activities"));
         assertNotNull(initializer.testSession.get("User"));

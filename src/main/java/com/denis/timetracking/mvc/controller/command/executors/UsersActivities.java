@@ -7,6 +7,8 @@ import com.denis.timetracking.mvc.controller.command.executors.utils.ExecutorHel
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import com.denis.timetracking.mvc.model.entity.User;
+import com.denis.timetracking.mvc.model.service.ActivityService;
+import com.denis.timetracking.mvc.model.service.ServiceManager;
 import com.denis.timetracking.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,27 +30,25 @@ public class UsersActivities implements GeneralCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        int userId = Integer.valueOf(request.getParameter("userId"));
+        /*int userId = Integer.valueOf(request.getParameter("userId"));
         logger.info("UsersActivities user id = " + userId);
         String selection = request.getParameter("select");
         ActivityDao activityDao = (ActivityDao)manager.getDao("ACTIVITY");
         List<Activity> activities = null;
-        UserDao userDao = null;
-        User user = null;
         try {
             activities = new ExecutorHelper().getActivitiesBySelection(request, activityDao);
             activityDao.closeConnection();
-            userDao = (UserDao)manager.getDao("USER");
-            user = userDao.getById(userId);
-        } catch (SQLException | IncorrectInputException e) {
+        } catch (SQLException e) {
             session.setAttribute("Error", "Bad request");
             selection = Constants.ERROR;
             logger.info(e);
         }
-        userDao.closeConnection();
-        logger.info("Users activities forward = " + selection);
+        logger.info("Users activities forward = " + selection);*/
+        int userId = Integer.valueOf(request.getParameter("userId"));
+        ActivityService aService = (ActivityService) new ServiceManager().getService("ACTIVITY");
+        List<Activity> activities = aService.selectByUser(request);
         session.setAttribute("Activities", activities);
-        session.setAttribute("SelectedUser", user);
-        return selection;
+        session.setAttribute("SelectedUser", userId);
+        return request.getParameter("select");
     }
 }

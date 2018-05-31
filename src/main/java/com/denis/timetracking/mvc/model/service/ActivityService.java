@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Denis on 29.05.2018.
@@ -20,29 +21,33 @@ public class ActivityService implements AbstractService<Activity> {
         daoManager = new DaoManager();
     }
     @Override
-    public List<Activity> select(HttpServletRequest request, HttpServletResponse response) {
+    public List<Activity> select(HttpServletRequest request) {
         return null;
     }
 
     public List<Activity> selectByUser(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute("User");
+        String strId = request.getParameter("userId");
+        int userId = (strId != null) ? Integer.valueOf(strId) : user.getId();
         ActivityDao dao = (ActivityDao) daoManager.getDao("ACTIVITY");
-        return dao.getByUserId(user.getId());
+        List<Activity> activities = dao.getByUserId(userId);
+        dao.closeConnection();
+        return activities;
     }
 
     @Override
-    public void insert(HttpServletRequest request, HttpServletResponse response) {
+    public String insert(HttpServletRequest request) {
+        return "";
+    }
+
+    @Override
+    public void update(HttpServletRequest request) {
 
     }
 
     @Override
-    public void update(HttpServletRequest request, HttpServletResponse response) {
-
-    }
-
-    @Override
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
-
+    public String delete(HttpServletRequest request) {
+        return "";
     }
 }

@@ -84,7 +84,7 @@ public class ActivityDaoTest {
 
     @Test
     public void testDoesExist() throws SQLException {
-        boolean activity = dao.doesExist(1);
+        boolean activity = dao.isExist(1);
         assertTrue(activity);
     }
 

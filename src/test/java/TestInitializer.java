@@ -64,7 +64,7 @@ public class TestInitializer {
         when(request.getParameter("firstName")).thenReturn("Ivan");
         when(request.getParameter("lastName")).thenReturn("Ivanov");
         when(request.getParameter("email")).thenReturn("ivan@q.w");
-        when(request.getParameter("pass")).thenReturn("1234");
+        when(request.getParameter("pass")).thenReturn("1234qwer@");
         when(request.getParameter("role")).thenReturn("ADMIN");
         GeneralCommand userInsert = new UserInsert();
         userInsert.execute(request, response);

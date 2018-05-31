@@ -3,6 +3,8 @@ package com.denis.timetracking.mvc.controller.command.executors;
 import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
+import com.denis.timetracking.mvc.model.service.ServiceManager;
+import com.denis.timetracking.mvc.model.service.UserService;
 import com.denis.timetracking.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,18 +25,15 @@ public class UserSelect implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String forward = Constants.USERS;
-        UserDao dao = (UserDao) manager.getDao("USER");
+        UserService uService = (UserService) new ServiceManager().getService("USER");
+        List<User> users = uService.select(request);
         HttpSession session = request.getSession();
-        List<User> users = dao.getAll();
         if(users == null) {
             session.setAttribute("Error", "Bad request");
-            forward = Constants.ERROR;
+            return Constants.ERROR;
         }
-        dao.closeConnection();
         session.setAttribute("Users", users);
-        logger.info("Users = " + users);
-        logger.info("UserSelection forward = " + forward);
-        return forward;
+        logger.info("Select Users = " + users);
+        return Constants.USERS;
     }
 }

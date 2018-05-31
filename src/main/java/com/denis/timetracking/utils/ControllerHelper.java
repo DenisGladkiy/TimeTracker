@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Denis on 01.05.2018.
@@ -22,6 +23,11 @@ import java.util.List;
  */
 public class ControllerHelper {
     private static Logger logger = Logger.getLogger(ControllerHelper.class);
+    private static final String ID_PATTERN = "^[1-9]\\d{1,20}$";
+    private static final String NAME_PATTERN = "\\D{1,20}";
+    private static final String EMAIL_PATTERN = "\\S+@\\S+\\.\\S+";
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{4,20}$";
+    private static final String ROLE_PATTERN = "^((ADMIN)|(USER))$";
 
     /**
      * Create activity bean activity.
@@ -63,19 +69,14 @@ public class ControllerHelper {
      */
     public User createUserBean(HttpServletRequest request){
         String strId = request.getParameter("id");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String hashedPassword = hashPassword(request.getParameter("pass"));
-        logger.info("Helper user bean = " + firstName + " " + lastName + " " + hashedPassword);
-        int id = 0;
-        if (strId != null) id = Integer.valueOf(strId);
-        User user = new User(id, firstName, lastName);
+        int userId = (strId == null) ? 0 : Integer.valueOf(strId);
+        User user = new User(userId, request.getParameter("firstName"), request.getParameter("lastName"));
         user.setEmail(request.getParameter("email"));
+        String hashedPassword = hashPassword(request.getParameter("pass"));
         user.setPassword(hashedPassword);
         String role = request.getParameter("role");
-        if(role != null) {
-            user.setRole(UserRoleEnum.valueOf(role));
-        }
+        user.setRole((role == null) ? null : UserRoleEnum.valueOf(role));
+        logger.info("Helper user bean = " + user);
         return user;
     }
 
@@ -97,6 +98,44 @@ public class ControllerHelper {
             activities.add(activity);
         }
         return activities;
+    }
+
+    public boolean isCreateUserRequestValid(HttpServletRequest request){
+        String strId = request.getParameter("id");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("pass");
+        String role = request.getParameter("role");
+        if(isUserIdValid(strId) &&
+                isInputValid(firstName, NAME_PATTERN) &&
+                isInputValid(lastName, NAME_PATTERN) &&
+                isInputValid(email, EMAIL_PATTERN) &&
+                isInputValid(password, PASSWORD_PATTERN) &&
+                isInputValid(role, ROLE_PATTERN)){
+            logger.info("User fields are valid");
+            return true;
+        }
+        logger.info("User fields are invalid");
+        return false;
+    }
+
+    private boolean isUserIdValid(String strId){
+        logger.info("User Id validation " + strId);
+        if(strId == null) {
+            return true;
+        }else {
+            return Pattern.matches(ID_PATTERN, strId);
+        }
+    }
+
+    private boolean isInputValid(String input, String regex){
+        logger.info("User fields validation " + input);
+        if(input == null){
+            return false;
+        }else {
+            return Pattern.matches(regex, input);
+        }
     }
 
     private Date parseDate(String stringDate){
