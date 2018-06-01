@@ -28,7 +28,7 @@ public class ExecutorHelper {
      * @return the activities by selection
      * @throws SQLException the sql exception
      */
-    public List<Activity> getActivitiesBySelection(HttpServletRequest request, ActivityDao dao) throws SQLException {
+    public List<Activity> getActivitiesBySelection(HttpServletRequest request, ActivityDao dao) {
         String selection = request.getParameter("select");
         logger.info("ExecutorHelper selection = " + selection);
         int userId;

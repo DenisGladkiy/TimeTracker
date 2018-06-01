@@ -32,14 +32,14 @@ public class ActivityDelete implements GeneralCommand {
         Activity activity = helper.createActivityBean(request);
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         List<Activity> activities = null;
-        try {
+        //try {
             dao.delete(activity);
             activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-        } catch (SQLException e) {
-            session.setAttribute("Error", "Bad request");
-            selection = Constants.ERROR;
-            logger.info(e);
-        }
+//        } catch (SQLException e) {
+//            session.setAttribute("Error", "Bad request");
+//            selection = Constants.ERROR;
+//            logger.info(e);
+//        }
         dao.closeConnection();
         session.setAttribute("Activities", activities);
         logger.info("Activity delete forward = " + selection);

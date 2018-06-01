@@ -7,13 +7,12 @@ import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -28,6 +27,8 @@ public class ControllerHelper {
     private static final String EMAIL_PATTERN = "\\S+@\\S+\\.\\S+";
     private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{4,20}$";
     private static final String ROLE_PATTERN = "^((ADMIN)|(USER))$";
+    private static final String ACTIVITY_NAME_PATTERN = ".{1,50}";
+    private static final String DESCRIPTION_PATTERN = ".{1,200}";
 
     /**
      * Create activity bean activity.
@@ -36,26 +37,20 @@ public class ControllerHelper {
      * @return the activity
      */
     public Activity createActivityBean(HttpServletRequest request){
-        String id = request.getParameter("id");
-        String name = request.getParameter("name");
-        Activity activity = createActivityInstance(id, name);
-        if(activity == null) return null;
-        activity.setDescription(request.getParameter("description"));
-        activity.setCreationDate(parseDate(request.getParameter("creationDate")));
-        activity.setDeadLine(parseDate(request.getParameter("deadLine")));
-        String time = request.getParameter("time");
-        String user = request.getParameter("userId");
-        String accept = request.getParameter("added");
-        String remove = request.getParameter("removed");
-        String complete = request.getParameter("complete");
-        if (time != null) {
-            activity.setTime(new Duration(Double.valueOf(time) * 3600000));
-        }
-        activity.setAddRequest(isTrue(accept));
-        activity.setRemoveRequest(isTrue(remove));
-        activity.setCompleted(isTrue(complete));
-        if (user != null && !user.equals("")) {
-            activity.setUserId(Integer.valueOf(user));
+        Activity activity = null;
+        if(isCreateActivityRequestValid(request)){
+            activity = new Activity();
+            Map<String, String> activityData = prepareActivityData(request);
+            activity.setId(Integer.valueOf(activityData.get("id")));
+            activity.setName(activityData.get("name"));
+            activity.setDescription(activityData.get("description"));
+            activity.setCreationDate(parseDate(activityData.get("creationDate")));
+            activity.setDeadLine(parseDate(activityData.get("deadLine")));
+            activity.setTime(new Duration(Double.valueOf(activityData.get("time")) * 3600000));
+            activity.setUserId(Integer.valueOf(activityData.get("userId")));
+            activity.setAddRequest(Boolean.valueOf(activityData.get("added")));
+            activity.setRemoveRequest(Boolean.valueOf(activityData.get("removed")));
+            activity.setCompleted(Boolean.valueOf(activityData.get("complete")));
         }
         logger.info("Activity from helper = " + activity);
         return activity;
@@ -107,17 +102,50 @@ public class ControllerHelper {
         String email = request.getParameter("email");
         String password = request.getParameter("pass");
         String role = request.getParameter("role");
-        if(isUserIdValid(strId) &&
+        boolean isValid = isUserIdValid(strId) &&
                 isInputValid(firstName, NAME_PATTERN) &&
                 isInputValid(lastName, NAME_PATTERN) &&
                 isInputValid(email, EMAIL_PATTERN) &&
                 isInputValid(password, PASSWORD_PATTERN) &&
-                isInputValid(role, ROLE_PATTERN)){
-            logger.info("User fields are valid");
-            return true;
-        }
-        logger.info("User fields are invalid");
-        return false;
+                isInputValid(role, ROLE_PATTERN);
+            logger.info("User fields are valid = " + isValid);
+            return isValid;
+    }
+
+    public boolean isCreateActivityRequestValid(HttpServletRequest request){
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String deadline = request.getParameter("deadLine");
+        boolean isValid = isInputValid(name, ACTIVITY_NAME_PATTERN) &&
+                            isDescriptionValid(description) &&
+                            isDeadlineValid(deadline);
+        logger.info("Activity creation validation = " + isValid);
+        return isValid;
+    }
+
+    private Map prepareActivityData(HttpServletRequest request){
+        Map<String, String> data = new HashMap<>();
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String creationDate = request.getParameter("creationDate");
+        String deadline = request.getParameter("deadLine");
+        String time = request.getParameter("time");
+        String user = request.getParameter("userId");
+        String added = request.getParameter("added");
+        String removed = request.getParameter("removed");
+        String complete = request.getParameter("complete");
+        data.put("id", (id == null) ? "0" : id);
+        data.put("name", name);
+        data.put("description", description);
+        data.put("creationDate", creationDate);
+        data.put("deadLine", deadline);
+        data.put("time", (time == null) ? "0" : time);
+        data.put("userId", (user == null) ? "0" : user);
+        data.put("added", String.valueOf(isTrue(added)));
+        data.put("removed", String.valueOf(isTrue(removed)));
+        data.put("complete", String.valueOf(isTrue(complete)));
+        return data;
     }
 
     private boolean isUserIdValid(String strId){
@@ -129,8 +157,17 @@ public class ControllerHelper {
         }
     }
 
+    private boolean isDescriptionValid(String description){
+        logger.info("Description validation " + description);
+        if(description == null || description.equals("")) {
+            return true;
+        }else {
+            return Pattern.matches(DESCRIPTION_PATTERN, description);
+        }
+    }
+
     private boolean isInputValid(String input, String regex){
-        logger.info("User fields validation " + input);
+        logger.info("Field validation " + input);
         if(input == null){
             return false;
         }else {
@@ -138,9 +175,17 @@ public class ControllerHelper {
         }
     }
 
+    private boolean isDeadlineValid(String deadline){
+        if(deadline == null || deadline.equals("")){
+            return true;
+        }else{
+            return parseDate(deadline) != null;
+        }
+    }
+
     private Date parseDate(String stringDate){
         logger.info("String date = " + stringDate);
-        if(stringDate == null){
+        if(stringDate == null || stringDate.equals("")){
             logger.info("String date == null");
             return null;
         }else {
@@ -152,20 +197,6 @@ public class ControllerHelper {
                 e.printStackTrace();
                 return null;
             }
-        }
-    }
-
-    private Activity createActivityInstance(String id, String name){
-        Activity activity;
-        if(id != null){
-            activity = new Activity(Integer.valueOf(id), name);
-            return activity;
-        }else if(name != null && !name.equals("")) {
-            activity = new Activity();
-            activity.setName(name);
-            return activity;
-        }else{
-            return null;
         }
     }
 

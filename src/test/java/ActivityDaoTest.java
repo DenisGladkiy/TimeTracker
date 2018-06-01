@@ -1,3 +1,4 @@
+import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.dao.DaoManager;
@@ -94,7 +95,7 @@ public class ActivityDaoTest {
         assertEquals(4, dao.getAll().size());
     }
 
-    @Test(expected = IncorrectInputException.class)
+    @Test(expected = DaoException.class)
     public void testInsertNull() throws SQLException, IncorrectInputException {
         dao.insert(null);
     }

@@ -31,13 +31,13 @@ public class ActivitySelect implements GeneralCommand {
         ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
         HttpSession session = request.getSession();
         List<Activity> activities = null;
-        try {
+        //try {
             activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-        } catch (SQLException e) {
-            session.setAttribute("Error", "Bad request");
-            selection = Constants.ERROR;
-            logger.info(e);
-        }
+//        } catch (SQLException e) {
+//            session.setAttribute("Error", "Bad request");
+//            selection = Constants.ERROR;
+//            logger.info(e);
+//        }
         logger.info("List of selected activities = " + activities);
         dao.closeConnection();
         session.setAttribute("Activities", activities);

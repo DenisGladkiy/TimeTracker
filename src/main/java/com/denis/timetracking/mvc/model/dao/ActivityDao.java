@@ -42,7 +42,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @return the actual activities
      * @throws SQLException the sql exception
      */
-    public List<Activity> getActual() throws SQLException {
+    public List<Activity> getActual() {
         String queryActual = "SELECT * FROM activities WHERE add_request <> true " +
                 "                                        AND remove_request <> true " +
                 "                                        AND completed <> true";
@@ -55,7 +55,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @return the added activities
      * @throws SQLException the sql exception
      */
-    public List<Activity> getAdded() throws SQLException {
+    public List<Activity> getAdded() {
         String query = "SELECT * FROM activities WHERE add_request = true";
         return getByQuery(query);
     }
@@ -66,7 +66,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @return the removed activities
      * @throws SQLException the sql exception
      */
-    public List<Activity> getRemoved() throws SQLException {
+    public List<Activity> getRemoved() {
         String query = "SELECT * FROM activities WHERE remove_request = true";
         return getByQuery(query);
     }
@@ -77,7 +77,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @return the completed activities
      * @throws SQLException the sql exception
      */
-    public List<Activity> getCompleted() throws SQLException {
+    public List<Activity> getCompleted(){
         String query = "SELECT * FROM activities WHERE completed = true";
         return getByQuery(query);
     }
@@ -121,11 +121,15 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws SQLException
      * @throws IncorrectInputException
      */
-    public void insert(Activity activity) throws SQLException, IncorrectInputException {
-        Statement statement = connection.createStatement();
-        String query = createInsertionQuery(activity);
-        statement.execute(query);
-        statement.close();
+    public void insert(Activity activity){
+        try(Statement statement = connection.createStatement()) {
+            String query = createInsertionQuery(activity);
+            statement.execute(query);
+            statement.close();
+        }catch (SQLException | IncorrectInputException e){
+            logger.info(e);
+            throw new DaoException("Activity insert exception", e);
+        }
     }
 
     /**

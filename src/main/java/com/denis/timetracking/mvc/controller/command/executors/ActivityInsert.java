@@ -6,6 +6,8 @@ import com.denis.timetracking.mvc.controller.command.executors.utils.ExecutorHel
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.Activity;
+import com.denis.timetracking.mvc.model.service.ActivityService;
+import com.denis.timetracking.mvc.model.service.ServiceManager;
 import com.denis.timetracking.utils.Constants;
 import com.denis.timetracking.utils.ControllerHelper;
 
@@ -28,40 +30,7 @@ public class ActivityInsert implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String selection = request.getParameter("select");
-        ControllerHelper helper = new ControllerHelper();
-        Activity activity = helper.createActivityBean(request);
-        logger.info("Activity to insert = " + activity);
-        ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
-        HttpSession session = request.getSession();
-        List<Activity> activities = null;
-        try {
-            dao.insert(isForeignKeyValid(activity)? activity : null);
-            activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-        } catch (SQLException e) {
-            session.setAttribute("Error", "Bad request");
-            selection = Constants.ERROR;
-            logger.info(e);
-        } catch (IncorrectInputException e) {
-            session.setAttribute("Error", "Incorrect input");
-            selection = Constants.ERROR;
-            logger.info(e);
-        }
-        dao.closeConnection();
-        session.setAttribute("Activities", activities);
-        logger.info("Activity insert forward = " + selection);
-        return selection;
-    }
-
-    private boolean isForeignKeyValid(Activity activity) throws SQLException {
-        int userId = activity.getUserId();
-        if(userId > 0) {
-            UserDao dao = (UserDao) manager.getDao("USER");
-            boolean exist = dao.isExist(userId);
-            dao.closeConnection();
-            return exist;
-        }else {
-            return true;
-        }
+        ActivityService aService = (ActivityService) new ServiceManager().getService("ACTIVITY");
+        return aService.insert(request);
     }
 }

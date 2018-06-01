@@ -1,13 +1,18 @@
 package com.denis.timetracking.mvc.model.service;
 
+import com.denis.timetracking.exception.IncorrectInputException;
+import com.denis.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.dao.DaoManager;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import com.denis.timetracking.mvc.model.entity.User;
+import com.denis.timetracking.utils.Constants;
+import com.denis.timetracking.utils.ControllerHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +43,19 @@ public class ActivityService implements AbstractService<Activity> {
 
     @Override
     public String insert(HttpServletRequest request) {
-        return "";
+        HttpSession session = request.getSession();
+        ControllerHelper helper = new ControllerHelper();
+        Activity activity = helper.createActivityBean(request);
+        if(activity == null){
+            session.setAttribute("Error", "Incorrect input");
+            return Constants.ERROR;
+        }
+        ActivityDao dao = (ActivityDao) daoManager.getDao("ACTIVITY");
+        dao.insert(activity);
+        List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+        session.setAttribute("Activities", activities);
+        dao.closeConnection();
+        return request.getParameter("select");
     }
 
     @Override
