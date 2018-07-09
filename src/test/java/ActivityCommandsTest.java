@@ -2,7 +2,7 @@
 import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.controller.command.executors.*;
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
-import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import com.denis.timetracking.utils.Constants;
 import org.junit.*;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  * Created by Denis on 16.05.2018.
  */
 public class ActivityCommandsTest {
-    private DaoManager manager;
+    private DaoFactory manager;
     private ActivityDao dao;
     private HttpServletRequest request;
     private static TestInitializer initializer;
@@ -36,7 +36,7 @@ public class ActivityCommandsTest {
     public void initTest(){
         request = mock(HttpServletRequest.class);
         initializer.initializeData(request);
-        manager = new DaoManager();
+        manager = new DaoFactory();
         dao = (ActivityDao) manager.getDao("ACTIVITY");
     }
 

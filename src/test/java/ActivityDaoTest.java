@@ -1,7 +1,7 @@
 import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
-import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import org.junit.*;
 
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.mock;
  * Created by Denis on 21.05.2018.
  */
 public class ActivityDaoTest {
-    private DaoManager manager;
+    private DaoFactory manager;
     private ActivityDao dao;
     private HttpServletRequest request;
     private static TestInitializer initializer;
@@ -36,7 +36,7 @@ public class ActivityDaoTest {
     public void initTest(){
         request = mock(HttpServletRequest.class);
         initializer.initializeData(request);
-        manager = new DaoManager();
+        manager = new DaoFactory();
         dao = (ActivityDao) manager.getDao("ACTIVITY");
     }
 

@@ -137,11 +137,15 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @param activity
      * @throws SQLException
      */
-    public void update(Activity activity) throws SQLException {
+    public void update(Activity activity) {
         String query = createUpdateQuery(activity);
-        Statement statement = connection.createStatement();
-        statement.execute(query);
-        statement.close();
+        try(Statement statement = connection.createStatement()) {
+            statement.execute(query);
+            statement.close();
+        }catch (SQLException e){
+            logger.info(e);
+            throw new DaoException("Activity update exception", e);
+        }
     }
 
     /**

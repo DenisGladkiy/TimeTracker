@@ -3,7 +3,7 @@ import com.denis.timetracking.mvc.controller.command.executors.Login;
 import com.denis.timetracking.mvc.controller.command.executors.UserDelete;
 import com.denis.timetracking.mvc.controller.command.executors.UserInsert;
 import com.denis.timetracking.mvc.controller.command.executors.UserSelect;
-import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.utils.Constants;
@@ -27,7 +27,7 @@ public class UserCommandsTest {
     private static TestInitializer initializer;
     private HttpServletRequest request;
     private HttpServletResponse response;
-    private DaoManager manager;
+    private DaoFactory manager;
     private UserDao dao;
 
     @BeforeClass
@@ -40,7 +40,7 @@ public class UserCommandsTest {
     public void initTest(){
         request = mock(HttpServletRequest.class);
         initializer.initializeData(request);
-        manager = new DaoManager();
+        manager = new DaoFactory();
         dao = (UserDao) manager.getDao("USER");
     }
 

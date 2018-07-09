@@ -5,7 +5,7 @@ import com.denis.timetracking.mvc.model.entity.EntityEnum;
 /**
  * Created by Denis on 29.05.2018.
  */
-public class ServiceManager {
+public class ServiceFactory {
 
     public AbstractService getService(String serviceName){
         EntityEnum service = EntityEnum.valueOf(serviceName);

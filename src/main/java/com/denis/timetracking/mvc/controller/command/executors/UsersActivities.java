@@ -1,20 +1,13 @@
 package com.denis.timetracking.mvc.controller.command.executors;
 
-import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.controller.command.GeneralCommand;
-import com.denis.timetracking.mvc.model.dao.UserDao;
-import com.denis.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
-import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.entity.Activity;
-import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.mvc.model.service.ActivityService;
-import com.denis.timetracking.mvc.model.service.ServiceManager;
-import com.denis.timetracking.utils.Constants;
+import com.denis.timetracking.mvc.model.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -45,7 +38,7 @@ public class UsersActivities implements GeneralCommand {
         }
         logger.info("Users activities forward = " + selection);*/
         int userId = Integer.valueOf(request.getParameter("userId"));
-        ActivityService aService = (ActivityService) new ServiceManager().getService("ACTIVITY");
+        ActivityService aService = (ActivityService) new ServiceFactory().getService("ACTIVITY");
         List<Activity> activities = aService.selectByUser(request);
         session.setAttribute("Activities", activities);
         session.setAttribute("SelectedUser", userId);

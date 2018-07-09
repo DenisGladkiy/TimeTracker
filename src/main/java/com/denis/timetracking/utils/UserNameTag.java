@@ -1,7 +1,7 @@
 package com.denis.timetracking.utils;
 
 import com.denis.timetracking.exception.IncorrectInputException;
-import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
 
@@ -16,10 +16,10 @@ import java.sql.SQLException;
  */
 public class UserNameTag extends TagSupport {
     private int userId;
-    private DaoManager manager;
+    private DaoFactory manager;
 
     {
-        manager = new DaoManager();
+        manager = new DaoFactory();
     }
 
     /**

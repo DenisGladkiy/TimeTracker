@@ -1,6 +1,6 @@
 package com.denis.timetracking.mvc.model.service;
 
-import com.denis.timetracking.mvc.model.dao.DaoManager;
+import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
@@ -17,10 +17,10 @@ import java.util.List;
  * Created by Denis on 29.05.2018.
  */
 public class UserService implements AbstractService<User> {
-    private DaoManager manager;
+    private DaoFactory manager;
 
     public UserService(){
-        manager = new DaoManager();
+        manager = new DaoFactory();
     }
 
     @Override
@@ -48,8 +48,8 @@ public class UserService implements AbstractService<User> {
     }
 
     @Override
-    public void update(HttpServletRequest request) {
-
+    public String update(HttpServletRequest request) {
+        return null;
     }
 
     @Override

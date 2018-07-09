@@ -13,7 +13,7 @@ public interface AbstractService<T> {
 
     String insert(HttpServletRequest request);
 
-    void update(HttpServletRequest request);
+    String update(HttpServletRequest request);
 
     String delete(HttpServletRequest request);
 }

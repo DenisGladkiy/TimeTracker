@@ -11,12 +11,12 @@ import java.sql.Connection;
  * DAO factory class
  * Creates DAO by request
  */
-public class DaoManager {
+public class DaoFactory {
     private DbConnectionHandler connectionHandler;
 
-    private static Logger logger = Logger.getLogger(DaoManager.class);
+    private static Logger logger = Logger.getLogger(DaoFactory.class);
 
-    public DaoManager(){
+    public DaoFactory(){
         connectionHandler = new DbConnectionHandler("dbconfig.properties");
     }
 

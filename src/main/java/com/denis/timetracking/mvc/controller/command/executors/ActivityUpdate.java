@@ -4,6 +4,8 @@ import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.entity.Activity;
+import com.denis.timetracking.mvc.model.service.ActivityService;
+import com.denis.timetracking.mvc.model.service.ServiceFactory;
 import com.denis.timetracking.utils.Constants;
 import com.denis.timetracking.utils.ControllerHelper;
 
@@ -26,23 +28,7 @@ public class ActivityUpdate implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String selection = request.getParameter("select");
-        ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
-        ControllerHelper helper = new ControllerHelper();
-        Activity activity = helper.createActivityBean(request);
-        HttpSession session = request.getSession();
-        List<Activity> activities = null;
-        try {
-            dao.update(activity);
-            activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-        } catch (SQLException e) {
-            session.setAttribute("Error", "Bad request");
-            selection = Constants.ERROR;
-            logger.info(e);
-        }
-        logger.info("Update selection = " + selection);
-        session.setAttribute("Activities", activities);
-        dao.closeConnection();
-        return selection;
+        ActivityService aService = (ActivityService) new ServiceFactory().getService("ACTIVITY");
+        return aService.update(request);
     }
 }

@@ -2,7 +2,7 @@ package com.denis.timetracking.mvc.controller.command.executors;
 
 import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.model.service.ActivityService;
-import com.denis.timetracking.mvc.model.service.ServiceManager;
+import com.denis.timetracking.mvc.model.service.ServiceFactory;
 import com.denis.timetracking.mvc.model.service.UserService;
 import com.denis.timetracking.utils.Constants;
 
@@ -26,7 +26,7 @@ public class Login implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        uService = (UserService) new ServiceManager().getService("USER");
+        uService = (UserService) new ServiceFactory().getService("USER");
         String forward = uService.login(request, response);
         setSessionAttributes(request, forward);
         return forward;
@@ -36,7 +36,7 @@ public class Login implements GeneralCommand {
         HttpSession session = request.getSession();
         switch (forward){
             case Constants.USER_INDEX:
-                ActivityService aService = (ActivityService) new ServiceManager().getService("ACTIVITY");
+                ActivityService aService = (ActivityService) new ServiceFactory().getService("ACTIVITY");
                 session.setAttribute("Activities", aService.selectByUser(request));
                 break;
             case Constants.ADMIN_INDEX:
