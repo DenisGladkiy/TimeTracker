@@ -25,7 +25,12 @@ public class ActivityService implements AbstractService<Activity> {
 
     @Override
     public List<Activity> select(HttpServletRequest request) {
-        return null;
+        ActivityDao dao = (ActivityDao) daoFactory.getDao("ACTIVITY");
+        HttpSession session = request.getSession();
+        List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+        dao.closeConnection();
+        session.setAttribute("Activities", activities);
+        return activities;
     }
 
     public List<Activity> selectByUser(HttpServletRequest request) {
