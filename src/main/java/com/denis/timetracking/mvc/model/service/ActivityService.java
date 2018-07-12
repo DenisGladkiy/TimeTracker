@@ -76,6 +76,15 @@ public class ActivityService implements AbstractService<Activity> {
 
     @Override
     public String delete(HttpServletRequest request) {
-        return "";
+        HttpSession session = request.getSession();
+        ControllerHelper helper = new ControllerHelper();
+        Activity activity = helper.createActivityBean(request);
+        ActivityDao dao = (ActivityDao) daoFactory.getDao("ACTIVITY");
+        List<Activity> activities;
+        dao.delete(activity);
+        activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+        dao.closeConnection();
+        session.setAttribute("Activities", activities);
+        return request.getParameter("select");
     }
 }

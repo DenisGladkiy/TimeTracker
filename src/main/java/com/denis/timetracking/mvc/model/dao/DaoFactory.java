@@ -3,7 +3,6 @@ package com.denis.timetracking.mvc.model.dao;
 import com.denis.timetracking.mvc.model.DbConnectionHandler;
 import com.denis.timetracking.mvc.model.entity.EntityEnum;
 import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 
 /**

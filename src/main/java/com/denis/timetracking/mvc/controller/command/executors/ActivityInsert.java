@@ -3,7 +3,6 @@ package com.denis.timetracking.mvc.controller.command.executors;
 import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.model.service.ActivityService;
 import com.denis.timetracking.mvc.model.service.ServiceFactory;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
