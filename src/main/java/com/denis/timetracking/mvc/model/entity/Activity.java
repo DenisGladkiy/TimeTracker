@@ -2,13 +2,18 @@ package com.denis.timetracking.mvc.model.entity;
 
 import javafx.util.Duration;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Denis on 26.04.2018.
  * Class describes an activity of the time tracking system
  */
+@Entity
+@Table(name = "activities")
 public class Activity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String description;
