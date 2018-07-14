@@ -1,14 +1,30 @@
 package com.denis.timetracking.mvc.model.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by Denis on 26.04.2018.
  * Class describes a user of the time tracking system
  */
+
+@Entity
+@Table(name = "user")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     private int id;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
     private String email;
+
     private String password;
     private UserRoleEnum role;
 

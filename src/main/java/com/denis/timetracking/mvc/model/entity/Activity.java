@@ -14,15 +14,34 @@ import java.util.Date;
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "activity_id", nullable = false)
     private int id;
+
+    @Column(nullable = false)
     private String name;
+
     private String description;
+
+    @Column(name = "creation_date", nullable = false)
     private Date creationDate;
+
+    @Column(name = "deadline")
     private Date deadLine;
+
+    @Column(name = "working_time")
     private Duration workingTime;
+
+    @Column(name = "user_id")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private int userId;
+
+    @Column(name = "add_request")
     private boolean addRequest;
+
+    @Column(name = "remove_request")
     private boolean removeRequest;
+
     private boolean completed;
 
     /**
