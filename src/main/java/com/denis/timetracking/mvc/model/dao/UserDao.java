@@ -4,11 +4,17 @@ import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
+import com.denis.timetracking.utils.HibernateUtil;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Denis on 27.04.2018.
@@ -18,6 +24,8 @@ import java.util.List;
 public class UserDao implements AbstractDao<User, Integer> {
     private Connection connection;
     private static Logger logger = Logger.getLogger(ActivityDao.class);
+    private Session currentSession;
+    private Transaction transaction;
 
     /**
      * Instantiates a new User dao.
@@ -34,14 +42,14 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @throws SQLException
      */
     public List<User> getAll() {
-        String query = "SELECT * FROM users";
-        List<User> users;
-        try(PreparedStatement ps = connection.prepareStatement(query);
-                                    ResultSet rs = ps.executeQuery()) {
-            users = getByQuery(rs);
-        } catch (SQLException e) {
-            logger.info(e);
-            throw new DaoException("Get all users exception", e);
+        List<User> users = Collections.EMPTY_LIST;
+        try {
+            transaction = currentSession.beginTransaction();
+            users = currentSession.createQuery("FROM User").list();
+            transaction.commit();
+        }catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("UserDao getAll exception", e);
         }
         return users;
     }
@@ -54,17 +62,15 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @throws SQLException
      * @throws IncorrectInputException
      */
-    public User getById(Integer id) throws SQLException, IncorrectInputException {
-        String query = "SELECT * FROM users WHERE user_id =?";
-        ResultSet rs;
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setInt(1, id);
-        rs = ps.executeQuery();
-        if(rs.next()){
-            User user = createUserFromRs(rs);
-            closeResources(rs, ps);
+    public User getById(Integer id) {
+        try{
+            transaction = currentSession.beginTransaction();
+            User user = currentSession.get(User.class, id);
+            transaction.commit();
             return user;
-        }else{
+        } catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("UserDao getById exception", e);
             throw new IncorrectInputException("User with id = " + id + " doesn't exist");
         }
     }
@@ -115,7 +121,9 @@ public class UserDao implements AbstractDao<User, Integer> {
         }
     }
 
-    public void update(User user) { }
+    public void update(User user) {
+        throw new UnsupportedOperationException("Method Update User is not implemented");
+    }
 
     /**
      *
@@ -161,6 +169,16 @@ public class UserDao implements AbstractDao<User, Integer> {
             e.printStackTrace();
         }
     }
+
+    public Session openCurrentSession() {
+        currentSession = HibernateUtil.getSessionFactory().openSession();
+        return currentSession;
+    }
+
+    public void closeCurrentSession() {
+        currentSession.close();
+    }
+
 
     private List<User> getByQuery(ResultSet rs) throws SQLException {
         List<User> users = new ArrayList<>();

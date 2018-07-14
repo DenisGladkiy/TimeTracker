@@ -32,8 +32,6 @@ public class Activity {
     private Duration workingTime;
 
     @Column(name = "user_id")
-    @OneToOne
-    @JoinColumn(name = "user_id")
     private int userId;
 
     @Column(name = "add_request")

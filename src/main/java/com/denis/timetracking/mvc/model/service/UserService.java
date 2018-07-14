@@ -26,9 +26,20 @@ public class UserService implements AbstractService<User> {
     @Override
     public List<User> select(HttpServletRequest request) {
         UserDao dao = (UserDao) manager.getDao("USER");
+        dao.openCurrentSession();
         List<User> users = dao.getAll();
+        dao.closeCurrentSession();
         dao.closeConnection();
         return users;
+    }
+
+    public User getById(int id){
+        UserDao dao = (UserDao) manager.getDao("USER");
+        dao.openCurrentSession();
+        User user = dao.getById(id);
+        dao.closeCurrentSession();
+        dao.closeConnection();
+        return user;
     }
 
     @Override
@@ -49,7 +60,7 @@ public class UserService implements AbstractService<User> {
 
     @Override
     public String update(HttpServletRequest request) {
-        return null;
+        throw new UnsupportedOperationException("Method Update User is not implemented");
     }
 
     @Override

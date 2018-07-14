@@ -4,6 +4,8 @@ import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.dao.UserDao;
 import com.denis.timetracking.mvc.model.entity.User;
+import com.denis.timetracking.mvc.model.service.ServiceFactory;
+import com.denis.timetracking.mvc.model.service.UserService;
 
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
@@ -16,10 +18,10 @@ import java.sql.SQLException;
  */
 public class UserNameTag extends TagSupport {
     private int userId;
-    private DaoFactory manager;
+    private UserService uService;
 
     {
-        manager = new DaoFactory();
+       uService = (UserService) new ServiceFactory().getService("USER");
     }
 
     /**
@@ -34,13 +36,10 @@ public class UserNameTag extends TagSupport {
     @Override
     public int doStartTag(){
         if(userId > 0) {
-            UserDao dao = (UserDao) manager.getDao("USER");
-            User user;
             try {
-                user = dao.getById(userId);
-                dao.closeConnection();
+                User user = uService.getById(userId);
                 pageContext.getOut().write(user.getFirstName() + " " + user.getLastName());
-            } catch (IOException | SQLException | IncorrectInputException e) {
+            } catch (IOException | IncorrectInputException e) {
                 e.printStackTrace();
             }
         }
