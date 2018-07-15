@@ -7,8 +7,10 @@ import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
 import com.denis.timetracking.utils.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -80,44 +82,34 @@ public class UserDao implements AbstractDao<User, Integer> {
      *
      * @param login the login
      * @return the by login
-     * @throws SQLException            the sql exception
      * @throws IncorrectInputException the incorrect input exception
      */
     public User getByLogin(String login) {
-        String query = "SELECT * FROM users WHERE email=?";
-        User user = null;
-        try (PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setString(1, login);
-            try(ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    user = createUserFromRs(rs);
-                }
-            }
-        } catch (SQLException e) {
-            logger.info(e);
-            throw new DaoException("Get by login exception", e);
+        try{
+            transaction = currentSession.beginTransaction();
+            Query query = currentSession.createQuery("FROM User where email=:email");
+            query.setParameter("email", login);
+            User user = (User) query.uniqueResult();
+            transaction.commit();
+            return user;
+        } catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("UserDao getById exception", e);
+            throw new IncorrectInputException("User " + login + " doesn't exist");
         }
-        return user;
     }
 
     /**
-     *
      * @param user
-     * @throws SQLException
-     * @throws IncorrectInputException
      */
     public void insert(User user) {
-        String insert = "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)";
-        try(PreparedStatement insertStatement = connection.prepareStatement(insert)) {
-            insertStatement.setString(1, user.getFirstName());
-            insertStatement.setString(2, user.getLastName());
-            insertStatement.setString(3, user.getEmail());
-            insertStatement.setString(4, user.getPassword());
-            insertStatement.setString(5, user.getRole().toString());
-            insertStatement.executeUpdate();
-        }catch (SQLException e){
-            logger.info(e);
-            throw new DaoException("User Dao insert exception", e);
+        try {
+            transaction = currentSession.beginTransaction();
+            currentSession.persist(user);
+            transaction.commit();
+        }catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("UserDao insert exception", e);
         }
     }
 
@@ -131,13 +123,14 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @throws SQLException
      */
     public void delete(User user) {
-        int id = user.getId();
-        logger.info("User to delete = " + user.getFirstName() + ", " + id);
-        try (Statement statement = connection.createStatement()){
-            statement.execute("DELETE FROM users where user_id = " + id);
-        } catch (SQLException e) {
-            logger.info(e);
-            throw new DaoException("User delete exception", e);
+        try {
+            transaction = currentSession.beginTransaction();
+            user = currentSession.get(User.class, user.getId());
+            currentSession.delete(user);
+            transaction.commit();
+        }catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("UserDao delete exception", e);
         }
     }
 
@@ -147,18 +140,8 @@ public class UserDao implements AbstractDao<User, Integer> {
      * @return true if user exists
      * @throws SQLException
      */
-    public boolean isExist(Integer userId) throws SQLException {
-        String query = "SELECT user_id FROM users WHERE user_id = ?";
-        ResultSet rs = null;
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setInt(1, userId);
-        rs = ps.executeQuery();
-        if(rs.next()) {
-            closeResources(rs, ps);
-            return true;
-        }
-        closeResources(rs, ps);
-        return false;
+    public boolean isExist(Integer userId) {
+        return getById(userId) != null;
     }
 
     @Override

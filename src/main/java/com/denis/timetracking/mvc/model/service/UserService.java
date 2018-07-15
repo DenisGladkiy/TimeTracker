@@ -48,7 +48,9 @@ public class UserService implements AbstractService<User> {
         if(helper.isCreateUserRequestValid(request)) {
             User user = helper.createUserBean(request);
             UserDao userDao = (UserDao) manager.getDao("USER");
+            userDao.openCurrentSession();
             userDao.insert(user);
+            userDao.closeCurrentSession();
             userDao.closeConnection();
             return Constants.ADMIN_INDEX;
         }else {
@@ -68,9 +70,11 @@ public class UserService implements AbstractService<User> {
         ControllerHelper helper = new ControllerHelper();
         User user = helper.createUserBean(request);
         UserDao dao = (UserDao)manager.getDao("USER");
+        dao.openCurrentSession();
         dao.delete(user);
         HttpSession session = request.getSession();
         List<User> users = dao.getAll();
+        dao.closeCurrentSession();
         session.setAttribute("Users", users);
         dao.closeConnection();
         return Constants.USERS;
@@ -81,7 +85,9 @@ public class UserService implements AbstractService<User> {
         String forward;
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        userDao.openCurrentSession();
         User user = userDao.getByLogin(login);
+        userDao.closeCurrentSession();
         userDao.closeConnection();
         if(isValidPassword(user, password)){
             request.getSession().setAttribute("User", user);
