@@ -45,7 +45,7 @@ public class UserDaoTest {
     @After
     public void clearData(){
         initializer.clearData();
-//        dao.closeCurrentSession();
+        dao.closeCurrentSession();
         dao.closeConnection();
     }
 
@@ -110,8 +110,8 @@ public class UserDaoTest {
 
     private User createTestUser(){
         User user = new User(4, "Alex", "Pushkin");
-        user.setEmail("alex.i.ua");
-        user.setPassword("1234");
+        user.setEmail("alex@i.ua");
+        user.setPassword("qw1234");
         user.setRole(UserRoleEnum.USER);
         return user;
     }

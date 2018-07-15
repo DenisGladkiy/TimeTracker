@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
 
     static {
         Properties properties = new Properties();
@@ -21,6 +21,23 @@ public class HibernateUtil {
         properties.setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
         properties.setProperty(Environment.URL,
                 "jdbc:mysql://localhost/time_tracking?useUnicode=yes&characterEncoding=UTF-8");
+        properties.setProperty(Environment.USER, "root");
+        properties.setProperty(Environment.PASS, "root1");
+        properties.setProperty(Environment.SHOW_SQL, "true");
+
+        Configuration configuration = new Configuration();
+        configuration.addAnnotatedClass(Activity.class);
+        configuration.addAnnotatedClass(User.class);
+        configuration.addProperties(properties);
+        sessionFactory = configuration.buildSessionFactory();
+    }
+
+    public static void initTestConfig(){
+        Properties properties = new Properties();
+        properties.setProperty(Environment.DRIVER, "com.mysql.jdbc.Driver");
+        properties.setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        properties.setProperty(Environment.URL,
+                "jdbc:mysql://localhost/time_tracking_test?useUnicode=yes&characterEncoding=UTF-8");
         properties.setProperty(Environment.USER, "root");
         properties.setProperty(Environment.PASS, "root1");
         properties.setProperty(Environment.SHOW_SQL, "true");

@@ -3,6 +3,7 @@ import com.denis.timetracking.mvc.controller.command.executors.ActivityInsert;
 import com.denis.timetracking.mvc.controller.command.executors.UserInsert;
 import com.denis.timetracking.mvc.model.DbConnectionHandler;
 import com.denis.timetracking.utils.Constants;
+import com.denis.timetracking.utils.HibernateUtil;
 import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,6 +77,7 @@ public class TestInitializer {
     }
 
     private void initializeTestConnection(){
+        HibernateUtil.initTestConfig();
         dbHandler = new DbConnectionHandler("testdb.properties");
     }
 
