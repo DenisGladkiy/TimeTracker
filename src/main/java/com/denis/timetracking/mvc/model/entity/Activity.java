@@ -15,7 +15,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activity_id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String name;
@@ -32,15 +32,16 @@ public class Activity {
     private Duration workingTime;
 
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
     @Column(name = "add_request")
-    private boolean addRequest;
+    private Boolean addRequest;
 
     @Column(name = "remove_request")
-    private boolean removeRequest;
+    private Boolean removeRequest;
 
-    private boolean completed;
+    private Boolean completed;
+
 
     /**
      * Instantiates a new Activity.
@@ -53,16 +54,16 @@ public class Activity {
      * @param id   Activity id
      * @param name Activity name
      */
-    public Activity(int id, String name) {
+    public Activity(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void setId(int id){
+    public void setId(Integer id){
         this.id = id;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -90,27 +91,27 @@ public class Activity {
         this.workingTime = workingTime;
     }
 
-    public boolean isAddRequest() {
+    public Boolean isAddRequest() {
         return addRequest;
     }
 
-    public void setAddRequest(boolean addRequest) {
+    public void setAddRequest(Boolean addRequest) {
         this.addRequest = addRequest;
     }
 
-    public boolean isRemoveRequest() {
+    public Boolean isRemoveRequest() {
         return removeRequest;
     }
 
-    public void setRemoveRequest(boolean removeRequest) {
+    public void setRemoveRequest(Boolean removeRequest) {
         this.removeRequest = removeRequest;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -130,19 +131,19 @@ public class Activity {
         this.deadLine = deadLine;
     }
 
-    public boolean isCompleted() {
+    public Boolean isCompleted() {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
 
-    public double getHours(){
+    public Double getHours(){
         return round(workingTime.toHours(), 1);
     }
 
-    private double round (double value, int precision) {
+    private Double round (Double value, Integer precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }

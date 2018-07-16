@@ -37,7 +37,7 @@ public class ActivityAccept implements GeneralCommand {
             try {
                 dao.acceptActivities(activities);
                 activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-            } catch (SQLException e) {
+            } catch (RuntimeException e){//SQLException e) {
                 session.setAttribute("Error", "Bad request");
                 forward = Constants.ERROR;
                 logger.info(e);

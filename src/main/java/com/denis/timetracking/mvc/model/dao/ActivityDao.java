@@ -3,15 +3,23 @@ package com.denis.timetracking.mvc.model.dao;
 import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.entity.Activity;
+import com.denis.timetracking.utils.HibernateUtil;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Denis on 27.04.2018.
@@ -21,6 +29,8 @@ import java.util.List;
 public class ActivityDao implements AbstractDao<Activity, Integer> {
     private Connection connection;
     private static Logger logger = Logger.getLogger(ActivityDao.class);
+    private Session currentSession;
+    private Transaction transaction;
 
     /**
      * Instantiates a new Activity dao.
@@ -31,55 +41,54 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         this.connection = connection;
     }
 
-    public List<Activity> getAll() throws SQLException {
-        String queryAll = "SELECT * FROM activities";
-        return getByQuery(queryAll);
+    public List<Activity> getAll() {
+        Query query = currentSession.createQuery("FROM Activity");
+        return selectList(query);
     }
 
     /**
      * Gets actual activities.
      *
      * @return the actual activities
-     * @throws SQLException the sql exception
      */
     public List<Activity> getActual() {
-        String queryActual = "SELECT * FROM activities WHERE add_request <> true " +
-                "                                        AND remove_request <> true " +
-                "                                        AND completed <> true";
-        return getByQuery(queryActual);
+        Query query = currentSession.createQuery("FROM Activity where add_request!=:state " +
+                "AND remove_request!=:state AND completed!=:state");
+        query.setParameter("state", true);
+        return selectList(query);
     }
 
     /**
      * Gets added activities.
      *
      * @return the added activities
-     * @throws SQLException the sql exception
      */
     public List<Activity> getAdded() {
-        String query = "SELECT * FROM activities WHERE add_request = true";
-        return getByQuery(query);
+        Query query = currentSession.createQuery("FROM Activity where add_request=:state");
+        query.setParameter("state", true);
+        return selectList(query);
     }
 
     /**
      * Gets removed activities.
      *
      * @return the removed activities
-     * @throws SQLException the sql exception
      */
     public List<Activity> getRemoved() {
-        String query = "SELECT * FROM activities WHERE remove_request = true";
-        return getByQuery(query);
+        Query query = currentSession.createQuery("FROM Activity where remove_request=:state");
+        query.setParameter("state", true);
+        return selectList(query);
     }
 
     /**
      * Gets completed activities.
      *
      * @return the completed activities
-     * @throws SQLException the sql exception
      */
     public List<Activity> getCompleted(){
-        String query = "SELECT * FROM activities WHERE completed = true";
-        return getByQuery(query);
+        Query query = currentSession.createQuery("FROM Activity where completed=:state");
+        query.setParameter("state", true);
+        return selectList(query);
     }
 
     /**
@@ -87,31 +96,37 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      *
      * @param userId the user id
      * @return by user id activities
-     * @throws SQLException the sql exception
      */
     public List<Activity> getByUserId(int userId) {
-        String query = "SELECT * FROM activities WHERE user_id = " + userId;
-        return getByQuery(query);
+        Query query = currentSession.createQuery("FROM Activity where user_id=:userId");
+        query.setParameter("userId", userId);
+        return selectList(query);
     }
 
     /**
      *
      * @param id the id
      * @return activity by id
-     * @throws SQLException
      */
-    public Activity getById(Integer id) throws SQLException {
-        String query = "SELECT * FROM activities WHERE activity_id = " + id;
-        return getByQuery(query).get(0);
+    public Activity getById(Integer id) {
+        try{
+            transaction = currentSession.beginTransaction();
+            Activity activity = currentSession.get(Activity.class, id);
+            transaction.commit();
+            return activity;
+        } catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("ActivityDao getById exception", e);
+            throw new IncorrectInputException("Activity with id = " + id + " doesn't exist");
+        }
     }
 
     /**
      *
      * @param id activity id
      * @return true if activity exists
-     * @throws SQLException
      */
-    public boolean isExist(Integer id) throws SQLException {
+    public boolean isExist(Integer id) {
         return getById(id) != null;
     }
 
@@ -122,13 +137,13 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws IncorrectInputException
      */
     public void insert(Activity activity){
-        try(Statement statement = connection.createStatement()) {
-            String query = createInsertionQuery(activity);
-            statement.execute(query);
-            statement.close();
-        }catch (SQLException | IncorrectInputException e){
-            logger.info(e);
-            throw new DaoException("Activity insert exception", e);
+        try {
+            transaction = currentSession.beginTransaction();
+            currentSession.persist(activity);
+            transaction.commit();
+        }catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("ActivityDao insert exception", e);
         }
     }
 
@@ -138,32 +153,49 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws SQLException
      */
     public void update(Activity activity) {
-        String query = createUpdateQuery(activity);
+        /*String query = createUpdateQuery(activity);
         try(Statement statement = connection.createStatement()) {
             statement.execute(query);
             statement.close();
         }catch (SQLException e){
             logger.info(e);
             throw new DaoException("Activity update exception", e);
+        }*/
+        try {
+            transaction = currentSession.beginTransaction();
+            currentSession.update(activity);
+            transaction.commit();
+        }catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("ActivityDao update exception", e);
         }
     }
 
     /**
      *
      * @param activity
-     * @throws SQLException
      */
     public void delete(Activity activity) {
-        int id = activity.getId();
-        logger.info("Activity to delete = " + activity.getName() + ", " + id);
-        Statement statement = null;
+//        int id = activity.getId();
+//        logger.info("Activity to delete = " + activity.getName() + ", " + id);
+//        Statement statement = null;
+//        try {
+//            statement = connection.createStatement();
+//            statement.execute("delete from activities where activity_id = " + id);
+//            statement.close();
+//        } catch (SQLException e) {
+//            logger.info(e);
+//            throw new DaoException("Activity delete exception", e);
+//        }
         try {
-            statement = connection.createStatement();
-            statement.execute("delete from activities where activity_id = " + id);
-            statement.close();
-        } catch (SQLException e) {
-            logger.info(e);
-            throw new DaoException("Activity delete exception", e);
+            Query query = currentSession.createQuery("DELETE Activity where activity_id=:id");
+            query.setParameter("id", activity.getId());
+            transaction = currentSession.beginTransaction();
+            query.executeUpdate();
+            transaction.commit();
+        }catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("ActivityDao delete exception", e);
         }
     }
 
@@ -173,28 +205,38 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @param activities added activities to accept
      * @throws SQLException the sql exception
      */
-    public void acceptActivities(List<Activity> activities) throws SQLException {
-        PreparedStatement acceptStatement = null;
-        String update = "UPDATE activities SET add_request=? WHERE activity_id=?";
+    public void acceptActivities(List<Activity> activities) {
+//        PreparedStatement acceptStatement = null;
+//        String update = "UPDATE activities SET add_request=? WHERE activity_id=?";
+//        try{
+//            connection.setAutoCommit(false);
+//            acceptStatement = connection.prepareStatement(update);
+//            for(Activity act : activities){
+//                acceptStatement.setBoolean(1, act.isAddRequest());
+//                acceptStatement.setInt(2, act.getId());
+//                acceptStatement.executeUpdate();
+//                connection.commit();
+//            }
+//        } catch (SQLException e) {
+//            if(connection != null){
+//                connection.rollback();
+//            }
+//            throw e;
+//        }finally {
+//            if(acceptStatement != null){
+//                acceptStatement.close();
+//                connection.setAutoCommit(true);
+//            }
+//        }
         try{
-            connection.setAutoCommit(false);
-            acceptStatement = connection.prepareStatement(update);
+            transaction = currentSession.beginTransaction();
             for(Activity act : activities){
-                acceptStatement.setBoolean(1, act.isAddRequest());
-                acceptStatement.setInt(2, act.getId());
-                acceptStatement.executeUpdate();
-                connection.commit();
+                currentSession.update(act);
             }
-        } catch (SQLException e) {
-            if(connection != null){
-                connection.rollback();
-            }
-            throw e;
-        }finally {
-            if(acceptStatement != null){
-                acceptStatement.close();
-                connection.setAutoCommit(true);
-            }
+            transaction.commit();
+        }catch (HibernateException e) {
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("ActivityDao acceptActivity exception", e);
         }
     }
 
@@ -206,6 +248,32 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             logger.info(e);
             e.printStackTrace();
         }
+    }
+
+    public Session openCurrentSession() {
+        currentSession = HibernateUtil.getSessionFactory().openSession();
+        return currentSession;
+    }
+
+    public void closeCurrentSession() {
+        currentSession.close();
+    }
+
+    public void closeSessionFactory(){
+        HibernateUtil.getSessionFactory().close();
+    }
+
+    private List<Activity> selectList(Query query){
+        List<Activity> activities = Collections.EMPTY_LIST;
+        try{
+            transaction = currentSession.beginTransaction();
+            activities = query.list();
+            transaction.commit();
+        } catch (HibernateException e){
+            Optional.ofNullable(transaction).get().rollback();
+            logger.info("ActivityDao select exception", e);
+        }
+        return activities;
     }
 
     private List<Activity> getByQuery(String query) {

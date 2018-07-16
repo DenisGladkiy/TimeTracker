@@ -42,11 +42,13 @@ public class UserCommandsTest {
         initializer.initializeData(request);
         manager = new DaoFactory();
         dao = (UserDao) manager.getDao("USER");
+        dao.openCurrentSession();
     }
 
     @After
     public void clearData(){
         initializer.clearData();
+        dao.closeCurrentSession();
         dao.closeConnection();
     }
 

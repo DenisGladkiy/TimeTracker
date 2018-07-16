@@ -22,7 +22,7 @@ public class HibernateUtil {
         properties.setProperty(Environment.URL,
                 "jdbc:mysql://localhost/time_tracking?useUnicode=yes&characterEncoding=UTF-8");
         properties.setProperty(Environment.USER, "root");
-        properties.setProperty(Environment.PASS, "root1");
+        properties.setProperty(Environment.PASS, "root");
         properties.setProperty(Environment.SHOW_SQL, "true");
 
         Configuration configuration = new Configuration();
@@ -39,7 +39,7 @@ public class HibernateUtil {
         properties.setProperty(Environment.URL,
                 "jdbc:mysql://localhost/time_tracking_test?useUnicode=yes&characterEncoding=UTF-8");
         properties.setProperty(Environment.USER, "root");
-        properties.setProperty(Environment.PASS, "root1");
+        properties.setProperty(Environment.PASS, "root");
         properties.setProperty(Environment.SHOW_SQL, "true");
 
         Configuration configuration = new Configuration();

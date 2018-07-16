@@ -109,7 +109,7 @@ public class UserDaoTest {
     }
 
     private User createTestUser(){
-        User user = new User(4, "Alex", "Pushkin");
+        User user = new User(0, "Alex", "Pushkin");
         user.setEmail("alex@i.ua");
         user.setPassword("qw1234");
         user.setRole(UserRoleEnum.USER);

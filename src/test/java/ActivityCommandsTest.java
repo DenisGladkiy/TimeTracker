@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -87,7 +88,7 @@ public class ActivityCommandsTest {
         updateActivity();
         List<Activity> activities = selectByUser();
         assertEquals(1, activities.size());
-        assertEquals(1, activities.get(0).getId());
+        assertEquals(1, Optional.ofNullable(activities.get(0).getId()));
     }
 
     private void insertActivity(){

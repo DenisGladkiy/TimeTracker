@@ -1,19 +1,15 @@
 package com.denis.timetracking.mvc.model.dao;
 
-import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.entity.User;
-import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
 import com.denis.timetracking.utils.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +37,6 @@ public class UserDao implements AbstractDao<User, Integer> {
     /**
      *
      * @return the list of all users
-     * @throws SQLException
      */
     public List<User> getAll() {
         List<User> users = Collections.EMPTY_LIST;
@@ -61,7 +56,6 @@ public class UserDao implements AbstractDao<User, Integer> {
      *
      * @param id the user id
      * @return user by id
-     * @throws SQLException
      * @throws IncorrectInputException
      */
     public User getById(Integer id) {
@@ -120,7 +114,6 @@ public class UserDao implements AbstractDao<User, Integer> {
     /**
      *
      * @param user
-     * @throws SQLException
      */
     public void delete(User user) {
         try {
@@ -138,7 +131,6 @@ public class UserDao implements AbstractDao<User, Integer> {
      *
      * @param userId
      * @return true if user exists
-     * @throws SQLException
      */
     public boolean isExist(Integer userId) {
         return getById(userId) != null;
@@ -160,30 +152,5 @@ public class UserDao implements AbstractDao<User, Integer> {
 
     public void closeCurrentSession() {
         currentSession.close();
-    }
-
-
-    private List<User> getByQuery(ResultSet rs) throws SQLException {
-        List<User> users = new ArrayList<>();
-        while (rs.next()){
-            users.add(createUserFromRs(rs));
-        }
-        return users;
-    }
-
-    private User createUserFromRs(ResultSet rs) throws SQLException {
-        User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3));
-        user.setEmail(rs.getString(4));
-        user.setPassword(rs.getString(5));
-        String role = rs.getString(6);
-        if (role != null) {
-            user.setRole(UserRoleEnum.valueOf(rs.getString(6)));
-        }
-        return user;
-    }
-
-    private void closeResources(ResultSet rs, PreparedStatement ps) throws SQLException {
-        rs.close();
-        ps.close();
     }
 }
