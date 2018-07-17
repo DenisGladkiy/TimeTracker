@@ -7,6 +7,7 @@ import com.denis.timetracking.mvc.model.entity.Activity;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.utils.Constants;
 import com.denis.timetracking.utils.ControllerHelper;
+import com.sun.deploy.net.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -97,4 +98,6 @@ public class ActivityService implements AbstractService<Activity> {
         session.setAttribute("Activities", activities);
         return request.getParameter("select");
     }
+
+    public void accept(HttpRequest request){}
 }

@@ -3,6 +3,8 @@ package com.denis.timetracking.utils;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.mvc.model.entity.UserRoleEnum;
+import com.denis.timetracking.mvc.model.service.ServiceFactory;
+import com.denis.timetracking.mvc.model.service.UserService;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -47,13 +49,19 @@ public class ControllerHelper {
             activity.setCreationDate(parseDate(activityData.get("creationDate")));
             activity.setDeadLine(parseDate(activityData.get("deadLine")));
             activity.setTime(new Duration(Double.valueOf(activityData.get("time")) * 3600000));
-            activity.setUserId(Integer.valueOf(activityData.get("userId")));
+            //activity.setUserId(Integer.valueOf(activityData.get("userId")));
+            activity.setUser(getUserById(activityData.get("userId")));
             activity.setAddRequest(Boolean.valueOf(activityData.get("added")));
             activity.setRemoveRequest(Boolean.valueOf(activityData.get("removed")));
             activity.setCompleted(Boolean.valueOf(activityData.get("complete")));
         }
         logger.info("Activity from helper = " + activity);
         return activity;
+    }
+
+    private User getUserById(String userId) {
+        UserService userService = (UserService) new ServiceFactory().getService("USER");
+        return userService.getById(Integer.valueOf(userId));
     }
 
     /**

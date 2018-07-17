@@ -90,7 +90,7 @@ public class ActivityCommandsTest {
         updateActivity();
         List<Activity> activities = selectByUser();
         assertEquals(1, activities.size());
-        assertEquals(1, Optional.ofNullable(activities.get(0).getId()));
+        assertEquals(1, activities.get(0).getId());
     }
 
     private void insertActivity(){

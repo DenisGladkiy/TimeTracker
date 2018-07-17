@@ -48,9 +48,10 @@ public class TestInitializer {
         when(request.getParameter("select")).thenReturn(Constants.ACTIVITIES);
         when(request.getParameter("name")).thenReturn("test");
         when(request.getParameter("description")).thenReturn("description");
+        when(request.getParameter("creationDate")).thenReturn("2018-06-06");
         when(request.getParameter("userId")).thenReturn("2");
         insert.execute(request, response);
-        when(request.getParameter("userId")).thenReturn("0");
+        when(request.getParameter("userId")).thenReturn(null);
         when(request.getParameter("deadLine")).thenReturn("2018-06-06");
         when(request.getParameter("removed")).thenReturn("true");
         insert.execute(request, response);

@@ -42,11 +42,11 @@ public class MainTest {
         activity.setName("aaaaaaaa");
         activity.setDescription("bbbbbbbbbb");
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
+        /*try {
             activity.setCreationDate(format.parse("2018-01-01"));
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
         activity.setAddRequest(false);
         activity.setRemoveRequest(false);
         activity.setCompleted(false);

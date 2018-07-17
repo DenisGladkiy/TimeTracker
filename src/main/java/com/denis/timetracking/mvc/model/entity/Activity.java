@@ -32,8 +32,10 @@ public class Activity {
     @Convert(converter = DurationToLongConverter.class)
     private Duration workingTime;
 
-    @Column(name = "user_id")
-    private Integer userId;
+   // @Column(name = "user_id")
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Column(name = "add_request")
     private Boolean addRequest;
@@ -67,7 +69,7 @@ public class Activity {
         this.id = id;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -111,12 +113,12 @@ public class Activity {
         this.removeRequest = removeRequest;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setCreationDate(Date creationDate){
@@ -155,7 +157,7 @@ public class Activity {
     @Override
     public String toString() {
         return id + ", " + name + ", " + description + ", " + creationDate +
-                ", " + deadLine + ", " + workingTime + ", " + userId +
+                ", " + deadLine + ", " + workingTime + ", " + user +
                 ", " + addRequest + ", " + removeRequest + ", " + completed;
     }
 
