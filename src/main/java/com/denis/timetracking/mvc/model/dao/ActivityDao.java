@@ -1,23 +1,17 @@
 package com.denis.timetracking.mvc.model.dao;
 
-import com.denis.timetracking.exception.DaoException;
 import com.denis.timetracking.exception.IncorrectInputException;
 import com.denis.timetracking.mvc.model.entity.Activity;
 import com.denis.timetracking.utils.HibernateUtil;
-import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.ObjectNotFoundException;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -139,6 +133,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
     public void insert(Activity activity){
         try {
             transaction = currentSession.beginTransaction();
+            logger.debug("Activity to persist ="  + activity ) ;
             currentSession.persist(activity);
             transaction.commit();
         }catch (HibernateException e){
@@ -153,14 +148,6 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws SQLException
      */
     public void update(Activity activity) {
-        /*String query = createUpdateQuery(activity);
-        try(Statement statement = connection.createStatement()) {
-            statement.execute(query);
-            statement.close();
-        }catch (SQLException e){
-            logger.info(e);
-            throw new DaoException("Activity update exception", e);
-        }*/
         try {
             transaction = currentSession.beginTransaction();
             currentSession.update(activity);
@@ -176,17 +163,6 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @param activity
      */
     public void delete(Activity activity) {
-//        int id = activity.getId();
-//        logger.info("Activity to delete = " + activity.getName() + ", " + id);
-//        Statement statement = null;
-//        try {
-//            statement = connection.createStatement();
-//            statement.execute("delete from activities where activity_id = " + id);
-//            statement.close();
-//        } catch (SQLException e) {
-//            logger.info(e);
-//            throw new DaoException("Activity delete exception", e);
-//        }
         try {
             Query query = currentSession.createQuery("DELETE Activity where activity_id=:id");
             query.setParameter("id", activity.getId());
@@ -206,28 +182,6 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws SQLException the sql exception
      */
     public void acceptActivities(List<Activity> activities) {
-//        PreparedStatement acceptStatement = null;
-//        String update = "UPDATE activities SET add_request=? WHERE activity_id=?";
-//        try{
-//            connection.setAutoCommit(false);
-//            acceptStatement = connection.prepareStatement(update);
-//            for(Activity act : activities){
-//                acceptStatement.setBoolean(1, act.isAddRequest());
-//                acceptStatement.setInt(2, act.getId());
-//                acceptStatement.executeUpdate();
-//                connection.commit();
-//            }
-//        } catch (SQLException e) {
-//            if(connection != null){
-//                connection.rollback();
-//            }
-//            throw e;
-//        }finally {
-//            if(acceptStatement != null){
-//                acceptStatement.close();
-//                connection.setAutoCommit(true);
-//            }
-//        }
         try{
             transaction = currentSession.beginTransaction();
             for(Activity act : activities){
@@ -276,7 +230,7 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         return activities;
     }
 
-    private List<Activity> getByQuery(String query) {
+  /*  private List<Activity> getByQuery(String query) {
         List<Activity> activities = new ArrayList<>();
         Statement statement;
         try {
@@ -290,9 +244,9 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
             throw new DaoException("Activity get by query exception", e);
         }
         return activities;
-    }
+    }*/
 
-    private Activity createActivityFromRs(ResultSet rs) throws SQLException {
+  /*  private Activity createActivityFromRs(ResultSet rs) throws SQLException {
         Activity activity = new Activity(rs.getInt(1), rs.getString(2));
         activity.setDescription(rs.getString(3));
         activity.setCreationDate(rs.getDate(4));
@@ -303,9 +257,9 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         activity.setRemoveRequest(rs.getBoolean(9));
         activity.setCompleted(rs.getBoolean(10));
         return activity;
-    }
+    }*/
 
-    private String createInsertionQuery(Activity activity) throws IncorrectInputException {
+    /*private String createInsertionQuery(Activity activity) throws IncorrectInputException {
         if(activity == null)
             throw new IncorrectInputException("Impossible to create activity with provided data");
         StringBuilder builder = new StringBuilder();
@@ -324,9 +278,9 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append(activity.isCompleted() + ")");
         logger.info("Insert = " + builder);
         return builder.toString();
-    }
+    }*/
 
-    private String createUpdateQuery(Activity activity){
+    /*private String createUpdateQuery(Activity activity){
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE activities SET description = " + "\"");
         builder.append(activity.getDescription() + "\", ");
@@ -341,9 +295,9 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         builder.append(" WHERE activity_id = " + activity.getId());
         logger.info("Update = " + builder);
         return builder.toString();
-    }
+    }*/
 
-    private String convertDateToString(Date date){
+    /*private String convertDateToString(Date date){
         if(date != null) {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String deadline = format.format(date);
@@ -351,5 +305,5 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         }else {
             return "null";
         }
-    }
+    }*/
 }

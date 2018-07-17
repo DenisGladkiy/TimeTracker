@@ -38,11 +38,13 @@ public class ActivityDaoTest {
         initializer.initializeData(request);
         manager = new DaoFactory();
         dao = (ActivityDao) manager.getDao("ACTIVITY");
+        dao.openCurrentSession();
     }
 
     @After
     public void clearData(){
         initializer.clearData();
+        dao.closeCurrentSession();
         dao.closeConnection();
     }
 

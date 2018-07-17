@@ -15,7 +15,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activity_id", nullable = false)
-    private Integer id;
+    private int id;
 
     @Column(nullable = false)
     private String name;
@@ -28,7 +28,8 @@ public class Activity {
     @Column(name = "deadline")
     private Date deadLine;
 
-    @Column(name = "working_time")
+    @Column(name = "working_time", columnDefinition = "bigint")
+    @Convert(converter = DurationToLongConverter.class)
     private Duration workingTime;
 
     @Column(name = "user_id")
@@ -42,7 +43,10 @@ public class Activity {
 
     private Boolean completed;
 
-
+    @PrePersist
+    protected void onCreate() {
+        creationDate = new Date();
+    }
     /**
      * Instantiates a new Activity.
      */
@@ -154,4 +158,23 @@ public class Activity {
                 ", " + deadLine + ", " + workingTime + ", " + userId +
                 ", " + addRequest + ", " + removeRequest + ", " + completed;
     }
+
+    @Converter
+    public static class DurationToLongConverter implements AttributeConverter<Duration, Long>
+    {
+
+        @Override
+        public Long convertToDatabaseColumn(Duration duration)
+        {
+            return duration == null ? null : Math.round(duration.toMillis());
+        }
+
+        @Override
+        public Duration convertToEntityAttribute(Long dbData)
+        {
+            return dbData == null ? null : Duration.millis(dbData);
+        }
+    }
 }
+
+

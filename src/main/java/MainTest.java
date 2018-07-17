@@ -1,6 +1,7 @@
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.dao.DaoFactory;
 import com.denis.timetracking.mvc.model.entity.Activity;
+import javafx.util.Duration;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,13 +26,14 @@ public class MainTest {
         System.out.println("Is exist = " + dao.isExist(102));
         dao.closeCurrentSession();
         //dao.insert(createActivity());
-        dao.openCurrentSession();
+        //dao.openCurrentSession();
         //dao.update(createActivity());
         //System.out.println("all after insert = " + dao.getAll());
         //dao.delete(createActivity());
-        dao.acceptActivities(createActivityList());
-        dao.closeCurrentSession();
+        //dao.acceptActivities(createActivityList());
+        //dao.closeCurrentSession();
         dao.closeSessionFactory();
+
     }
 
     private static Activity createActivity(){
@@ -48,6 +50,7 @@ public class MainTest {
         activity.setAddRequest(false);
         activity.setRemoveRequest(false);
         activity.setCompleted(false);
+        activity.setTime(new Duration(10000));
         return activity;
     }
 

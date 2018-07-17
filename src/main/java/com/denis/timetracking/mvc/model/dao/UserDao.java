@@ -5,9 +5,9 @@ import com.denis.timetracking.mvc.model.entity.User;
 import com.denis.timetracking.utils.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.sql.*;
 import java.util.Collections;
@@ -99,6 +99,7 @@ public class UserDao implements AbstractDao<User, Integer> {
     public void insert(User user) {
         try {
             transaction = currentSession.beginTransaction();
+            logger.debug("User to persist = " + user);
             currentSession.persist(user);
             transaction.commit();
         }catch (HibernateException e){
