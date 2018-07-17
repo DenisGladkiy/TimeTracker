@@ -99,5 +99,21 @@ public class ActivityService implements AbstractService<Activity> {
         return request.getParameter("select");
     }
 
-    public void accept(HttpRequest request){}
+    public String accept(HttpServletRequest request){
+        String forward = Constants.ADDED_ACTIVITIES;
+        String acceptedActivities = request.getParameter("accepted");
+        if(acceptedActivities != null && acceptedActivities.length() > 0) {
+            HttpSession session = request.getSession();
+            ControllerHelper helper = new ControllerHelper();
+            List<Activity> activities = helper.getListActivities(acceptedActivities);
+            ActivityDao dao = (ActivityDao) daoFactory.getDao("ACTIVITY");
+            dao.openCurrentSession();
+            dao.acceptActivities(activities);
+            activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
+            session.setAttribute("Activities", activities);
+            dao.closeCurrentSession();
+            dao.closeConnection();
+        }
+        return forward;
+    }
 }

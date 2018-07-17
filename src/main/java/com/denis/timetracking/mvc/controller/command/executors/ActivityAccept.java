@@ -4,8 +4,11 @@ import com.denis.timetracking.mvc.controller.command.GeneralCommand;
 import com.denis.timetracking.mvc.controller.command.executors.utils.ExecutorHelper;
 import com.denis.timetracking.mvc.model.dao.ActivityDao;
 import com.denis.timetracking.mvc.model.entity.Activity;
+import com.denis.timetracking.mvc.model.service.ActivityService;
+import com.denis.timetracking.mvc.model.service.ServiceFactory;
 import com.denis.timetracking.utils.Constants;
 import com.denis.timetracking.utils.ControllerHelper;
+import org.hibernate.SessionFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +30,7 @@ public class ActivityAccept implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String forward = Constants.ADDED_ACTIVITIES;
+        /*String forward = Constants.ADDED_ACTIVITIES;
         String acceptedActivities = request.getParameter("accepted");
         if(acceptedActivities != null && acceptedActivities.length() > 0) {
             HttpSession session = request.getSession();
@@ -46,6 +49,9 @@ public class ActivityAccept implements GeneralCommand {
             dao.closeConnection();
         }
         logger.info("Activity accept forward = " + forward);
-        return forward;
+        return forward;*/
+        ServiceFactory factory = new ServiceFactory();
+        ActivityService service = (ActivityService) factory.getService("ACTIVITY");
+        return service.accept(request);
     }
 }
