@@ -10,6 +10,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import java.sql.*;
 import java.util.Collections;
 import java.util.List;
@@ -182,10 +185,16 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
      * @throws SQLException the sql exception
      */
     public void acceptActivities(List<Activity> activities) {
+        CriteriaBuilder builder = currentSession.getCriteriaBuilder();
+        CriteriaUpdate<Activity> criteria = builder.createCriteriaUpdate(Activity.class);
+        Root<Activity> root = criteria.from(Activity.class);
+
         try{
             transaction = currentSession.beginTransaction();
             for(Activity act : activities){
-                currentSession.update(act);
+                criteria.set(root.get("addRequest"), act.isAddRequest());
+                criteria.where(builder.equal(root.get("id"), act.getId()));
+                currentSession.createQuery(criteria).executeUpdate();
             }
             transaction.commit();
         }catch (HibernateException e) {
@@ -204,9 +213,8 @@ public class ActivityDao implements AbstractDao<Activity, Integer> {
         }
     }
 
-    public Session openCurrentSession() {
+    public void openCurrentSession() {
         currentSession = HibernateUtil.getSessionFactory().openSession();
-        return currentSession;
     }
 
     public void closeCurrentSession() {

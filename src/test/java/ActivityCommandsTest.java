@@ -74,7 +74,10 @@ public class ActivityCommandsTest {
         List<Activity> activities = dao.getAll();
         assertEquals("description", activities.get(0).getDescription());
         updateActivity();
+        dao.closeCurrentSession();
+        dao.openCurrentSession();
         activities = dao.getAll();
+        System.out.println(activities);
         assertEquals("description1", activities.get(0).getDescription());;
     }
 
