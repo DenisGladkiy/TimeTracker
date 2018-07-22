@@ -30,26 +30,6 @@ public class ActivityAccept implements GeneralCommand {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        /*String forward = Constants.ADDED_ACTIVITIES;
-        String acceptedActivities = request.getParameter("accepted");
-        if(acceptedActivities != null && acceptedActivities.length() > 0) {
-            HttpSession session = request.getSession();
-            ControllerHelper helper = new ControllerHelper();
-            List<Activity> activities = helper.getListActivities(acceptedActivities);
-            ActivityDao dao = (ActivityDao) manager.getDao("ACTIVITY");
-            try {
-                dao.acceptActivities(activities);
-                activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
-            } catch (RuntimeException e){//SQLException e) {
-                session.setAttribute("Error", "Bad request");
-                forward = Constants.ERROR;
-                logger.info(e);
-            }
-            session.setAttribute("Activities", activities);
-            dao.closeConnection();
-        }
-        logger.info("Activity accept forward = " + forward);
-        return forward;*/
         ServiceFactory factory = new ServiceFactory();
         ActivityService service = (ActivityService) factory.getService("ACTIVITY");
         return service.accept(request);

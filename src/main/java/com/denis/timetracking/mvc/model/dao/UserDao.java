@@ -20,18 +20,11 @@ import java.util.Optional;
  * Provides interface to work with users table in Data Base
  */
 public class UserDao implements AbstractDao<User, Integer> {
-    private Connection connection;
     private static Logger logger = Logger.getLogger(ActivityDao.class);
     private Session currentSession;
     private Transaction transaction;
 
-    /**
-     * Instantiates a new User dao.
-     *
-     * @param connection the connection
-     */
-    public UserDao(Connection connection){
-        this.connection = connection;
+    public UserDao() {
     }
 
     /**
@@ -135,15 +128,6 @@ public class UserDao implements AbstractDao<User, Integer> {
      */
     public boolean isExist(Integer userId) {
         return getById(userId) != null;
-    }
-
-    @Override
-    public void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public Session openCurrentSession() {

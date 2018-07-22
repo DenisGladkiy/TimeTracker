@@ -46,7 +46,6 @@ public class UserDaoTest {
     public void clearData(){
         initializer.clearData();
         dao.closeCurrentSession();
-        dao.closeConnection();
     }
 
     @Test

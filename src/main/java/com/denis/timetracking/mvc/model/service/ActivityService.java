@@ -29,7 +29,6 @@ public class ActivityService implements AbstractService<Activity> {
         HttpSession session = request.getSession();
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeCurrentSession();
-        dao.closeConnection();
         session.setAttribute("Activities", activities);
         return activities;
     }
@@ -43,7 +42,6 @@ public class ActivityService implements AbstractService<Activity> {
         dao.openCurrentSession();
         List<Activity> activities = dao.getByUserId(userId);
         dao.closeCurrentSession();
-        dao.closeConnection();
         return activities;
     }
 
@@ -62,7 +60,6 @@ public class ActivityService implements AbstractService<Activity> {
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         session.setAttribute("Activities", activities);
         dao.closeCurrentSession();
-        dao.closeConnection();
         return request.getParameter("select");
     }
 
@@ -77,7 +74,6 @@ public class ActivityService implements AbstractService<Activity> {
         List<Activity> activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         session.setAttribute("Activities", activities);
         dao.closeCurrentSession();
-        dao.closeConnection();
         return request.getParameter("select");
     }
 
@@ -92,7 +88,6 @@ public class ActivityService implements AbstractService<Activity> {
         dao.delete(activity);
         activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
         dao.closeCurrentSession();
-        dao.closeConnection();
         session.setAttribute("Activities", activities);
         return request.getParameter("select");
     }
@@ -110,7 +105,6 @@ public class ActivityService implements AbstractService<Activity> {
             activities = new ExecutorHelper().getActivitiesBySelection(request, dao);
             session.setAttribute("Activities", activities);
             dao.closeCurrentSession();
-            dao.closeConnection();
         }
         return forward;
     }

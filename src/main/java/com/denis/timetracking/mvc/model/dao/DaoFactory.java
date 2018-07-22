@@ -26,15 +26,17 @@ public class DaoFactory {
      * @return the abstract dao
      */
     public AbstractDao getDao(String daoName){
-        Connection connection = connectionHandler.getConnection();
+        //Connection connection = connectionHandler.getConnection();
         EntityEnum dao = EntityEnum.valueOf(daoName);
         switch (dao){
             case ACTIVITY:
                 logger.info("Dao manager returns Activity Dao");
-                return new ActivityDao(connection);
+                //return new ActivityDao(connection);
+                return new ActivityDao();
             case USER:
                 logger.info("Dao manager returns User Dao");
-                return new UserDao(connection);
+                //return new UserDao(connection);
+                return new UserDao();
             default: throw new EnumConstantNotPresentException(EntityEnum.class, dao.name());
         }
     }

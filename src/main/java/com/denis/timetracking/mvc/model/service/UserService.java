@@ -29,7 +29,6 @@ public class UserService implements AbstractService<User> {
         dao.openCurrentSession();
         List<User> users = dao.getAll();
         dao.closeCurrentSession();
-        dao.closeConnection();
         return users;
     }
 
@@ -38,7 +37,6 @@ public class UserService implements AbstractService<User> {
         dao.openCurrentSession();
         User user = dao.getById(id);
         dao.closeCurrentSession();
-        dao.closeConnection();
         return user;
     }
 
@@ -51,7 +49,6 @@ public class UserService implements AbstractService<User> {
             userDao.openCurrentSession();
             userDao.insert(user);
             userDao.closeCurrentSession();
-            userDao.closeConnection();
             return Constants.ADMIN_INDEX;
         }else {
             HttpSession session = request.getSession();
@@ -76,7 +73,6 @@ public class UserService implements AbstractService<User> {
         List<User> users = dao.getAll();
         dao.closeCurrentSession();
         session.setAttribute("Users", users);
-        dao.closeConnection();
         return Constants.USERS;
     }
 
@@ -88,7 +84,6 @@ public class UserService implements AbstractService<User> {
         userDao.openCurrentSession();
         User user = userDao.getByLogin(login);
         userDao.closeCurrentSession();
-        userDao.closeConnection();
         if(isValidPassword(user, password)){
             request.getSession().setAttribute("User", user);
             forward = checkUserRole(user);

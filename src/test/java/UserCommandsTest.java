@@ -49,7 +49,6 @@ public class UserCommandsTest {
     public void clearData(){
         initializer.clearData();
         dao.closeCurrentSession();
-        dao.closeConnection();
     }
 
     @Test
@@ -57,7 +56,6 @@ public class UserCommandsTest {
         assertEquals(3, dao.getAll().size());
         insertUser();
         assertEquals(4, dao.getAll().size());
-        dao.closeConnection();
     }
 
     @Test
@@ -65,7 +63,6 @@ public class UserCommandsTest {
         assertEquals(3, dao.getAll().size());
         deleteUser();
         assertEquals(2, dao.getAll().size());
-        dao.closeConnection();
     }
 
     @Test

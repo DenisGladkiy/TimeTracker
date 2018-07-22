@@ -46,7 +46,6 @@ public class ActivityCommandsTest {
     public void clearData(){
         initializer.clearData();
         dao.closeCurrentSession();
-        dao.closeConnection();
     }
 
     @Test

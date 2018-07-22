@@ -66,8 +66,4 @@ public interface AbstractDao<T, K> {
      */
     boolean isExist(K id) throws SQLException;
 
-    /**
-     * Close connection.
-     */
-    void closeConnection();
 }

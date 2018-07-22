@@ -45,7 +45,6 @@ public class ActivityDaoTest {
     public void clearData(){
         initializer.clearData();
         dao.closeCurrentSession();
-        dao.closeConnection();
     }
 
     @Test
@@ -122,7 +121,8 @@ public class ActivityDaoTest {
     }
 
     private Activity createTestActivity(){
-        Activity activity = new Activity(4,"New Activity");
+        Activity activity = new Activity();
+        activity.setName("New Activity");
         activity.setDescription("New Description");
         return activity;
     }

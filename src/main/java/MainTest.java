@@ -17,21 +17,21 @@ public class MainTest {
         ActivityDao dao = (ActivityDao) new DaoFactory().getDao("ACTIVITY");
         dao.openCurrentSession();
         System.out.println("all = " + dao.getAll());
-        System.out.println("actual = " + dao.getActual());
-        System.out.println("add request = " + dao.getAdded());
-        System.out.println("remove request = " + dao.getRemoved());
-        System.out.println("completed = " + dao.getCompleted());
-        System.out.println("By user id = " + dao.getByUserId(20));
-        System.out.println("By activity id = " + dao.getById(102));
-        System.out.println("Is exist = " + dao.isExist(102));
-        dao.closeCurrentSession();
+//        System.out.println("actual = " + dao.getActual());
+//        System.out.println("add request = " + dao.getAdded());
+//        System.out.println("remove request = " + dao.getRemoved());
+//        System.out.println("completed = " + dao.getCompleted());
+//        System.out.println("By user id = " + dao.getByUserId(20));
+//        System.out.println("By activity id = " + dao.getById(102));
+//        System.out.println("Is exist = " + dao.isExist(102));
+        //dao.closeCurrentSession();
         //dao.insert(createActivity());
         //dao.openCurrentSession();
         //dao.update(createActivity());
         //System.out.println("all after insert = " + dao.getAll());
         //dao.delete(createActivity());
         //dao.acceptActivities(createActivityList());
-        //dao.closeCurrentSession();
+        dao.closeCurrentSession();
         dao.closeSessionFactory();
 
     }
